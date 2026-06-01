@@ -40,16 +40,19 @@
 
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
             <div class="container">
-                <a class="navbar-brand" runat="server" href="~/">Nombre de la aplicación</a>
+                <a class="navbar-brand" runat="server" href="~/">Sistema de Gestion Comercial</a>
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Alternar navegación" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/About">Acerca de</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Contact">Contacto</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Default.aspx">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Clientes.aspx">Clientes</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Proveedores.aspx">Proveedores</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Productos.aspx">Productos</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Marcas.aspx">Marcas</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Categorias.aspx">Categorías</a></li>
                     </ul>
                 </div>
             </div>
@@ -59,7 +62,7 @@
             </asp:ContentPlaceHolder>
             <hr />
             <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - Mi aplicación ASP.NET</p>
+                <p>&copy; <%: DateTime.Now.Year %> - Sistema de Gestion Comercial</p>
             </footer>
         </div>
     </form>
