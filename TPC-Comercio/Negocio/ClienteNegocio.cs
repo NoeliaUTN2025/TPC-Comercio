@@ -17,7 +17,6 @@ namespace Negocio
 
             try
             {
-                // Usamos los Stored Procedures que son la mejor forma de evitar inyección SQL
                 datos.setearProcedimiento("SP_Clientes_Listar");
                 datos.ejecutarLectura();
 
@@ -28,7 +27,7 @@ namespace Negocio
                     aux.DNI = (string)datos.Lector["DNI"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Apellido = (string)datos.Lector["Apellido"];
-                    
+
                     // Validación de nulos (Direccion, Telefono, Email permiten NULL en la BD)
                     if (!(datos.Lector["Direccion"] is DBNull))
                         aux.Direccion = (string)datos.Lector["Direccion"];
@@ -52,7 +51,6 @@ namespace Negocio
             }
             finally
             {
-                // CRÍTICO: Siempre cerrar la conexión para liberar recursos del servidor de base de datos.
                 datos.cerrarConexion();
             }
         }
@@ -64,7 +62,6 @@ namespace Negocio
             try
             {
                 datos.setearProcedimiento("SP_Clientes_Insertar");
-                // El uso de parámetros (@DNI, @Nombre, etc.) previene inyección SQL nativamente.
                 datos.setearParametro("@DNI", nuevo.DNI);
                 datos.setearParametro("@Nombre", nuevo.Nombre);
                 datos.setearParametro("@Apellido", nuevo.Apellido);
