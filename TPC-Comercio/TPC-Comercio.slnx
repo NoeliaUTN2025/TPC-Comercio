@@ -1,5 +1,7 @@
 <Solution>
   <Project Path="AplicacionWebComercio/AplicacionWebComercio.csproj" Id="302a8035-9a76-4ba9-866f-c3e0752f861d" />
+  <Project Path="AccesoDatos/AccesoDatos.csproj" Id="81720fe2-969f-48a8-93a0-8d33fc1cca80" />
   <Project Path="Dominio/Dominio.csproj" Id="45c26bcf-a009-4f5b-8fb4-ad511749148c" />
   <Project Path="Negocio/Negocio.csproj" Id="c776fefb-b131-4bd6-8f3c-312a6dcb8019" />
 </Solution>
+
