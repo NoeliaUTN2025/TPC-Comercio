@@ -16,7 +16,7 @@ namespace AplicacionWebComercio
             if (!IsPostBack)
             {
                 ClienteNegocio negocio = new ClienteNegocio();
-                dgvClientes.DataSource = negocio.Listar();
+                dgvClientes.DataSource = negocio.Listar(); 
                 dgvClientes.DataBind();
             }
         }

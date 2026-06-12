@@ -219,3 +219,33 @@ REFERENCES [dbo].[Productos] ([Id])
 GO
 ALTER TABLE [dbo].[DetalleFacturas] CHECK CONSTRAINT [FK_DetalleFacturas_Producto]
 GO
+
+CREATE PROCEDURE [dbo].[SP_Clientes_Listar]
+AS
+BEGIN
+    SELECT *
+    FROM [dbo].[Clientes]
+END 
+GO 
+
+INSERT INTO [dbo].Clientes
+(
+    DNI,
+    Nombre,
+    Apellido,
+    Direccion,
+    Telefono,
+    Email,
+    Estado
+)
+VALUES
+(
+   '12345678',
+   'Juan',
+   'Perez',
+   'Calle 123',
+   '1122334455',
+   'juan@test.com',
+   1
+
+)
