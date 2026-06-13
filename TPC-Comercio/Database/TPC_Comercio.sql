@@ -249,3 +249,58 @@ VALUES
    1
 
 )
+GO
+
+-- ============================================================
+-- PRODUCTOS
+-- ============================================================
+
+CREATE PROCEDURE [dbo].[SP_Productos_Listar]
+AS
+BEGIN
+    SELECT
+        p.Id,
+        p.Codigo,
+        p.NombreProducto,
+        p.Descripcion,
+        p.StockActual,
+        p.StockMinimo,
+        p.PorcentajeGanancia,
+        p.IdMarca,
+        m.Descripcion AS Marca,
+        p.IdCategoria,
+        c.Descripcion AS Categoria
+    FROM [dbo].[Productos] p
+    INNER JOIN [dbo].[Marcas] m ON p.IdMarca = m.Id
+    INNER JOIN [dbo].[Categorias] c ON p.IdCategoria = c.Id
+END
+GO
+
+INSERT INTO [dbo].[Categorias] (Descripcion) VALUES ('Indumentaria')
+GO
+
+INSERT INTO [dbo].[Marcas] (Descripcion) VALUES ('Nike')
+GO
+
+INSERT INTO [dbo].[Productos]
+(
+    Codigo,
+    NombreProducto,
+    Descripcion,
+    StockActual,
+    StockMinimo,
+    PorcentajeGanancia,
+    IdMarca,
+    IdCategoria
+)
+VALUES
+(
+    'P0001',
+    'Zapatillas Running',
+    'Zapatillas para running de uso diario',
+    50,
+    10,
+    35.00,
+    1,
+    1
+)

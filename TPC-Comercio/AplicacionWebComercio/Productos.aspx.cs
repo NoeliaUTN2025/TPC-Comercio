@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Negocio;
 
 namespace AplicacionWebComercio
 {
@@ -11,7 +12,12 @@ namespace AplicacionWebComercio
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack)
+            {
+                ProductoNegocio negocio = new ProductoNegocio();
+                dgvProductos.DataSource = negocio.Listar();
+                dgvProductos.DataBind();
+            }
         }
     }
 }
