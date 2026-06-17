@@ -33,6 +33,7 @@ namespace Negocio
 
                     aux.StockActual = (int)datos.Lector["StockActual"];
                     aux.StockMinimo = (int)datos.Lector["StockMinimo"];
+                    aux.Precio = (decimal)datos.Lector["Precio"];
                     aux.PorcentajeGanancia = (decimal)datos.Lector["PorcentajeGanancia"];
 
                     // Instanciamos los objetos anidados para evitar NullReferenceException
@@ -70,6 +71,7 @@ namespace Negocio
                 datos.setearParametro("@Codigo", nuevo.Codigo);
                 datos.setearParametro("@NombreProducto", nuevo.NombreProducto);
                 datos.setearParametro("@Descripcion", nuevo.Descripcion ?? (object)DBNull.Value);
+                datos.setearParametro("@Precio", nuevo.Precio);
                 datos.setearParametro("@StockMinimo", nuevo.StockMinimo);
                 datos.setearParametro("@PorcentajeGanancia", nuevo.PorcentajeGanancia);
                 datos.setearParametro("@IdMarca", nuevo.marca.Id);
@@ -98,6 +100,7 @@ namespace Negocio
                 datos.setearParametro("@Codigo", modificar.Codigo);
                 datos.setearParametro("@NombreProducto", modificar.NombreProducto);
                 datos.setearParametro("@Descripcion", modificar.Descripcion ?? (object)DBNull.Value);
+                datos.setearParametro("@Precio", modificar.Precio);
                 datos.setearParametro("@StockMinimo", modificar.StockMinimo);
                 datos.setearParametro("@PorcentajeGanancia", modificar.PorcentajeGanancia);
                 datos.setearParametro("@IdMarca", modificar.marca.Id);

@@ -57,18 +57,18 @@ CREATE TABLE [dbo].[Marcas]
 ) ON [PRIMARY]
 GO
 
-CREATE TABLE [dbo].[Productos]
-(
-    [Id] [int] IDENTITY(1,1) NOT NULL,
-    [Codigo] [varchar](50) NOT NULL,
-    [NombreProducto] [varchar](150) NOT NULL,
-    [Descripcion] [varchar](500) NULL,
-    [StockActual] [int] NOT NULL DEFAULT (0),
-    [StockMinimo] [int] NOT NULL DEFAULT (0),
-    [PorcentajeGanancia] [decimal](5,2) NOT NULL DEFAULT (0),
-    [IdMarca] [int] NOT NULL,
-    [IdCategoria] [int] NOT NULL,
-    [Estado] [bit] NOT NULL DEFAULT (1),
+CREATE TABLE [dbo].[Productos] (
+    [Id]                 [int]          IDENTITY(1,1) NOT NULL,
+    [Codigo]             [varchar](50)  NOT NULL,
+    [NombreProducto]     [varchar](150) NOT NULL,
+    [Descripcion]        [varchar](500) NULL,
+    [StockActual]        [int]          NOT NULL DEFAULT (0),
+    [StockMinimo]        [int]          NOT NULL DEFAULT (0),
+    [Precio]             [decimal](10,2) NOT NULL DEFAULT (0),
+    [PorcentajeGanancia] [decimal](5,2)  NOT NULL DEFAULT (0),
+    [IdMarca]            [int]           NOT NULL,
+    [IdCategoria]        [int]          NOT NULL,
+    [Estado]             [bit]          NOT NULL DEFAULT (1),
     PRIMARY KEY CLUSTERED ([Id] ASC),
     UNIQUE NONCLUSTERED ([Codigo] ASC)
 ) ON [PRIMARY]
@@ -276,14 +276,182 @@ BEGIN
         p.Descripcion,
         p.StockActual,
         p.StockMinimo,
+        p.Precio,
         p.PorcentajeGanancia,
         p.IdMarca,
         m.Descripcion AS Marca,
         p.IdCategoria,
         c.Descripcion AS Categoria
     FROM [dbo].[Productos] p
-        INNER JOIN [dbo].[Marcas] m ON p.IdMarca = m.Id
-        INNER JOIN [dbo].[Categorias] c ON p.IdCategoria = c.Id
+    INNER JOIN [dbo].[Marcas] m ON p.IdMarca = m.Id
+    INNER JOIN [dbo].[Categorias] c ON p.IdCategoria = c.Id
+    WHERE p.Estado = 1
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Productos_Insertar]
+    @Codigo             varchar(50),
+    @NombreProducto     varchar(150),
+    @Descripcion        varchar(500) = NULL,
+    @Precio             decimal(10,2),
+    @StockMinimo        int,
+    @PorcentajeGanancia decimal(5,2),
+    @IdMarca            int,
+    @IdCategoria        int
+AS
+BEGIN
+    INSERT INTO [dbo].[Productos]
+        (Codigo, NombreProducto, Descripcion, Precio, StockMinimo, PorcentajeGanancia, IdMarca, IdCategoria)
+    VALUES
+        (@Codigo, @NombreProducto, @Descripcion, @Precio, @StockMinimo, @PorcentajeGanancia, @IdMarca, @IdCategoria)
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Productos_Actualizar]
+    @Id                 int,
+    @Codigo             varchar(50),
+    @NombreProducto     varchar(150),
+    @Descripcion        varchar(500) = NULL,
+    @Precio             decimal(10,2),
+    @StockMinimo        int,
+    @PorcentajeGanancia decimal(5,2),
+    @IdMarca            int,
+    @IdCategoria        int
+AS
+BEGIN
+    UPDATE [dbo].[Productos]
+    SET Codigo             = @Codigo,
+        NombreProducto     = @NombreProducto,
+        Descripcion        = @Descripcion,
+        Precio             = @Precio,
+        StockMinimo        = @StockMinimo,
+        PorcentajeGanancia = @PorcentajeGanancia,
+        IdMarca            = @IdMarca,
+        IdCategoria        = @IdCategoria
+    WHERE Id = @Id
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Productos_BajaLogica]
+    @Id int
+AS
+BEGIN
+    UPDATE [dbo].[Productos]
+    SET Estado = 0
+    WHERE Id = @Id
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Marcas_Listar]
+AS
+BEGIN
+    SELECT Id, Descripcion FROM [dbo].[Marcas]
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Marcas_Insertar]
+    @Descripcion varchar(100)
+AS
+BEGIN
+    INSERT INTO [dbo].[Marcas] (Descripcion) VALUES (@Descripcion)
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Marcas_Actualizar]
+    @Id          int,
+    @Descripcion varchar(100)
+AS
+BEGIN
+    UPDATE [dbo].[Marcas] SET Descripcion = @Descripcion WHERE Id = @Id
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Marcas_Eliminar]
+    @Id int
+AS
+BEGIN
+    DELETE FROM [dbo].[Marcas] WHERE Id = @Id
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Categorias_Listar]
+AS
+BEGIN
+    SELECT Id, Descripcion FROM [dbo].[Categorias]
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Categorias_Insertar]
+    @Descripcion varchar(100)
+AS
+BEGIN
+    INSERT INTO [dbo].[Categorias] (Descripcion) VALUES (@Descripcion)
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Categorias_Actualizar]
+    @Id          int,
+    @Descripcion varchar(100)
+AS
+BEGIN
+    UPDATE [dbo].[Categorias] SET Descripcion = @Descripcion WHERE Id = @Id
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Categorias_Eliminar]
+    @Id int
+AS
+BEGIN
+    DELETE FROM [dbo].[Categorias] WHERE Id = @Id
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Proveedores_Listar]
+AS
+BEGIN
+    SELECT ID, RazonSocial, Cuit, Direccion, Telefono, Email, Estado
+    FROM [dbo].[Proveedores]
+    WHERE Estado = 1
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Proveedores_Insertar]
+    @RazonSocial varchar(150),
+    @Cuit        varchar(20),
+    @Direccion   varchar(200) = NULL,
+    @Telefono    varchar(20)  = NULL,
+    @Email       varchar(150) = NULL
+AS
+BEGIN
+    INSERT INTO [dbo].[Proveedores] (RazonSocial, Cuit, Direccion, Telefono, Email)
+    VALUES (@RazonSocial, @Cuit, @Direccion, @Telefono, @Email)
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Proveedores_Actualizar]
+    @ID          int,
+    @RazonSocial varchar(150),
+    @Cuit        varchar(20),
+    @Direccion   varchar(200) = NULL,
+    @Telefono    varchar(20)  = NULL,
+    @Email       varchar(150) = NULL
+AS
+BEGIN
+    UPDATE [dbo].[Proveedores]
+    SET RazonSocial = @RazonSocial,
+        Cuit        = @Cuit,
+        Direccion   = @Direccion,
+        Telefono    = @Telefono,
+        Email       = @Email
+    WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Proveedores_BajaLogica]
+    @ID int
+AS
+BEGIN
+    UPDATE [dbo].[Proveedores] SET Estado = 0 WHERE ID = @ID
 END
 GO
 
@@ -305,21 +473,23 @@ INSERT INTO [dbo].[Productos]
     NombreProducto,
     Descripcion,
     StockActual,
+    Precio,
     StockMinimo,
     PorcentajeGanancia,
     IdMarca,
     IdCategoria
     )
 VALUES
-    (
-        'P0001',
-        'Zapatillas Running',
-        'Zapatillas para running de uso diario',
-        50,
-        10,
-        35.00,
-        1,
-        1
+(
+    'P0001',
+    'Zapatillas Running',
+    'Zapatillas para running de uso diario',
+    50,
+    8500.00,
+    10,
+    35.00,
+    1,
+    1
 )
 GO
 
