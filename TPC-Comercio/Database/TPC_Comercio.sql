@@ -328,3 +328,129 @@ INSERT INTO [dbo].[Proveedores]
 VALUES
     ('Distribuidora Mayorista S.A.', '30-12345678-9', 'Av. Corrientes 1234', '011-4567-8901', 'ventas@distribuidora.com')
 GO
+
+-- ============================================================
+-- STORED PROCEDURES DE PROVEEDORES
+-- ============================================================
+
+CREATE PROCEDURE [dbo].[SP_Proveedores_Listar]
+AS
+BEGIN
+    SELECT ID, RazonSocial, Cuit, Direccion, Telefono, Email, Estado
+    FROM [dbo].[Proveedores]
+END 
+GO 
+
+CREATE PROCEDURE [dbo].[SP_Proveedores_Insertar]
+    @RazonSocial varchar(150),
+    @Cuit varchar(20),
+    @Direccion varchar(200),
+    @Telefono varchar(20),
+    @Email varchar(150)
+AS
+BEGIN
+    INSERT INTO [dbo].[Proveedores] (RazonSocial, Cuit, Direccion, Telefono, Email)
+    VALUES (@RazonSocial, @Cuit, @Direccion, @Telefono, @Email)
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Proveedores_Actualizar]
+    @ID int,
+    @RazonSocial varchar(150),
+    @Cuit varchar(20),
+    @Direccion varchar(200),
+    @Telefono varchar(20),
+    @Email varchar(150)
+AS
+BEGIN
+    UPDATE [dbo].[Proveedores]
+    SET RazonSocial = @RazonSocial,
+        Cuit = @Cuit,
+        Direccion = @Direccion,
+        Telefono = @Telefono,
+        Email = @Email
+    WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Proveedores_BajaLogica]
+    @ID int
+AS
+BEGIN
+    UPDATE [dbo].[Proveedores]
+    SET Estado = 0
+    WHERE ID = @ID
+END
+GO
+
+-- ============================================================
+-- STORED PROCEDURES DE MARCAS
+-- ============================================================
+
+CREATE PROCEDURE [dbo].[SP_Marcas_Listar]
+AS
+BEGIN
+    SELECT Id, Descripcion FROM [dbo].[Marcas]
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Marcas_Insertar]
+    @Descripcion varchar(100)
+AS
+BEGIN
+    INSERT INTO [dbo].[Marcas] (Descripcion) VALUES (@Descripcion)
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Marcas_Actualizar]
+    @Id int,
+    @Descripcion varchar(100)
+AS
+BEGIN
+    UPDATE [dbo].[Marcas] SET Descripcion = @Descripcion WHERE Id = @Id
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Marcas_Eliminar]
+    @Id int
+AS
+BEGIN
+    DELETE FROM [dbo].[Marcas] WHERE Id = @Id
+END
+GO
+
+-- ============================================================
+-- STORED PROCEDURES DE CATEGORIAS
+-- ============================================================
+
+CREATE PROCEDURE [dbo].[SP_Categorias_Listar]
+AS
+BEGIN
+    SELECT Id, Descripcion FROM [dbo].[Categorias]
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Categorias_Insertar]
+    @Descripcion varchar(100)
+AS
+BEGIN
+    INSERT INTO [dbo].[Categorias] (Descripcion) VALUES (@Descripcion)
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Categorias_Actualizar]
+    @Id int,
+    @Descripcion varchar(100)
+AS
+BEGIN
+    UPDATE [dbo].[Categorias] SET Descripcion = @Descripcion WHERE Id = @Id
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Categorias_Eliminar]
+    @Id int
+AS
+BEGIN
+    DELETE FROM [dbo].[Categorias] WHERE Id = @Id
+END
+GO
