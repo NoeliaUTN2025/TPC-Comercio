@@ -10,20 +10,22 @@ GO
 -- SEGURIDAD
 -- ============================================================
 
-CREATE TABLE [dbo].[Perfiles] (
-    [Id]           [int]         IDENTITY(1,1) NOT NULL,
+CREATE TABLE [dbo].[Perfiles]
+(
+    [Id] [int] IDENTITY(1,1) NOT NULL,
     [NombrePerfil] [varchar](50) NOT NULL,
-    [Estado]       [bit]         NOT NULL DEFAULT (1),
+    [Estado] [bit] NOT NULL DEFAULT (1),
     PRIMARY KEY CLUSTERED ([Id] ASC)
 ) ON [PRIMARY]
 GO
 
-CREATE TABLE [dbo].[Usuarios] (
-    [Id]         [int]          IDENTITY(1,1) NOT NULL,
-    [User]       [varchar](50)  NOT NULL,
+CREATE TABLE [dbo].[Usuarios]
+(
+    [Id] [int] IDENTITY(1,1) NOT NULL,
+    [User] [varchar](50) NOT NULL,
     [Contrasena] [varchar](256) NOT NULL,
-    [IdPerfil]   [int]          NOT NULL,
-    [Estado]     [bit]          NOT NULL DEFAULT (1),
+    [IdPerfil] [int] NOT NULL,
+    [Estado] [bit] NOT NULL DEFAULT (1),
     PRIMARY KEY CLUSTERED ([Id] ASC),
     UNIQUE NONCLUSTERED ([User] ASC)
 ) ON [PRIMARY]
@@ -39,31 +41,34 @@ GO
 -- CATALOGO
 -- ============================================================
 
-CREATE TABLE [dbo].[Categorias] (
-    [Id]          [int]          IDENTITY(1,1) NOT NULL,
+CREATE TABLE [dbo].[Categorias]
+(
+    [Id] [int] IDENTITY(1,1) NOT NULL,
     [Descripcion] [varchar](100) NOT NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC)
 ) ON [PRIMARY]
 GO
 
-CREATE TABLE [dbo].[Marcas] (
-    [Id]          [int]          IDENTITY(1,1) NOT NULL,
+CREATE TABLE [dbo].[Marcas]
+(
+    [Id] [int] IDENTITY(1,1) NOT NULL,
     [Descripcion] [varchar](100) NOT NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC)
 ) ON [PRIMARY]
 GO
 
-CREATE TABLE [dbo].[Productos] (
-    [Id]                 [int]          IDENTITY(1,1) NOT NULL,
-    [Codigo]             [varchar](50)  NOT NULL,
-    [NombreProducto]     [varchar](150) NOT NULL,
-    [Descripcion]        [varchar](500) NULL,
-    [StockActual]        [int]          NOT NULL DEFAULT (0),
-    [StockMinimo]        [int]          NOT NULL DEFAULT (0),
+CREATE TABLE [dbo].[Productos]
+(
+    [Id] [int] IDENTITY(1,1) NOT NULL,
+    [Codigo] [varchar](50) NOT NULL,
+    [NombreProducto] [varchar](150) NOT NULL,
+    [Descripcion] [varchar](500) NULL,
+    [StockActual] [int] NOT NULL DEFAULT (0),
+    [StockMinimo] [int] NOT NULL DEFAULT (0),
     [PorcentajeGanancia] [decimal](5,2) NOT NULL DEFAULT (0),
-    [IdMarca]            [int]          NOT NULL,
-    [IdCategoria]        [int]          NOT NULL,
-    [Estado]             [bit]          NOT NULL DEFAULT (1),
+    [IdMarca] [int] NOT NULL,
+    [IdCategoria] [int] NOT NULL,
+    [Estado] [bit] NOT NULL DEFAULT (1),
     PRIMARY KEY CLUSTERED ([Id] ASC),
     UNIQUE NONCLUSTERED ([Codigo] ASC)
 ) ON [PRIMARY]
@@ -85,15 +90,16 @@ GO
 -- CLIENTES
 -- ============================================================
 
-CREATE TABLE [dbo].[Clientes] (
-    [ID]        [int]          IDENTITY(1,1) NOT NULL,
-    [DNI]       [varchar](15)  NOT NULL,
-    [Nombre]    [varchar](100) NOT NULL,
-    [Apellido]  [varchar](100) NOT NULL,
+CREATE TABLE [dbo].[Clientes]
+(
+    [ID] [int] IDENTITY(1,1) NOT NULL,
+    [DNI] [varchar](15) NOT NULL,
+    [Nombre] [varchar](100) NOT NULL,
+    [Apellido] [varchar](100) NOT NULL,
     [Direccion] [varchar](200) NULL,
-    [Telefono]  [varchar](20)  NULL,
-    [Email]     [varchar](150) NULL,
-    [Estado]    [bit]          NOT NULL DEFAULT (1),
+    [Telefono] [varchar](20) NULL,
+    [Email] [varchar](150) NULL,
+    [Estado] [bit] NOT NULL DEFAULT (1),
     PRIMARY KEY CLUSTERED ([ID] ASC),
     UNIQUE NONCLUSTERED ([DNI] ASC)
 ) ON [PRIMARY]
@@ -103,14 +109,15 @@ GO
 -- PROVEEDORES
 -- ============================================================
 
-CREATE TABLE [dbo].[Proveedores] (
-    [ID]          [int]          IDENTITY(1,1) NOT NULL,
+CREATE TABLE [dbo].[Proveedores]
+(
+    [ID] [int] IDENTITY(1,1) NOT NULL,
     [RazonSocial] [varchar](150) NOT NULL,
-    [Cuit]        [varchar](20)  NOT NULL,
-    [Direccion]   [varchar](200) NULL,
-    [Telefono]    [varchar](20)  NULL,
-    [Email]       [varchar](150) NULL,
-    [Estado]      [bit]          NOT NULL DEFAULT (1),
+    [Cuit] [varchar](20) NOT NULL,
+    [Direccion] [varchar](200) NULL,
+    [Telefono] [varchar](20) NULL,
+    [Email] [varchar](150) NULL,
+    [Estado] [bit] NOT NULL DEFAULT (1),
     PRIMARY KEY CLUSTERED ([ID] ASC),
     UNIQUE NONCLUSTERED ([Cuit] ASC)
 ) ON [PRIMARY]
@@ -120,13 +127,14 @@ GO
 -- COMPRAS
 -- ============================================================
 
-CREATE TABLE [dbo].[Compras] (
-    [Id]          [int]           IDENTITY(1,1) NOT NULL,
-    [Fecha]       [datetime]      NOT NULL DEFAULT (getdate()),
-    [IdProveedor] [int]           NOT NULL,
-    [IdUsuario]   [int]           NOT NULL,
-    [Total]       [decimal](12,2) NOT NULL DEFAULT (0),
-    [Estado]      [bit]           NOT NULL DEFAULT (1),
+CREATE TABLE [dbo].[Compras]
+(
+    [Id] [int] IDENTITY(1,1) NOT NULL,
+    [Fecha] [datetime] NOT NULL DEFAULT (getdate()),
+    [IdProveedor] [int] NOT NULL,
+    [IdUsuario] [int] NOT NULL,
+    [Total] [decimal](12,2) NOT NULL DEFAULT (0),
+    [Estado] [bit] NOT NULL DEFAULT (1),
     PRIMARY KEY CLUSTERED ([Id] ASC)
 ) ON [PRIMARY]
 GO
@@ -143,11 +151,12 @@ GO
 ALTER TABLE [dbo].[Compras] CHECK CONSTRAINT [FK_Compras_Usuario]
 GO
 
-CREATE TABLE [dbo].[DetalleCompras] (
-    [Id]             [int]           IDENTITY(1,1) NOT NULL,
-    [IdCompra]       [int]           NOT NULL,
-    [IdProducto]     [int]           NOT NULL,
-    [Cantidad]       [int]           NOT NULL,
+CREATE TABLE [dbo].[DetalleCompras]
+(
+    [Id] [int] IDENTITY(1,1) NOT NULL,
+    [IdCompra] [int] NOT NULL,
+    [IdProducto] [int] NOT NULL,
+    [Cantidad] [int] NOT NULL,
     [PrecioUnitario] [decimal](10,2) NOT NULL,
     [Subtotal]       AS ([Cantidad] * [PrecioUnitario]) PERSISTED,
     PRIMARY KEY CLUSTERED ([Id] ASC)
@@ -170,14 +179,15 @@ GO
 -- VENTAS / FACTURAS
 -- ============================================================
 
-CREATE TABLE [dbo].[Facturas] (
-    [Id]            [int]           IDENTITY(1,1) NOT NULL,
-    [NumeroFactura] [varchar](20)   NOT NULL,
-    [Fecha]         [datetime]      NOT NULL DEFAULT (getdate()),
-    [IdCliente]     [int]           NOT NULL,
-    [IdUsuario]     [int]           NOT NULL,
-    [Total]         [decimal](12,2) NOT NULL DEFAULT (0),
-    [Estado]        [bit]           NOT NULL DEFAULT (1),
+CREATE TABLE [dbo].[Facturas]
+(
+    [Id] [int] IDENTITY(1,1) NOT NULL,
+    [NumeroFactura] [varchar](20) NOT NULL,
+    [Fecha] [datetime] NOT NULL DEFAULT (getdate()),
+    [IdCliente] [int] NOT NULL,
+    [IdUsuario] [int] NOT NULL,
+    [Total] [decimal](12,2) NOT NULL DEFAULT (0),
+    [Estado] [bit] NOT NULL DEFAULT (1),
     PRIMARY KEY CLUSTERED ([Id] ASC),
     UNIQUE NONCLUSTERED ([NumeroFactura] ASC)
 ) ON [PRIMARY]
@@ -195,14 +205,15 @@ GO
 ALTER TABLE [dbo].[Facturas] CHECK CONSTRAINT [FK_Facturas_Usuario]
 GO
 
-CREATE TABLE [dbo].[DetalleFacturas] (
-    [Id]                 [int]           IDENTITY(1,1) NOT NULL,
-    [IdFactura]          [int]           NOT NULL,
-    [IdProducto]         [int]           NOT NULL,
-    [Cantidad]           [int]           NOT NULL,
-    [PrecioCompra]       [decimal](10,2) NOT NULL,
-    [PorcentajeGanancia] [decimal](5,2)  NOT NULL,
-    [PrecioVenta]        [decimal](10,2) NOT NULL,
+CREATE TABLE [dbo].[DetalleFacturas]
+(
+    [Id] [int] IDENTITY(1,1) NOT NULL,
+    [IdFactura] [int] NOT NULL,
+    [IdProducto] [int] NOT NULL,
+    [Cantidad] [int] NOT NULL,
+    [PrecioCompra] [decimal](10,2) NOT NULL,
+    [PorcentajeGanancia] [decimal](5,2) NOT NULL,
+    [PrecioVenta] [decimal](10,2) NOT NULL,
     [Subtotal]           AS ([Cantidad] * [PrecioVenta]) PERSISTED,
     PRIMARY KEY CLUSTERED ([Id] ASC)
 ) ON [PRIMARY]
@@ -226,10 +237,10 @@ BEGIN
     SELECT *
     FROM [dbo].[Clientes]
 END 
-GO 
+GO
 
 INSERT INTO [dbo].Clientes
-(
+    (
     DNI,
     Nombre,
     Apellido,
@@ -237,16 +248,16 @@ INSERT INTO [dbo].Clientes
     Telefono,
     Email,
     Estado
-)
+    )
 VALUES
-(
-   '12345678',
-   'Juan',
-   'Perez',
-   'Calle 123',
-   '1122334455',
-   'juan@test.com',
-   1
+    (
+        '12345678',
+        'Juan',
+        'Perez',
+        'Calle 123',
+        '1122334455',
+        'juan@test.com',
+        1
 
 )
 GO
@@ -271,19 +282,25 @@ BEGIN
         p.IdCategoria,
         c.Descripcion AS Categoria
     FROM [dbo].[Productos] p
-    INNER JOIN [dbo].[Marcas] m ON p.IdMarca = m.Id
-    INNER JOIN [dbo].[Categorias] c ON p.IdCategoria = c.Id
+        INNER JOIN [dbo].[Marcas] m ON p.IdMarca = m.Id
+        INNER JOIN [dbo].[Categorias] c ON p.IdCategoria = c.Id
 END
 GO
 
-INSERT INTO [dbo].[Categorias] (Descripcion) VALUES ('Indumentaria')
+INSERT INTO [dbo].[Categorias]
+    (Descripcion)
+VALUES
+    ('Indumentaria')
 GO
 
-INSERT INTO [dbo].[Marcas] (Descripcion) VALUES ('Nike')
+INSERT INTO [dbo].[Marcas]
+    (Descripcion)
+VALUES
+    ('Nike')
 GO
 
 INSERT INTO [dbo].[Productos]
-(
+    (
     Codigo,
     NombreProducto,
     Descripcion,
@@ -292,15 +309,22 @@ INSERT INTO [dbo].[Productos]
     PorcentajeGanancia,
     IdMarca,
     IdCategoria
-)
+    )
 VALUES
-(
-    'P0001',
-    'Zapatillas Running',
-    'Zapatillas para running de uso diario',
-    50,
-    10,
-    35.00,
-    1,
-    1
+    (
+        'P0001',
+        'Zapatillas Running',
+        'Zapatillas para running de uso diario',
+        50,
+        10,
+        35.00,
+        1,
+        1
 )
+GO
+
+INSERT INTO [dbo].[Proveedores]
+    (RazonSocial, Cuit, Direccion, Telefono, Email)
+VALUES
+    ('Distribuidora Mayorista S.A.', '30-12345678-9', 'Av. Corrientes 1234', '011-4567-8901', 'ventas@distribuidora.com')
+GO
