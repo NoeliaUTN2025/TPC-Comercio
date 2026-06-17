@@ -104,6 +104,7 @@ AS
 BEGIN
     SELECT *
     FROM [dbo].[Clientes]
+    WHERE Estado = 1
 END 
 GO 
 
@@ -163,6 +164,48 @@ BEGIN
     )
 END
 GO
+
+CREATE PROCEDURE [dbo].[SP_Clientes_Actualizar]
+(
+    @ID INT,
+    @DNI VARCHAR(15),
+    @Nombre VARCHAR(100),
+    @Apellido VARCHAR(100),
+    @Direccion VARCHAR(200),
+    @Telefono VARCHAR(20),
+    @Email VARCHAR(150)
+
+)
+AS 
+BEGIN
+
+    UPDATE dbo.Clientes
+    SET 
+        DNI = @DNI,
+        Nombre = @Nombre,
+        Apellido = @Apellido,
+        Direccion = @Direccion,
+        Telefono = @Telefono,
+        Email = @Email
+    WHERE ID = @ID
+END 
+GO 
+
+CREATE PROCEDURE [dbo].[SP_Clientes_BajaLogica]
+(
+    @ID INT 
+)
+AS 
+BEGIN 
+     UPDATE dbo.Clientes
+     SET Estado = 0
+     WHERE ID = @ID 
+
+END
+GO 
+
+
+
 
 -- ============================================================
 -- PROVEEDORES

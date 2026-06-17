@@ -21,7 +21,7 @@ namespace AccesoDatos
         public AccesoDatos()
         {
             // Ajustá tu cadena de conexión si tu instancia de SQL no se llama SQLEXPRESS
-            conexion = new SqlConnection("server=.\\SQLEXPRESS; database=tpc_P3; integrated security=true");
+            conexion = new SqlConnection("server=.\\SQLEXPRESS01; database=tpc_P3; integrated security=true");
             comando = new SqlCommand();
         }
 
