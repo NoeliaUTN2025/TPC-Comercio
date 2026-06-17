@@ -55,7 +55,7 @@ namespace Negocio
             }
         }
 
-        public void Agregar(Cliente nuevo)
+        public void AgregarCliente(Cliente nuevo)
         {
             AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
 
@@ -68,6 +68,7 @@ namespace Negocio
                 datos.setearParametro("@Direccion", nuevo.Direccion ?? (object)DBNull.Value);
                 datos.setearParametro("@Telefono", nuevo.Telefono ?? (object)DBNull.Value);
                 datos.setearParametro("@Email", nuevo.Email ?? (object)DBNull.Value);
+                datos.setearParametro("@Estado",true);
 
                 datos.ejecutarAccion();
             }

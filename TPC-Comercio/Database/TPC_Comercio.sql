@@ -99,6 +99,71 @@ CREATE TABLE [dbo].[Clientes] (
 ) ON [PRIMARY]
 GO
 
+CREATE PROCEDURE [dbo].[SP_Clientes_Listar]
+AS
+BEGIN
+    SELECT *
+    FROM [dbo].[Clientes]
+END 
+GO 
+
+INSERT INTO [dbo].Clientes
+(
+    DNI,
+    Nombre,
+    Apellido,
+    Direccion,
+    Telefono,
+    Email,
+    Estado
+)
+VALUES
+(
+   '12345678',
+   'Juan',
+   'Perez',
+   'Calle 123',
+   '1122334455',
+   'juan@test.com',
+   1
+)
+GO
+
+CREATE PROCEDURE [dbo].[SP_Clientes_Insertar]
+(   
+    @DNI VARCHAR(15),
+    @Nombre VARCHAR(100),
+    @Apellido VARCHAR(100),
+    @Direccion VARCHAR(200),
+    @Telefono VARCHAR(20),
+    @Email VARCHAR(150),
+    @Estado BIT
+)
+AS
+BEGIN  
+    INSERT INTO dbo.Clientes
+    (   
+        DNI,
+        Nombre,
+        Apellido,
+        Direccion,
+        Telefono,
+        Email,
+        Estado
+    )
+    VALUES
+    (
+        @DNI,
+        @Nombre,
+        @Apellido,
+        @Direccion,
+        @Telefono,
+        @Email,
+        1
+    )
+END
+GO
+
 -- ============================================================
 -- PROVEEDORES
 -- ============================================================
@@ -220,36 +285,6 @@ GO
 ALTER TABLE [dbo].[DetalleFacturas] CHECK CONSTRAINT [FK_DetalleFacturas_Producto]
 GO
 
-CREATE PROCEDURE [dbo].[SP_Clientes_Listar]
-AS
-BEGIN
-    SELECT *
-    FROM [dbo].[Clientes]
-END 
-GO 
-
-INSERT INTO [dbo].Clientes
-(
-    DNI,
-    Nombre,
-    Apellido,
-    Direccion,
-    Telefono,
-    Email,
-    Estado
-)
-VALUES
-(
-   '12345678',
-   'Juan',
-   'Perez',
-   'Calle 123',
-   '1122334455',
-   'juan@test.com',
-   1
-
-)
-GO
 
 -- ============================================================
 -- PRODUCTOS
