@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using Negocio;
+using System;
 
 namespace AplicacionWebComercio
 {
@@ -11,7 +7,12 @@ namespace AplicacionWebComercio
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack)
+            {
+                MarcaNegocio negocio = new MarcaNegocio();
+                dgvMarcas.DataSource = negocio.Listar();
+                dgvMarcas.DataBind();
+            }
         }
     }
 }
