@@ -21,5 +21,7 @@ namespace AplicacionWebComercio
         protected global::System.Web.UI.WebControls.Button btnCancelar;
 
         protected global::System.Web.UI.WebControls.GridView dgvCategorias;
+
+        protected global::System.Web.UI.WebControls.Label lblError;
     }
 }

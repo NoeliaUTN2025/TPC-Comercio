@@ -65,9 +65,21 @@ namespace AplicacionWebComercio
 
         protected void dgvMarcas_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-            int id = (int)dgvMarcas.DataKeys[e.RowIndex].Value;
-            new MarcaNegocio().Eliminar(id);
-            CargarGrilla();
+            try
+            {
+                int id = (int)dgvMarcas.DataKeys[e.RowIndex].Value;
+                new MarcaNegocio().Eliminar(id);
+                lblError.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                lblError.Text = ex.Message;
+                lblError.Visible = true;
+            }
+            finally
+            {
+                CargarGrilla();
+            }
         }
 
         private void LimpiarFormulario()

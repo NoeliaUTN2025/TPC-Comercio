@@ -65,9 +65,22 @@ namespace AplicacionWebComercio
 
         protected void dgvCategorias_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-            int id = (int)dgvCategorias.DataKeys[e.RowIndex].Value;
-            new CategoriaNegocio().Eliminar(id);
-            CargarGrilla();
+            try
+            {
+                int id = (int)dgvCategorias.DataKeys[e.RowIndex].Value;
+                new CategoriaNegocio().Eliminar(id);
+                lblError.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                // Mostramos el mensaje de negocio al usuario (sin exponer stack trace)
+                lblError.Text = ex.Message;
+                lblError.Visible = true;
+            }
+            finally
+            {
+                CargarGrilla();
+            }
         }
 
         private void LimpiarFormulario()
