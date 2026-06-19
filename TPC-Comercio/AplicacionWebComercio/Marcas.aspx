@@ -36,5 +36,6 @@
             </asp:TemplateField>
         </Columns>
     </asp:GridView>
+    <asp:Label ID="lblError" runat="server" CssClass="alert alert-danger d-block mt-2" Visible="false" />
 
 </asp:Content>
