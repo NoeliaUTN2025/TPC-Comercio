@@ -57,18 +57,19 @@ CREATE TABLE [dbo].[Marcas]
 ) ON [PRIMARY]
 GO
 
-CREATE TABLE [dbo].[Productos] (
-    [Id]                 [int]          IDENTITY(1,1) NOT NULL,
-    [Codigo]             [varchar](50)  NOT NULL,
-    [NombreProducto]     [varchar](150) NOT NULL,
-    [Descripcion]        [varchar](500) NULL,
-    [StockActual]        [int]          NOT NULL DEFAULT (0),
-    [StockMinimo]        [int]          NOT NULL DEFAULT (0),
-    [Precio]             [decimal](10,2) NOT NULL DEFAULT (0),
-    [PorcentajeGanancia] [decimal](5,2)  NOT NULL DEFAULT (0),
-    [IdMarca]            [int]           NOT NULL,
-    [IdCategoria]        [int]          NOT NULL,
-    [Estado]             [bit]          NOT NULL DEFAULT (1),
+CREATE TABLE [dbo].[Productos]
+(
+    [Id] [int] IDENTITY(1,1) NOT NULL,
+    [Codigo] [varchar](50) NOT NULL,
+    [NombreProducto] [varchar](150) NOT NULL,
+    [Descripcion] [varchar](500) NULL,
+    [StockActual] [int] NOT NULL DEFAULT (0),
+    [StockMinimo] [int] NOT NULL DEFAULT (0),
+    [Precio] [decimal](10,2) NOT NULL DEFAULT (0),
+    [PorcentajeGanancia] [decimal](5,2) NOT NULL DEFAULT (0),
+    [IdMarca] [int] NOT NULL,
+    [IdCategoria] [int] NOT NULL,
+    [Estado] [bit] NOT NULL DEFAULT (1),
     PRIMARY KEY CLUSTERED ([Id] ASC),
     UNIQUE NONCLUSTERED ([Codigo] ASC)
 ) ON [PRIMARY]
@@ -158,7 +159,7 @@ CREATE TABLE [dbo].[DetalleCompras]
     [IdProducto] [int] NOT NULL,
     [Cantidad] [int] NOT NULL,
     [PrecioUnitario] [decimal](10,2) NOT NULL,
-    [Subtotal]       AS ([Cantidad] * [PrecioUnitario]) PERSISTED,
+    [Subtotal] AS ([Cantidad] * [PrecioUnitario]) PERSISTED,
     PRIMARY KEY CLUSTERED ([Id] ASC)
 ) ON [PRIMARY]
 GO
@@ -214,7 +215,7 @@ CREATE TABLE [dbo].[DetalleFacturas]
     [PrecioCompra] [decimal](10,2) NOT NULL,
     [PorcentajeGanancia] [decimal](5,2) NOT NULL,
     [PrecioVenta] [decimal](10,2) NOT NULL,
-    [Subtotal]           AS ([Cantidad] * [PrecioVenta]) PERSISTED,
+    [Subtotal] AS ([Cantidad] * [PrecioVenta]) PERSISTED,
     PRIMARY KEY CLUSTERED ([Id] ASC)
 ) ON [PRIMARY]
 GO
@@ -231,39 +232,66 @@ GO
 ALTER TABLE [dbo].[DetalleFacturas] CHECK CONSTRAINT [FK_DetalleFacturas_Producto]
 GO
 
+-- ============================================================
+-- STORED PROCEDURES - CLIENTES
+-- ============================================================
+
 CREATE PROCEDURE [dbo].[SP_Clientes_Listar]
 AS
 BEGIN
-    SELECT *
+    SELECT ID, DNI, Nombre, Apellido, Direccion, Telefono, Email, Estado
     FROM [dbo].[Clientes]
-END 
+    WHERE Estado = 1
+END
 GO
 
-INSERT INTO [dbo].Clientes
-    (
-    DNI,
-    Nombre,
-    Apellido,
-    Direccion,
-    Telefono,
-    Email,
-    Estado
-    )
-VALUES
-    (
-        '12345678',
-        'Juan',
-        'Perez',
-        'Calle 123',
-        '1122334455',
-        'juan@test.com',
-        1
+CREATE PROCEDURE [dbo].[SP_Clientes_Insertar]
+    @DNI varchar(15),
+    @Nombre varchar(100),
+    @Apellido varchar(100),
+    @Direccion varchar(200) = NULL,
+    @Telefono varchar(20) = NULL,
+    @Email varchar(150) = NULL
+AS
+BEGIN
+    INSERT INTO [dbo].[Clientes] (DNI, Nombre, Apellido, Direccion, Telefono, Email)
+    VALUES (@DNI, @Nombre, @Apellido, @Direccion, @Telefono, @Email)
+END
+GO
 
-)
+CREATE PROCEDURE [dbo].[SP_Clientes_Actualizar]
+    @ID int,
+    @DNI varchar(15),
+    @Nombre varchar(100),
+    @Apellido varchar(100),
+    @Direccion varchar(200) = NULL,
+    @Telefono varchar(20) = NULL,
+    @Email varchar(150) = NULL
+AS
+BEGIN
+    UPDATE [dbo].[Clientes]
+    SET DNI = @DNI,
+        Nombre = @Nombre,
+        Apellido = @Apellido,
+        Direccion = @Direccion,
+        Telefono = @Telefono,
+        Email = @Email
+    WHERE ID = @ID
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Clientes_BajaLogica]
+    @ID int
+AS
+BEGIN
+    UPDATE [dbo].[Clientes]
+    SET Estado = 0
+    WHERE ID = @ID
+END
 GO
 
 -- ============================================================
--- PRODUCTOS
+-- STORED PROCEDURES - PRODUCTOS
 -- ============================================================
 
 CREATE PROCEDURE [dbo].[SP_Productos_Listar]
@@ -290,14 +318,14 @@ END
 GO
 
 CREATE PROCEDURE [dbo].[SP_Productos_Insertar]
-    @Codigo             varchar(50),
-    @NombreProducto     varchar(150),
-    @Descripcion        varchar(500) = NULL,
-    @Precio             decimal(10,2),
-    @StockMinimo        int,
+    @Codigo varchar(50),
+    @NombreProducto varchar(150),
+    @Descripcion varchar(500) = NULL,
+    @Precio decimal(10,2),
+    @StockMinimo int,
     @PorcentajeGanancia decimal(5,2),
-    @IdMarca            int,
-    @IdCategoria        int
+    @IdMarca int,
+    @IdCategoria int
 AS
 BEGIN
     INSERT INTO [dbo].[Productos]
@@ -308,26 +336,26 @@ END
 GO
 
 CREATE PROCEDURE [dbo].[SP_Productos_Actualizar]
-    @Id                 int,
-    @Codigo             varchar(50),
-    @NombreProducto     varchar(150),
-    @Descripcion        varchar(500) = NULL,
-    @Precio             decimal(10,2),
-    @StockMinimo        int,
+    @Id int,
+    @Codigo varchar(50),
+    @NombreProducto varchar(150),
+    @Descripcion varchar(500) = NULL,
+    @Precio decimal(10,2),
+    @StockMinimo int,
     @PorcentajeGanancia decimal(5,2),
-    @IdMarca            int,
-    @IdCategoria        int
+    @IdMarca int,
+    @IdCategoria int
 AS
 BEGIN
     UPDATE [dbo].[Productos]
-    SET Codigo             = @Codigo,
-        NombreProducto     = @NombreProducto,
-        Descripcion        = @Descripcion,
-        Precio             = @Precio,
-        StockMinimo        = @StockMinimo,
+    SET Codigo = @Codigo,
+        NombreProducto = @NombreProducto,
+        Descripcion = @Descripcion,
+        Precio = @Precio,
+        StockMinimo = @StockMinimo,
         PorcentajeGanancia = @PorcentajeGanancia,
-        IdMarca            = @IdMarca,
-        IdCategoria        = @IdCategoria
+        IdMarca = @IdMarca,
+        IdCategoria = @IdCategoria
     WHERE Id = @Id
 END
 GO
@@ -341,6 +369,10 @@ BEGIN
     WHERE Id = @Id
 END
 GO
+
+-- ============================================================
+-- STORED PROCEDURES - MARCAS
+-- ============================================================
 
 CREATE PROCEDURE [dbo].[SP_Marcas_Listar]
 AS
@@ -358,7 +390,7 @@ END
 GO
 
 CREATE PROCEDURE [dbo].[SP_Marcas_Actualizar]
-    @Id          int,
+    @Id int,
     @Descripcion varchar(100)
 AS
 BEGIN
@@ -373,6 +405,10 @@ BEGIN
     DELETE FROM [dbo].[Marcas] WHERE Id = @Id
 END
 GO
+
+-- ============================================================
+-- STORED PROCEDURES - CATEGORIAS
+-- ============================================================
 
 CREATE PROCEDURE [dbo].[SP_Categorias_Listar]
 AS
@@ -390,7 +426,7 @@ END
 GO
 
 CREATE PROCEDURE [dbo].[SP_Categorias_Actualizar]
-    @Id          int,
+    @Id int,
     @Descripcion varchar(100)
 AS
 BEGIN
@@ -406,6 +442,10 @@ BEGIN
 END
 GO
 
+-- ============================================================
+-- STORED PROCEDURES - PROVEEDORES
+-- ============================================================
+
 CREATE PROCEDURE [dbo].[SP_Proveedores_Listar]
 AS
 BEGIN
@@ -417,106 +457,10 @@ GO
 
 CREATE PROCEDURE [dbo].[SP_Proveedores_Insertar]
     @RazonSocial varchar(150),
-    @Cuit        varchar(20),
-    @Direccion   varchar(200) = NULL,
-    @Telefono    varchar(20)  = NULL,
-    @Email       varchar(150) = NULL
-AS
-BEGIN
-    INSERT INTO [dbo].[Proveedores] (RazonSocial, Cuit, Direccion, Telefono, Email)
-    VALUES (@RazonSocial, @Cuit, @Direccion, @Telefono, @Email)
-END
-GO
-
-CREATE PROCEDURE [dbo].[SP_Proveedores_Actualizar]
-    @ID          int,
-    @RazonSocial varchar(150),
-    @Cuit        varchar(20),
-    @Direccion   varchar(200) = NULL,
-    @Telefono    varchar(20)  = NULL,
-    @Email       varchar(150) = NULL
-AS
-BEGIN
-    UPDATE [dbo].[Proveedores]
-    SET RazonSocial = @RazonSocial,
-        Cuit        = @Cuit,
-        Direccion   = @Direccion,
-        Telefono    = @Telefono,
-        Email       = @Email
-    WHERE ID = @ID
-END
-GO
-
-CREATE PROCEDURE [dbo].[SP_Proveedores_BajaLogica]
-    @ID int
-AS
-BEGIN
-    UPDATE [dbo].[Proveedores] SET Estado = 0 WHERE ID = @ID
-END
-GO
-
-INSERT INTO [dbo].[Categorias]
-    (Descripcion)
-VALUES
-    ('Indumentaria')
-GO
-
-INSERT INTO [dbo].[Marcas]
-    (Descripcion)
-VALUES
-    ('Nike')
-GO
-
-INSERT INTO [dbo].[Productos]
-    (
-    Codigo,
-    NombreProducto,
-    Descripcion,
-    StockActual,
-    Precio,
-    StockMinimo,
-    PorcentajeGanancia,
-    IdMarca,
-    IdCategoria
-    )
-VALUES
-(
-    'P0001',
-    'Zapatillas Running',
-    'Zapatillas para running de uso diario',
-    50,
-    8500.00,
-    10,
-    35.00,
-    1,
-    1
-)
-GO
-
-INSERT INTO [dbo].[Proveedores]
-    (RazonSocial, Cuit, Direccion, Telefono, Email)
-VALUES
-    ('Distribuidora Mayorista S.A.', '30-12345678-9', 'Av. Corrientes 1234', '011-4567-8901', 'ventas@distribuidora.com')
-GO
-
--- ============================================================
--- STORED PROCEDURES DE PROVEEDORES
--- ============================================================
-
-CREATE PROCEDURE [dbo].[SP_Proveedores_Listar]
-AS
-BEGIN
-    SELECT ID, RazonSocial, Cuit, Direccion, Telefono, Email, Estado
-    FROM [dbo].[Proveedores]
-END 
-GO 
-
-CREATE PROCEDURE [dbo].[SP_Proveedores_Insertar]
-    @RazonSocial varchar(150),
     @Cuit varchar(20),
-    @Direccion varchar(200),
-    @Telefono varchar(20),
-    @Email varchar(150)
+    @Direccion varchar(200) = NULL,
+    @Telefono varchar(20) = NULL,
+    @Email varchar(150) = NULL
 AS
 BEGIN
     INSERT INTO [dbo].[Proveedores] (RazonSocial, Cuit, Direccion, Telefono, Email)
@@ -528,9 +472,9 @@ CREATE PROCEDURE [dbo].[SP_Proveedores_Actualizar]
     @ID int,
     @RazonSocial varchar(150),
     @Cuit varchar(20),
-    @Direccion varchar(200),
-    @Telefono varchar(20),
-    @Email varchar(150)
+    @Direccion varchar(200) = NULL,
+    @Telefono varchar(20) = NULL,
+    @Email varchar(150) = NULL
 AS
 BEGIN
     UPDATE [dbo].[Proveedores]
@@ -547,80 +491,36 @@ CREATE PROCEDURE [dbo].[SP_Proveedores_BajaLogica]
     @ID int
 AS
 BEGIN
-    UPDATE [dbo].[Proveedores]
-    SET Estado = 0
-    WHERE ID = @ID
+    UPDATE [dbo].[Proveedores] SET Estado = 0 WHERE ID = @ID
 END
 GO
 
 -- ============================================================
--- STORED PROCEDURES DE MARCAS
+-- DATOS DE PRUEBA (seed data)
 -- ============================================================
 
-CREATE PROCEDURE [dbo].[SP_Marcas_Listar]
-AS
-BEGIN
-    SELECT Id, Descripcion FROM [dbo].[Marcas]
-END
+INSERT INTO [dbo].[Categorias] (Descripcion) VALUES ('Indumentaria')
 GO
 
-CREATE PROCEDURE [dbo].[SP_Marcas_Insertar]
-    @Descripcion varchar(100)
-AS
-BEGIN
-    INSERT INTO [dbo].[Marcas] (Descripcion) VALUES (@Descripcion)
-END
+INSERT INTO [dbo].[Marcas] (Descripcion) VALUES ('Nike')
 GO
 
-CREATE PROCEDURE [dbo].[SP_Marcas_Actualizar]
-    @Id int,
-    @Descripcion varchar(100)
-AS
-BEGIN
-    UPDATE [dbo].[Marcas] SET Descripcion = @Descripcion WHERE Id = @Id
-END
+INSERT INTO [dbo].[Productos]
+    (Codigo, NombreProducto, Descripcion, StockActual, Precio, StockMinimo, PorcentajeGanancia, IdMarca, IdCategoria)
+VALUES
+    ('P0001', 'Zapatillas Running', 'Zapatillas para running de uso diario', 50, 8500.00, 10, 35.00, 1, 1)
 GO
 
-CREATE PROCEDURE [dbo].[SP_Marcas_Eliminar]
-    @Id int
-AS
-BEGIN
-    DELETE FROM [dbo].[Marcas] WHERE Id = @Id
-END
+INSERT INTO [dbo].[Clientes]
+    (DNI, Nombre, Apellido, Direccion, Telefono, Email, Estado)
+VALUES
+    ('12345678', 'Juan', 'Perez', 'Calle 123', '1122334455', 'juan@test.com', 1)
 GO
 
--- ============================================================
--- STORED PROCEDURES DE CATEGORIAS
--- ============================================================
-
-CREATE PROCEDURE [dbo].[SP_Categorias_Listar]
-AS
-BEGIN
-    SELECT Id, Descripcion FROM [dbo].[Categorias]
-END
+INSERT INTO [dbo].[Proveedores]
+    (RazonSocial, Cuit, Direccion, Telefono, Email)
+VALUES
+    ('Distribuidora Mayorista S.A.', '30-12345678-9', 'Av. Corrientes 1234', '011-4567-8901', 'ventas@distribuidora.com')
 GO
 
-CREATE PROCEDURE [dbo].[SP_Categorias_Insertar]
-    @Descripcion varchar(100)
-AS
-BEGIN
-    INSERT INTO [dbo].[Categorias] (Descripcion) VALUES (@Descripcion)
-END
-GO
-
-CREATE PROCEDURE [dbo].[SP_Categorias_Actualizar]
-    @Id int,
-    @Descripcion varchar(100)
-AS
-BEGIN
-    UPDATE [dbo].[Categorias] SET Descripcion = @Descripcion WHERE Id = @Id
-END
-GO
-
-CREATE PROCEDURE [dbo].[SP_Categorias_Eliminar]
-    @Id int
-AS
-BEGIN
-    DELETE FROM [dbo].[Categorias] WHERE Id = @Id
-END
-GO
+PRINT 'Base de datos tpc_P3 creada correctamente.'
