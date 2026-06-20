@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ClientesFormularios.aspx.cs" Inherits="AplicacionWebComercio.ClientesFormularios" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2> Nuevo Cliente</h2> 
+    <h2> Alta/Modificacion Cliente</h2> 
 
     <div class="mb-3"> 
         <asp:Label ID="lblDNI" runat="server" Text="DNI" CssClass="form-label"></asp:Label>
@@ -33,8 +33,21 @@
         <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" ></asp:TextBox>
     </div>
         
-    <br />
+  
+    <div class="mb-3">
+        <asp:Button ID="btnGuardar" runat="server" Text="Guardar" OnClick="btnGuardar_Click" CssClass="btn btn-primary"></asp:Button>
+        <a href="Clientes.aspx" class="btn btn-secondary">Cancelar</a>
 
-    <asp:Button ID="btnGuardar" runat="server" Text="Guardar" OnClick="btnGuardar_Click" CssClass="btn btn-primary"></asp:Button>
+    </div>
+
+        <div class="mb-3">
+        <asp:CheckBox ID="chkConfirmarEliminacion" runat="server" Text="Confirmar Eliminacion" ></asp:CheckBox>
+    </div>
+
+    <div class="mb-3">
+        <asp:Button ID="btnEliminar" runat="server" Text="Eliminar Cliente" CssClass ="btn btn-danger" OnClick="btnEliminar_Click" /> 
+    </div>
+
+     <br />
 
 </asp:Content>

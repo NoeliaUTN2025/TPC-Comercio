@@ -11,14 +11,19 @@ namespace AplicacionWebComercio
 {
     public partial class Clientes : System.Web.UI.Page
     {
-        public int  IdSeleccionado; 
+        public int IdSeleccionado;
+        public bool  ConfirmarEliminacion {  get; set; }
         protected void Page_Load(object sender, EventArgs e)
+
         {
-            if (!IsPostBack)
+            ConfirmarEliminacion = false;
             {
-                ClienteNegocio negocio = new ClienteNegocio();
-                dgvClientes.DataSource = negocio.Listar();
-                dgvClientes.DataBind();
+                if (!IsPostBack)
+                {
+                    ClienteNegocio negocio = new ClienteNegocio();
+                    dgvClientes.DataSource = negocio.Listar();
+                    dgvClientes.DataBind();
+                }
             }
         }
 
@@ -34,13 +39,20 @@ namespace AplicacionWebComercio
 
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
-            int id = int.Parse(dgvClientes.SelectedRow.Cells[1].Text);
-            ClienteNegocio negocio = new ClienteNegocio();
-            negocio.EliminarLogico(id);
+            if (ConfirmarEliminacion)
+               {
 
-            Response.Redirect("Clientes.aspx");
+                    int id = int.Parse(Request.QueryString["id"]);
+                    ClienteNegocio negocio = new ClienteNegocio();
+                    negocio.EliminarLogico(id);
+
+
+                    Response.Redirect("Clientes.aspx");
+
+                }
+
+
             
-    
         }
     }
 }
