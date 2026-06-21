@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Negocio;
+using Dominio;
 
 
 namespace AplicacionWebComercio
@@ -12,6 +13,7 @@ namespace AplicacionWebComercio
     public partial class Clientes : System.Web.UI.Page
     {
         public int IdSeleccionado;
+      
         public bool  ConfirmarEliminacion {  get; set; }
         protected void Page_Load(object sender, EventArgs e)
 
@@ -21,7 +23,8 @@ namespace AplicacionWebComercio
                 if (!IsPostBack)
                 {
                     ClienteNegocio negocio = new ClienteNegocio();
-                    dgvClientes.DataSource = negocio.Listar();
+                    Session.Add("listaClientes", negocio.Listar());
+                    dgvClientes.DataSource = Session["listaClientes"];
                     dgvClientes.DataBind();
                 }
             }
@@ -54,5 +57,113 @@ namespace AplicacionWebComercio
 
             
         }
-    }
-}
+
+        protected void filtro_TextChanged(object sender, EventArgs e) 
+        {
+            List<Cliente> Listar = (List<Cliente>)Session["listaClientes"];
+            List<Cliente> listafiltrada = Listar.FindAll(x => x.Nombre.ToUpper().Contains(filtro.Text.ToUpper()) || x.Apellido.ToUpper().Contains(filtro.Text.ToUpper()) || x.DNI.ToString().Contains(filtro.Text));
+            dgvClientes.DataSource = listafiltrada;
+            dgvClientes.DataBind();
+        }
+
+        protected void chkAvanzado_CheckedChanged(object sender, EventArgs e)
+        {
+            filtro.Visible = !chkAvanzado.Checked;
+            
+            if (chkAvanzado.Checked)
+            {
+                ddlCriterio.Items.Clear();
+
+                ddlCriterio.Items.Add("Comienza con");
+                ddlCriterio.Items.Add("Contiene");
+                ddlCriterio.Items.Add("Termina con");
+            }
+       
+        }
+
+        protected void ddlCampo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ddlCriterio.Items.Clear();
+            if (ddlCampo.SelectedItem.Text == "Nombre" || ddlCampo.SelectedItem.Text == "Apellido")
+            {
+                ddlCriterio.Items.Add("Comienza con");
+                ddlCriterio.Items.Add("Contiene");
+                ddlCriterio.Items.Add("Termina con");
+            }
+            else if (ddlCampo.SelectedItem.Text == "DNI")
+            {
+                ddlCriterio.Items.Add("Igual a");
+                ddlCriterio.Items.Add("Mayor que");
+                ddlCriterio.Items.Add("Menor que");
+            }
+        }
+
+
+        protected void btnBuscar_Click(object sender, EventArgs e)
+        {
+            List<Cliente> Lista = (List<Cliente>)Session["listaClientes"];
+            List<Cliente> listafiltrada = new List<Cliente>();
+            if (chkAvanzado.Checked)
+            {
+                switch (ddlCampo.SelectedItem.Text)
+                {
+                    case "Nombre":
+
+                        switch(ddlCriterio.SelectedItem.Text)
+                        {
+                            case "Comienza con":
+                                listafiltrada = Lista.FindAll(x => x.Nombre.ToUpper().StartsWith(txtFiltroAvanzado.Text.ToUpper()));
+                                break;
+                            case "Contiene":
+                                listafiltrada = Lista.FindAll(x => x.Nombre.ToUpper().Contains(txtFiltroAvanzado.Text.ToUpper()));
+                                break;
+                            case "Termina con":
+                                listafiltrada = Lista.FindAll(x => x.Nombre.ToUpper().EndsWith(txtFiltroAvanzado.Text.ToUpper()));
+                                break;
+                        }
+                
+                   
+                        break;
+                    case "Apellido":
+                            switch (ddlCriterio.SelectedItem.Text)
+                            {
+                                case "Comienza con":
+                                    listafiltrada = Lista.FindAll(x => x.Apellido.ToUpper().StartsWith(txtFiltroAvanzado.Text.ToUpper()));
+                                    break;
+                                case "Contiene":
+                                    listafiltrada = Lista.FindAll(x => x.Apellido.ToUpper().Contains(txtFiltroAvanzado.Text.ToUpper()));
+                                    break;
+                                case "Termina con":
+                                    listafiltrada = Lista.FindAll(x => x.Apellido.ToUpper().EndsWith(txtFiltroAvanzado.Text.ToUpper()));
+                                    break;
+                        }
+                        
+                        break;
+                    case "DNI":
+
+                        int dniFiltro = int.Parse(txtFiltroAvanzado.Text);
+                        switch (ddlCriterio.SelectedItem.Text)
+                        {
+                            case "Igual a":
+                                listafiltrada = Lista.FindAll(x => int.Parse(x.DNI) == dniFiltro);
+                                break;
+                            case "Mayor que":
+                                listafiltrada = Lista.FindAll(x => int.Parse(x.DNI) > dniFiltro);
+                                break;
+                            case "Menor que":
+                                listafiltrada = Lista.FindAll(x => int.Parse(x.DNI) < dniFiltro);
+                                break;
+                        }
+                        
+                      
+                        break;
+                }
+            }
+            else
+            {
+                listafiltrada = Lista.FindAll(x => x.Nombre.ToUpper().Contains(filtro.Text.ToUpper()) || x.Apellido.ToUpper().Contains(filtro.Text.ToUpper()) || x.DNI.ToString().Contains(filtro.Text));
+            }
+            dgvClientes.DataSource = listafiltrada;
+            dgvClientes.DataBind();
+        }
+}}
