@@ -52,6 +52,32 @@ namespace AplicacionWebComercio
         protected void btnGuardar_Click(object sender, EventArgs e)
 
         {
+            if (string.IsNullOrWhiteSpace(txtDNI.Text))
+            {   
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('El campo DNI es obligatorio.');", true);
+                return;
+            }
+            if (!txtDNI.Text.All(char.IsDigit))
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('El campo DNI debe contener solo números.');", true);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtNombre.Text))
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('El campo Nombre es obligatorio.');", true);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtApellido.Text))
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('El campo Apellido es obligatorio.');", true);
+                return;
+            }
+            
+
+           
+
             Cliente nuevo = new Cliente();
 
             if (Request.QueryString["id"] != null)

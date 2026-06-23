@@ -79,7 +79,7 @@
     <br /><br />     
     
     <asp:GridView ID="dgvClientes" runat="server" AutoGenerateColumns="true" CssClass="table"
-        AutoGenerateSelectButton="true" OnSelectedIndexChanged="dgvClientes_SelectedIndexChanged"> 
+        AutoGenerateSelectButton="true" OnSelectedIndexChanged="dgvClientes_SelectedIndexChanged" OnRowCreated="dgvClientes_RowCreated"> 
      
     </asp:GridView> 
 

@@ -16,19 +16,22 @@ namespace AplicacionWebComercio
       
         public bool  ConfirmarEliminacion {  get; set; }
         protected void Page_Load(object sender, EventArgs e)
-
         {
             ConfirmarEliminacion = false;
             {
                 if (!IsPostBack)
                 {
                     ClienteNegocio negocio = new ClienteNegocio();
+               
                     Session.Add("listaClientes", negocio.Listar());
                     dgvClientes.DataSource = Session["listaClientes"];
-                    dgvClientes.DataBind();
+                    dgvClientes.DataSource = negocio.Listar();
+                    dgvClientes.DataBind(); 
+                  
                 }
             }
         }
+       
 
 
         protected void dgvClientes_SelectedIndexChanged(object sender, EventArgs e)
@@ -66,6 +69,14 @@ namespace AplicacionWebComercio
             dgvClientes.DataBind();
         }
 
+        protected void dgvClientes_RowCreated(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                LinkButton btn = (LinkButton)e.Row.Cells[0].Controls[0];
+                btn.Text = "Editar";
+            }
+        }
         protected void chkAvanzado_CheckedChanged(object sender, EventArgs e)
         {
             filtro.Visible = !chkAvanzado.Checked;
