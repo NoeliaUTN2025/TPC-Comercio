@@ -204,7 +204,32 @@ BEGIN
 END
 GO 
 
+DELETE FROM Clientes
+WHERE ID IN (1003, 1004)
+GO
 
+DBCC CHECKIDENT ('Clientes', RESEED, 10)
+GO
+
+DBCC CHECKIDENT ('Clientes', NORESEED)
+GO
+
+ALTER PROCEDURE [dbo].[SP_Clientes_Listar]
+AS 
+BEGIN
+    SELECT *
+    FROM dbo.Clientes
+    WHERE Estado = 1
+END 
+GO
+ALTER PROCEDURE [dbo].[SP_Clientes_Listar]
+AS 
+BEGIN
+    SELECT *
+    FROM dbo.Clientes
+  
+END 
+GO
 
 
 -- ============================================================

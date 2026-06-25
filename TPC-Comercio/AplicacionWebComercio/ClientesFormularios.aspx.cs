@@ -74,9 +74,22 @@ namespace AplicacionWebComercio
                 ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('El campo Apellido es obligatorio.');", true);
                 return;
             }
-            
 
-           
+            ClienteNegocio negocio = new ClienteNegocio();
+
+            //Solo validar duplicados cuando es un alta de cliente, no cuando es una modificación
+            if (Request.QueryString["id"] == null)
+            {
+                bool existeDNI = negocio.Listar().Exists(x => x.DNI == txtDNI.Text);
+
+                if (existeDNI)
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Ya existe un cliente con el mismo DNI.');", true);
+                    return;
+                }
+            }           
+                   
+
 
             Cliente nuevo = new Cliente();
 
@@ -93,8 +106,6 @@ namespace AplicacionWebComercio
             nuevo.Email = txtEmail.Text;
 
 
-
-            ClienteNegocio negocio = new ClienteNegocio();
             if (Request.QueryString["id"] != null)
             {
                 negocio.Modificar(nuevo);
@@ -107,12 +118,12 @@ namespace AplicacionWebComercio
             Response.Redirect("Clientes.aspx");
         }
 
-        /* protected void btnCancelar_Click(object sender, EventArgs e)
+         protected void btnCancelar_Click(object sender, EventArgs e)
          {
 
              Response.Redirect("Clientes.aspx");
 
-         }*/
+         }
 
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
