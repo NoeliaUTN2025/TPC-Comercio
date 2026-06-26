@@ -106,6 +106,139 @@ CREATE TABLE [dbo].[Clientes]
 ) ON [PRIMARY]
 GO
 
+CREATE PROCEDURE [dbo].[SP_Clientes_Listar]
+AS
+BEGIN
+    SELECT *
+    FROM [dbo].[Clientes]
+    WHERE Estado = 1
+END 
+GO 
+
+INSERT INTO [dbo].Clientes
+(
+    DNI,
+    Nombre,
+    Apellido,
+    Direccion,
+    Telefono,
+    Email,
+    Estado
+)
+VALUES
+(
+   '12345678',
+   'Juan',
+   'Perez',
+   'Calle 123',
+   '1122334455',
+   'juan@test.com',
+   1
+)
+GO
+
+CREATE PROCEDURE [dbo].[SP_Clientes_Insertar]
+(   
+    @DNI VARCHAR(15),
+    @Nombre VARCHAR(100),
+    @Apellido VARCHAR(100),
+    @Direccion VARCHAR(200),
+    @Telefono VARCHAR(20),
+    @Email VARCHAR(150),
+    @Estado BIT
+)
+AS
+BEGIN  
+    INSERT INTO dbo.Clientes
+    (   
+        DNI,
+        Nombre,
+        Apellido,
+        Direccion,
+        Telefono,
+        Email,
+        Estado
+    )
+    VALUES
+    (
+        @DNI,
+        @Nombre,
+        @Apellido,
+        @Direccion,
+        @Telefono,
+        @Email,
+        1
+    )
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Clientes_Actualizar]
+(
+    @ID INT,
+    @DNI VARCHAR(15),
+    @Nombre VARCHAR(100),
+    @Apellido VARCHAR(100),
+    @Direccion VARCHAR(200),
+    @Telefono VARCHAR(20),
+    @Email VARCHAR(150)
+
+)
+AS 
+BEGIN
+
+    UPDATE dbo.Clientes
+    SET 
+        DNI = @DNI,
+        Nombre = @Nombre,
+        Apellido = @Apellido,
+        Direccion = @Direccion,
+        Telefono = @Telefono,
+        Email = @Email
+    WHERE ID = @ID
+END 
+GO 
+
+CREATE PROCEDURE [dbo].[SP_Clientes_BajaLogica]
+(
+    @ID INT 
+)
+AS 
+BEGIN 
+     UPDATE dbo.Clientes
+     SET Estado = 0
+     WHERE ID = @ID 
+
+END
+GO 
+
+DELETE FROM Clientes
+WHERE ID IN (1003, 1004)
+GO
+
+DBCC CHECKIDENT ('Clientes', RESEED, 10)
+GO
+
+DBCC CHECKIDENT ('Clientes', NORESEED)
+GO
+
+ALTER PROCEDURE [dbo].[SP_Clientes_Listar]
+AS 
+BEGIN
+    SELECT *
+    FROM dbo.Clientes
+    WHERE Estado = 1
+END 
+GO
+ALTER PROCEDURE [dbo].[SP_Clientes_Listar]
+AS 
+BEGIN
+    SELECT *
+    FROM dbo.Clientes
+  
+END 
+GO
+
+
 -- ============================================================
 -- PROVEEDORES
 -- ============================================================
@@ -232,63 +365,6 @@ GO
 ALTER TABLE [dbo].[DetalleFacturas] CHECK CONSTRAINT [FK_DetalleFacturas_Producto]
 GO
 
--- ============================================================
--- STORED PROCEDURES - CLIENTES
--- ============================================================
-
-CREATE PROCEDURE [dbo].[SP_Clientes_Listar]
-AS
-BEGIN
-    SELECT ID, DNI, Nombre, Apellido, Direccion, Telefono, Email, Estado
-    FROM [dbo].[Clientes]
-    WHERE Estado = 1
-END
-GO
-
-CREATE PROCEDURE [dbo].[SP_Clientes_Insertar]
-    @DNI varchar(15),
-    @Nombre varchar(100),
-    @Apellido varchar(100),
-    @Direccion varchar(200) = NULL,
-    @Telefono varchar(20) = NULL,
-    @Email varchar(150) = NULL
-AS
-BEGIN
-    INSERT INTO [dbo].[Clientes] (DNI, Nombre, Apellido, Direccion, Telefono, Email)
-    VALUES (@DNI, @Nombre, @Apellido, @Direccion, @Telefono, @Email)
-END
-GO
-
-CREATE PROCEDURE [dbo].[SP_Clientes_Actualizar]
-    @ID int,
-    @DNI varchar(15),
-    @Nombre varchar(100),
-    @Apellido varchar(100),
-    @Direccion varchar(200) = NULL,
-    @Telefono varchar(20) = NULL,
-    @Email varchar(150) = NULL
-AS
-BEGIN
-    UPDATE [dbo].[Clientes]
-    SET DNI = @DNI,
-        Nombre = @Nombre,
-        Apellido = @Apellido,
-        Direccion = @Direccion,
-        Telefono = @Telefono,
-        Email = @Email
-    WHERE ID = @ID
-END
-GO
-
-CREATE PROCEDURE [dbo].[SP_Clientes_BajaLogica]
-    @ID int
-AS
-BEGIN
-    UPDATE [dbo].[Clientes]
-    SET Estado = 0
-    WHERE ID = @ID
-END
-GO
 
 -- ============================================================
 -- STORED PROCEDURES - PRODUCTOS
