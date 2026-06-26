@@ -1,83 +1,91 @@
-<%@ Page Title="Clientes" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true"
-    CodeBehind="Clientes.aspx.cs" Inherits="AplicacionWebComercio.Clientes" %>
-    <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Clientes.aspx.cs" Inherits="AplicacionWebComercio.Clientes" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+  
 
-        <h2>Gestión de Clientes</h2>
 
-        <asp:Button ID="btnNuevo" runat="server" Text="Nuevo Cliente" OnClick="btnNuevo_Click"
-            CssClass="btn btn-success mb-3" />
+    <h2>Listado de Clientes</h2>
 
-        <asp:Panel ID="pnlFormulario" runat="server" Visible="false" CssClass="card p-3 mb-3">
-            <h4>Datos del Cliente</h4>
-            <asp:HiddenField ID="hfId" runat="server" Value="0" />
+     <div class ="row">
+     <div class="col-6">
+        <div class="mb-3">
+            <asp:Label Text="Filtrar" runat="server" />
+            <asp:TextBox runat= "server" ID="filtro" AutoPostBack="true" OnTextChanged="filtro_TextChanged" CssClass="form-control mb-3" />
+      </div> 
+          </div>
 
-            <div class="row">
-                <div class="col-md-4 mb-2">
-                    <label>DNI <span class="text-danger">*</span></label>
-                    <asp:TextBox ID="txtDNI" runat="server" TextMode="Number" CssClass="form-control" MaxLength="15" />
-                    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDNI"
-                        ErrorMessage="El DNI es obligatorio." CssClass="text-danger small" Display="Dynamic" />
-                </div>
-                <div class="col-md-4 mb-2">
-                    <label>Nombre <span class="text-danger">*</span></label>
-                    <asp:TextBox ID="txtNombre" runat="server" CssClass="form-control" MaxLength="100" />
-                    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtNombre"
-                        ErrorMessage="El nombre es obligatorio." CssClass="text-danger small" Display="Dynamic" />
-                </div>
-                <div class="col-md-4 mb-2">
-                    <label>Apellido <span class="text-danger">*</span></label>
-                    <asp:TextBox ID="txtApellido" runat="server" CssClass="form-control" MaxLength="100" />
-                    <asp:RequiredFieldValidator runat="server" ControlToValidate="txtApellido"
-                        ErrorMessage="El apellido es obligatorio." CssClass="text-danger small" Display="Dynamic" />
-                </div>
+      </div>
+
+            <div class="col-6" style= "display: flex; flex-direction: column; justify-content: flex-end;" >
+            <div class="mb-3" > 
+            <asp:CheckBox ID="chkAvanzado" runat="server" Text="Filtro Avanzado" CssClass="form-check-input" AutoPostBack="true" OnCheckedChanged="chkAvanzado_CheckedChanged" />
+                </div> 
+
+                    </div>
+            
+       
+    <%if (chkAvanzado.Checked)
+        { %>
+    <div class ="row">
+        <div class="col-3">
+            <div class="mb-3">
+                <asp:Label Text="Campo" ID="lblCampo" runat="server" />
+                <asp:DropDownList runat="server" AutoPostBack="true" ID="ddlCampo" CssClass="form-control" OnSelectedIndexChanged="ddlCampo_SelectedIndexChanged">
+                        <asp:ListItem Text="Seleccione..." Value="" />
+                        <asp:ListItem Text="Nombre" />
+                        <asp:ListItem Text="Apellido" />
+                        <asp:ListItem Text="DNI" />
+                </asp:DropDownList>
             </div>
-
-            <div class="row">
-                <div class="col-md-4 mb-2">
-                    <label>Dirección</label>
-                    <asp:TextBox ID="txtDireccion" runat="server" CssClass="form-control" MaxLength="200" />
-                </div>
-                <div class="col-md-4 mb-2">
-                    <label>Teléfono</label>
-                    <asp:TextBox ID="txtTelefono" runat="server" CssClass="form-control" MaxLength="20" />
-                </div>
-                <div class="col-md-4 mb-2">
-                    <label>Email</label>
-                    <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" MaxLength="150"
-                        TextMode="Email" />
-                </div>
             </div>
+        </div>  
+             <div class="col-3">
+            <div class="mb-3">
+                <asp:Label Text="Criterio"  runat="server" />
+                <asp:DropDownList runat="server" ID="ddlCriterio" CssClass="form-control">
+                <asp:ListItem Text="Seleccione..." Value="" />
+                    </asp:DropDownList>
+            </div>
+        </div>
+    
+           <div class="col-3">
+           <div class="mb-3">
+                <asp:Label Text="Filtro" runat="server" />
+                <asp:TextBox runat="server" ID="txtFiltroAvanzado" CssClass="form-control"></asp:TextBox>
+           </div>
+               </div>
+            <div class="col-3">
+             <div class="mb-3">
+                <asp:Label Text="Estado" runat="server" />
+                <asp:DropDownList runat="server" ID="ddlEstado" CssClass="form-control">
+                        <asp:ListItem Text="Todos" />
+                        <asp:ListItem Text="Activo" />
+                        <asp:ListItem Text="Inactivo" /> 
+                </asp:DropDownList>
+        </div>
 
-            <asp:Button ID="btnGuardar" runat="server" Text="Guardar" OnClick="btnGuardar_Click"
-                CssClass="btn btn-primary me-2" />
-            <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" OnClick="btnCancelar_Click"
-                CssClass="btn btn-secondary" CausesValidation="false" />
-        </asp:Panel>
+        </div>
+  
+               
+                <div class ="row">
+                    <div class ="col-3">    
+                        <div class="mb-3">
+                            <asp:Button ID="btnBuscar" runat="server" Text="Buscar" CssClass="btn btn-primary" OnClick="btnBuscar_Click" />
+                            
+                        </div>
 
-        <asp:Label ID="lblError" runat="server" CssClass="alert alert-danger d-block mb-2" Visible="false" />
+                    </div>
+                    </div>
+    <% } %> 
 
-        <asp:GridView ID="dgvClientes" runat="server" AutoGenerateColumns="false"
-            CssClass="table table-striped table-hover" DataKeyNames="ID" OnRowCommand="dgvClientes_RowCommand"
-            OnRowDeleting="dgvClientes_RowDeleting">
-            <Columns>
-                <asp:BoundField DataField="DNI" HeaderText="DNI" />
-                <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
-                <asp:BoundField DataField="Apellido" HeaderText="Apellido" />
-                <asp:BoundField DataField="Telefono" HeaderText="Teléfono" />
-                <asp:BoundField DataField="Email" HeaderText="Email" />
-                <asp:TemplateField>
-                    <ItemTemplate>
-                        <asp:LinkButton ID="lnkEditar" runat="server" Text="Editar" CommandName="Editar"
-                            CommandArgument='<%# Eval("ID") %>' />
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField>
-                    <ItemTemplate>
-                        <asp:LinkButton ID="lnkEliminar" runat="server" Text="Eliminar" CommandName="Delete"
-                            OnClientClick="return confirm('¿Confirma la baja del cliente?');" CssClass="text-danger" />
-                    </ItemTemplate>
-                </asp:TemplateField>
-            </Columns>
-        </asp:GridView>
+     <asp:Button ID="btnAgregar" runat="server" Text="Agregar Cliente" CssClass ="btn btn-primary" PostBackUrl="~/ClientesFormularios.aspx" />
+    
+    <br /><br />     
+    
+    <asp:GridView ID="dgvClientes" runat="server" AutoGenerateColumns="true" CssClass="table"
+        AutoGenerateSelectButton="true" OnSelectedIndexChanged="dgvClientes_SelectedIndexChanged" OnRowCreated="dgvClientes_RowCreated"> 
+     
+    </asp:GridView> 
 
-    </asp:Content>
+
+
+</asp:Content>
