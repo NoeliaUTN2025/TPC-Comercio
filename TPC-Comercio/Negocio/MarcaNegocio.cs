@@ -78,8 +78,36 @@ namespace Negocio
             }
         }
 
+        public bool TieneProductosAsociados(int id)
+        {
+            AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) FROM Productos WHERE IdMarca = @Id AND Estado = 1");
+                datos.setearParametro("@Id", id);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                    return (int)datos.Lector[0] > 0;
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         public void Eliminar(int id)
         {
+            // Validación de negocio: no se puede eliminar si hay productos asociados
+            if (TieneProductosAsociados(id))
+                throw new Exception("No se puede eliminar la marca porque tiene productos asociados. Primero reasignelos o elimínelos.");
+
             AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
             try
             {
