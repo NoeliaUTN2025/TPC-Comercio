@@ -28,7 +28,6 @@ namespace Negocio
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Apellido = (string)datos.Lector["Apellido"];
 
-                    // Validación de nulos (Direccion, Telefono, Email permiten NULL en la BD)
                     if (!(datos.Lector["Direccion"] is DBNull))
                         aux.Direccion = (string)datos.Lector["Direccion"];
 

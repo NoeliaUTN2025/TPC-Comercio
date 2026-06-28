@@ -104,7 +104,6 @@ namespace Negocio
 
         public void Eliminar(int id)
         {
-            // Validación de negocio: no se puede eliminar si hay productos asociados
             if (TieneProductosAsociados(id))
                 throw new Exception("No se puede eliminar la marca porque tiene productos asociados. Primero reasignelos o elimínelos.");
 
