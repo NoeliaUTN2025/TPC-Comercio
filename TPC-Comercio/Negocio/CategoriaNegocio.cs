@@ -83,7 +83,6 @@ namespace Negocio
             AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
             try
             {
-                // Contamos cuántos productos activos usan esta categoría
                 datos.setearConsulta("SELECT COUNT(*) FROM Productos WHERE IdCategoria = @Id AND Estado = 1");
                 datos.setearParametro("@Id", id);
                 datos.ejecutarLectura();
@@ -105,7 +104,6 @@ namespace Negocio
 
         public void Eliminar(int id)
         {
-            // Validación de negocio: no se puede eliminar si hay productos asociados
             if (TieneProductosAsociados(id))
                 throw new Exception("No se puede eliminar la categoría porque tiene productos asociados. Primero reasignelos o elimínelos.");
 
