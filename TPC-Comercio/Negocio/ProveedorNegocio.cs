@@ -66,8 +66,6 @@ namespace Negocio
                 datos.setearParametro("@Direccion", nuevo.Direccion ?? (object)DBNull.Value);
                 datos.setearParametro("@Telefono", nuevo.Telefono ?? (object)DBNull.Value);
                 datos.setearParametro("@Email", nuevo.Email ?? (object)DBNull.Value);
-                // El estado suele insertarse como 1/true por defecto en la DB
-
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
