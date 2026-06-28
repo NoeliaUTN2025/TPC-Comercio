@@ -27,7 +27,6 @@ namespace Negocio
                     aux.Codigo = (string)datos.Lector["Codigo"];
                     aux.NombreProducto = (string)datos.Lector["NombreProducto"];
 
-                    // Validación de nulos (las descripciones en la DB permiten NULL)
                     if (!(datos.Lector["Descripcion"] is DBNull))
                         aux.Descripcion = (string)datos.Lector["Descripcion"];
 
@@ -36,7 +35,6 @@ namespace Negocio
                     aux.Precio = (decimal)datos.Lector["Precio"];
                     aux.PorcentajeGanancia = (decimal)datos.Lector["PorcentajeGanancia"];
 
-                    // Instanciamos los objetos anidados para evitar NullReferenceException
                     aux.marca = new Marca();
                     aux.marca.Id = (int)datos.Lector["IdMarca"];
                     aux.marca.Descripcion = (string)datos.Lector["Marca"];
@@ -52,11 +50,10 @@ namespace Negocio
             }
             catch (Exception ex)
             {
-                throw ex; // Relanzamos la excepción para manejarla en la presentación
+                throw ex;
             }
             finally
             {
-                // Siempre cerramos la conexión en el finally para liberar recursos
                 datos.cerrarConexion();
             }
         }
