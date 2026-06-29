@@ -53,6 +53,11 @@
   <ItemGroup>
     <Compile Include="CategoriaNegocio.cs" />
     <Compile Include="ClienteNegocio.cs" />
+    <Compile Include="CompraNegocio.cs" />
+    <Compile Include="DetalleCompraNegocio.cs" />
+    <Compile Include="DetalleFacturaNegocio.cs" />
+    <Compile Include="FacturaNegocio.cs" />
+    <Compile Include="LoteNegocio.cs" />
     <Compile Include="MarcaNegocio.cs" />
     <Compile Include="ProductoNegocio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

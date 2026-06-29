@@ -133,5 +133,25 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public void SumarStock(int idProducto, int cantidad)
+        {
+            AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
+            try
+            {
+                datos.setearConsulta("UPDATE Productos SET StockActual = StockActual + @Cantidad WHERE Id = @Id");
+                datos.setearParametro("@Cantidad", cantidad);
+                datos.setearParametro("@Id", idProducto);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="AplicacionWebComercio.SiteMaster" %>
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="AplicacionWebComercio.SiteMaster" %>
 
 <!DOCTYPE html>
 
@@ -53,6 +53,8 @@
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Productos.aspx">Productos</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Marcas.aspx">Marcas</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Categorias.aspx">Categorías</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Compras.aspx">Compras</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Ventas.aspx">Ventas</a></li>
                     </ul>
                 </div>
             </div>
