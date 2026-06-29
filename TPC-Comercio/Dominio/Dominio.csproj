@@ -47,6 +47,7 @@
     <Compile Include="DetalleCompra.cs" />
     <Compile Include="DetalleFactura.cs" />
     <Compile Include="Factura.cs" />
+    <Compile Include="Lote.cs" />
     <Compile Include="Marca.cs" />
     <Compile Include="Perfil.cs" />
     <Compile Include="Producto.cs" />
