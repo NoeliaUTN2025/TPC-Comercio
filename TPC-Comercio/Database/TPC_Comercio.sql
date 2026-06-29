@@ -19,6 +19,7 @@ CREATE TABLE [dbo].[Perfiles]
 ) ON [PRIMARY]
 GO
 
+
 CREATE TABLE [dbo].[Usuarios]
 (
     [Id] [int] IDENTITY(1,1) NOT NULL,
@@ -36,6 +37,81 @@ REFERENCES [dbo].[Perfiles] ([Id])
 GO
 ALTER TABLE [dbo].[Usuarios] CHECK CONSTRAINT [FK_Usuarios_Perfil]
 GO
+
+-- ============================================================
+-- DATOS INICIALES
+-- ============================================================
+
+INSERT INTO [dbo].[Perfiles] (NombrePerfil, Estado)
+VALUES
+    ('Administrador',1),
+    ('Vendedor',1),
+    ('Cliente',1),
+    ('Proveedor',1);
+GO
+
+DELETE FROM [dbo].[Perfiles]
+WHERE Id > 4;
+GO
+
+UPDATE [dbo].[Perfiles]
+SET NombrePerfil ='Proveedor'
+WHERE Id = 4
+GO
+
+INSERT INTO [dbo].[Usuarios] ([User], [Contrasena], [IdPerfil], [Estado])
+VALUES 
+('admin', 'admin123', 1, 1),
+('vendedor','venta123', 2, 1)
+GO
+
+CREATE PROCEDURE [dbo].[SP_Usuarios_Login]
+    @User VARCHAR (50),
+    @Contrsena VARCHAR (256)
+AS
+BEGIN
+    SELECT 
+        U.[Id],
+        U.[User],
+        U.[Contrasena],
+        U.[Estado],
+        P.Id AS IdPerfil,
+        P.NombrePerfil
+    FROM [Usuarios] U
+    INNER JOIN Perfiles P
+        ON U.IdPerfil = P.Id
+    WHERE 
+        U.[User] = @User
+        AND U.Contrasena = @Contrsena
+        AND U.Estado = 1;
+
+END
+GO
+
+ALTER PROCEDURE [dbo].[SP_Usuarios_Login]
+    @User VARCHAR (50),
+    @Contrasena VARCHAR (256)
+AS
+BEGIN
+    SELECT 
+        U.[Id],
+        U.[User],
+        U.[Contrasena],
+        U.[Estado],
+        P.Id AS IdPerfil,
+        P.NombrePerfil
+    FROM [Usuarios] U
+    INNER JOIN Perfiles P
+        ON U.IdPerfil = P.Id
+    WHERE 
+        U.[User] = @User
+        AND U.Contrasena = @Contrasena
+        AND U.Estado = 1;
+
+END
+GO
+
+
 
 -- ============================================================
 -- CATALOGO
