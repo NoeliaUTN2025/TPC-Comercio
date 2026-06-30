@@ -16,7 +16,6 @@
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:BoundField DataField="CantidadTotal" HeaderText="Cant. Comprada" />
-                <asp:BoundField DataField="CodigosProductos" HeaderText="Códigos del Producto" />
                 <asp:BoundField DataField="Total" HeaderText="Total" DataFormatString="{0:C}" HtmlEncode="false" />
             </Columns>
         </asp:GridView>

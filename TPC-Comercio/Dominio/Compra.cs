@@ -15,7 +15,6 @@ namespace Dominio
         public Usuario Usuario { get; set; }
         public decimal Total { get; set; }
         public int CantidadTotal { get; set; }
-        public string CodigosProductos { get; set; }
         public bool estado { get; set; }
 
 
