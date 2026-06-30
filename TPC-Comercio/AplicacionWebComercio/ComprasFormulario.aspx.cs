@@ -100,10 +100,17 @@ namespace AplicacionWebComercio
             compra.Proveedor = new Proveedor { ID = int.Parse(ddlProveedor.SelectedValue) };
             compra.Usuario   = new Usuario   { Id = 1 };
 
-            new CompraNegocio().RegistrarCompra(compra, items);
-
-            Session.Remove("itemsCompra");
-            Response.Redirect("Compras.aspx");
+            try
+            {
+                new CompraNegocio().RegistrarCompra(compra, items);
+                Session.Remove("itemsCompra");
+                Response.Redirect("Compras.aspx", false);
+            }
+            catch (Exception ex)
+            {
+                lblError.Text = "Error al registrar la compra: " + ex.Message;
+                lblError.Visible = true;
+            }
         }
 
         protected void btnCancelar_Click(object sender, EventArgs e)
