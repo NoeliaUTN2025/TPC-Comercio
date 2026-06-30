@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using Negocio;
 using Dominio;
@@ -138,7 +139,6 @@ namespace AplicacionWebComercio
                 switch (ddlCampo.SelectedItem.Text)
                 {
                     case "Nombre":
-
                         switch (ddlCriterio.SelectedItem.Text)
                         {
                             case "Comienza con":
@@ -192,7 +192,6 @@ namespace AplicacionWebComercio
                 listafiltrada = Lista.FindAll(x => x.Nombre.ToUpper().Contains(filtro.Text.ToUpper()) || x.Apellido.ToUpper().Contains(filtro.Text.ToUpper()) || x.DNI.ToString().Contains(filtro.Text));
             }
 
-            // Filtro por estado
             if (ddlEstado.SelectedValue == "Activo")
             {
                 listafiltrada = listafiltrada.FindAll(x => x.Estado == true);
@@ -252,6 +251,15 @@ namespace AplicacionWebComercio
             {
                 CargarGrilla();
             }
+        }
+
+        private void CargarGrilla()
+        {
+            ClienteNegocio negocio = new ClienteNegocio();
+            List<Cliente> listaClientes = negocio.Listar();
+            Session["listaClientes"] = listaClientes;
+            dgvClientes.DataSource = listaClientes.FindAll(x => x.Estado == true);
+            dgvClientes.DataBind();
         }
 
         private void LimpiarFormulario()
