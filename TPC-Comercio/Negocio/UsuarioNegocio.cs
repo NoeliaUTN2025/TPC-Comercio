@@ -11,7 +11,7 @@ namespace Negocio
 {
     public class UsuarioNegocio
     {
-        public Usuario Login (string user, string contraseña)
+        public Usuario Login(string user, string contraseña)
         {
             AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
             Usuario usuario = null;
@@ -36,8 +36,8 @@ namespace Negocio
                     usuario.perfil.Id = (int)datos.Lector["IdPerfil"];
                     usuario.perfil.NombrePerfil = datos.Lector["NombrePerfil"].ToString();
                 }
-                return usuario; 
-              
+                return usuario;
+
             }
             catch (Exception ex)
             {
@@ -50,6 +50,49 @@ namespace Negocio
 
             }
         }
+
+        public void AgregarUsuario(Usuario usuario)
+        {
+            AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
+            try
+            {
+                datos.setearProcedimiento("SP_Usuarios_Agregar");
+                datos.setearParametro("@User", usuario.User);
+                datos.setearParametro("@Contrasena", usuario.Contraseña);
+                datos.setearParametro("@IdPerfil", usuario.perfil.Id);
+                datos.setearParametro("@Estado", usuario.Estado);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public bool ExisteUsuario(string user)
+        {
+            AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
+            try
+            {
+                datos.setearConsulta("SELECT [User] FROM [Usuarios] WHERE [User] = @User");
+                datos.setearParametro("@User", user);
+                datos.ejecutarLectura();
+                return datos.Lector.Read(); // Si hay un registro, el usuario existe
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }
 
