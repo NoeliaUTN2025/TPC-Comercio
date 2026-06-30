@@ -77,7 +77,7 @@
                     </div>
     <% } %> 
 
-     <asp:Button ID="btnAgregar" runat="server" Text="Agregar Cliente" CssClass ="btn btn-primary" PostBackUrl="~/ClientesFormularios.aspx" />
+     <asp:Button ID="btnAgregar" runat="server" Text="Agregar Cliente"  CssClass="btn btn-success mb-3" PostBackUrl="~/ClientesFormularios.aspx" />
     
     <br /><br />     
     

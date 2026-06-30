@@ -13,7 +13,7 @@ namespace Negocio
             AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
             try
             {
-                datos.setearProcedimiento("SP_Compras_Listar");
+                datos.setearConsulta("SELECT c.Id, c.Fecha, c.IdProveedor, p.RazonSocial AS Proveedor, c.IdUsuario, c.Total, c.Estado, ISNULL((SELECT SUM(Cantidad) FROM DetalleCompras dc WHERE dc.IdCompra = c.Id), 0) AS CantidadTotal FROM Compras c INNER JOIN Proveedores p ON c.IdProveedor = p.ID WHERE c.Estado = 1 ORDER BY c.Fecha DESC");
                 datos.ejecutarLectura();
                 while (datos.Lector.Read())
                 {
@@ -21,6 +21,7 @@ namespace Negocio
                     aux.Id    = (int)datos.Lector["Id"];
                     aux.Fecha = (DateTime)datos.Lector["Fecha"];
                     aux.Total = (decimal)datos.Lector["Total"];
+                    aux.CantidadTotal = (int)datos.Lector["CantidadTotal"];
                     aux.estado = (bool)datos.Lector["Estado"];
 
                     aux.Proveedor = new Proveedor();
@@ -70,12 +71,16 @@ namespace Negocio
 
             DetalleCompraNegocio detalleNegocio = new DetalleCompraNegocio();
             LoteNegocio loteNegocio = new LoteNegocio();
+            ProductoNegocio productoNegocio = new ProductoNegocio();
 
             foreach (DetalleCompra d in items)
             {
                 d.Compra = new Compra { Id = idCompra };
                 int idDetalle = detalleNegocio.Insertar(d);
                 loteNegocio.Crear(d.Producto.Id, idDetalle, d.Cantidad, d.PrecioUnitario);
+                
+                // Aumentar el stock actual global del producto
+                productoNegocio.SumarStock(d.Producto.Id, d.Cantidad);
             }
 
             ActualizarTotal(idCompra);
