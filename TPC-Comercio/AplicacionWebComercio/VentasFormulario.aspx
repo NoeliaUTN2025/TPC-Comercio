@@ -17,10 +17,12 @@
             </div>
             <div class="col-md-3">
                 <label class="form-label fw-bold">Cantidad</label>
-                <asp:TextBox ID="txtCantidad" runat="server" CssClass="form-control" TextMode="Number" min="1" />
+                <asp:TextBox ID="txtCantidad" runat="server" CssClass="form-control" TextMode="Number" min="1" ValidationGroup="AddItemVenta" />
+                <asp:RequiredFieldValidator ID="rfvCantidadVenta" runat="server" ControlToValidate="txtCantidad" ErrorMessage="*" CssClass="text-danger" ValidationGroup="AddItemVenta" Display="Dynamic"></asp:RequiredFieldValidator>
+                <asp:RangeValidator ID="rvCantidadVenta" runat="server" ControlToValidate="txtCantidad" MinimumValue="1" MaximumValue="999999" Type="Integer" ErrorMessage="Inválida" CssClass="text-danger" ValidationGroup="AddItemVenta" Display="Dynamic"></asp:RangeValidator>
             </div>
             <div class="col-md-4">
-                <asp:Button ID="btnAgregarItem" runat="server" Text="Agregar al Carrito" CssClass="btn btn-secondary w-100" OnClick="btnAgregarItem_Click" CausesValidation="false" />
+                <asp:Button ID="btnAgregarItem" runat="server" Text="Agregar al Carrito" CssClass="btn btn-secondary w-100" OnClick="btnAgregarItem_Click" CausesValidation="true" ValidationGroup="AddItemVenta" />
             </div>
         </div>
 
