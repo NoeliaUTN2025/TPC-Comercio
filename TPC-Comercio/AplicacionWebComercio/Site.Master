@@ -39,6 +39,7 @@
         </asp:ScriptManager>
 
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+            
             <div class="container">
                 <a class="navbar-brand" runat="server" href="~/">Sistema de Gestion Comercial</a>
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Alternar navegación" aria-controls="navbarSupportedContent"
@@ -55,6 +56,11 @@
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Categorias.aspx">Categorías</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Compras.aspx">Compras</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Ventas.aspx">Ventas</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Login.aspx">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Usuarios.aspx">Usuarios</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Logout.aspx">Logout</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/CambiarContrasena.aspx">Cambiar Contraseña</a></li>
+
                     </ul>
                 </div>
             </div>
