@@ -28,5 +28,20 @@ namespace Negocio
             return usuario.perfil.NombrePerfil == "Vendedor"; // solo cuando es vendedor puede acceder a ciertas funciones
         }
 
+        public static bool EsCliente(Usuario usuario)
+        {
+            if (usuario == null)
+                return false;
+
+            return usuario.perfil.NombrePerfil == "Cliente"; // solo cuando es vendedor puede acceder a ciertas funciones
+        }
+
+        public static bool EsProveedor(Usuario usuario)
+        {
+            if (usuario == null)
+                return false;
+
+            return usuario.perfil.NombrePerfil == "Proveedor"; // solo cuando es vendedor puede acceder a ciertas funciones
+        }
     }
 }
