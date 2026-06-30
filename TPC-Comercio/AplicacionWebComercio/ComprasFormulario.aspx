@@ -19,14 +19,18 @@
         </div>
         <div class="col-md-2">
             <label>Cantidad</label>
-            <asp:TextBox ID="txtCantidad" runat="server" CssClass="form-control" />
+            <asp:TextBox ID="txtCantidad" runat="server" CssClass="form-control" TextMode="Number" min="1" ValidationGroup="AddItem" />
+            <asp:RequiredFieldValidator ID="rfvCantidad" runat="server" ControlToValidate="txtCantidad" ErrorMessage="*" CssClass="text-danger" ValidationGroup="AddItem" Display="Dynamic"></asp:RequiredFieldValidator>
+            <asp:RangeValidator ID="rvCantidad" runat="server" ControlToValidate="txtCantidad" MinimumValue="1" MaximumValue="999999" Type="Integer" ErrorMessage="Inválida" CssClass="text-danger" ValidationGroup="AddItem" Display="Dynamic"></asp:RangeValidator>
         </div>
         <div class="col-md-2">
             <label>Precio Unitario</label>
-            <asp:TextBox ID="txtPrecioUnitario" runat="server" CssClass="form-control" />
+            <asp:TextBox ID="txtPrecioUnitario" runat="server" CssClass="form-control" ValidationGroup="AddItem" />
+            <asp:RequiredFieldValidator ID="rfvPrecio" runat="server" ControlToValidate="txtPrecioUnitario" ErrorMessage="*" CssClass="text-danger" ValidationGroup="AddItem" Display="Dynamic"></asp:RequiredFieldValidator>
+            <asp:RangeValidator ID="rvPrecio" runat="server" ControlToValidate="txtPrecioUnitario" MinimumValue="0" MaximumValue="99999999" Type="Double" ErrorMessage="Inválido" CssClass="text-danger" ValidationGroup="AddItem" Display="Dynamic"></asp:RangeValidator>
         </div>
         <div class="col-md-2 align-self-end">
-            <asp:Button ID="btnAgregarItem" runat="server" Text="Agregar" CssClass="btn btn-secondary" OnClick="btnAgregarItem_Click" CausesValidation="false" />
+            <asp:Button ID="btnAgregarItem" runat="server" Text="Agregar" CssClass="btn btn-secondary" OnClick="btnAgregarItem_Click" CausesValidation="true" ValidationGroup="AddItem" />
         </div>
     </div>
 
