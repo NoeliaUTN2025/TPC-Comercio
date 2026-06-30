@@ -94,9 +94,9 @@ namespace AplicacionWebComercio
             factura.Usuario = new Usuario { Id = 1 }; 
             try
             {
-                new FacturaNegocio().RegistrarVenta(factura, items);
+                int idGenerado = new FacturaNegocio().RegistrarVenta(factura, items);
                 Session.Remove("itemsVenta");
-                Response.Redirect("Ventas.aspx", false);
+                Response.Redirect("FacturaReporte.aspx?id=" + idGenerado, false);
             }
             catch (Exception ex)
             {
