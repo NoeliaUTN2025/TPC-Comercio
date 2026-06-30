@@ -137,7 +137,7 @@ namespace Negocio
                     throw new Exception("Error crítico: Stock de lotes inconsistente con stock global. Faltaron " + cantidadRestante + " unidades de " + item.Producto.NombreProducto);
                 }
                 
-                // Descontamos stock global (SumarStock con cantidad negativa funciona perfecto)
+                // Descontamos stock global
                 productoNegocio.SumarStock(item.Producto.Id, -item.Cantidad);
             }
             
