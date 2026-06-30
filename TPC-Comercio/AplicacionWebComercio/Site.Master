@@ -56,6 +56,9 @@
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Categorias.aspx">Categorías</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Login.aspx">Login</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Usuarios.aspx">Usuarios</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Logout.aspx">Logout</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/CambiarContrasena.aspx">Cambiar Contraseña</a></li>
+
                     </ul>
                 </div>
             </div>

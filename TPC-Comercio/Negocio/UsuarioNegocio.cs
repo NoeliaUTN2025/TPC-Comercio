@@ -7,6 +7,7 @@ using Dominio;
 using AccesoDatos;
 using System.CodeDom;
 
+
 namespace Negocio
 {
     public class UsuarioNegocio
@@ -90,6 +91,32 @@ namespace Negocio
             finally
             {
                 datos.cerrarConexion();
+            }
+        }
+
+        public bool CambiarContraseña(int IdUsuario, string contraseñaActual, string contraseñaNueva)
+        {
+            AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_Usuarios_CambiarContrasena");
+                datos.setearParametro(@"Id", IdUsuario);
+                datos.setearParametro("ContrasenaActual", contraseñaActual);
+                datos.setearParametro("ContrasenaNueva", contraseñaNueva);
+
+                datos.ejecutarAccion();
+
+                return true; 
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion(); 
             }
         }
 
