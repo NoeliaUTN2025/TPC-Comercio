@@ -13,8 +13,7 @@ namespace Negocio
             AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
             try
             {
-                // Usamos consulta directa para incluir la suma de cantidades y concatenar los códigos de productos
-                datos.setearConsulta("SELECT c.Id, c.Fecha, c.IdProveedor, p.RazonSocial AS Proveedor, c.IdUsuario, c.Total, c.Estado, ISNULL((SELECT SUM(Cantidad) FROM DetalleCompras dc WHERE dc.IdCompra = c.Id), 0) AS CantidadTotal, ISNULL(STUFF((SELECT ', ' + pr.Codigo FROM DetalleCompras dc INNER JOIN Productos pr ON dc.IdProducto = pr.Id WHERE dc.IdCompra = c.Id FOR XML PATH('')), 1, 2, ''), '') AS CodigosProductos FROM Compras c INNER JOIN Proveedores p ON c.IdProveedor = p.ID WHERE c.Estado = 1 ORDER BY c.Fecha DESC");
+                datos.setearConsulta("SELECT c.Id, c.Fecha, c.IdProveedor, p.RazonSocial AS Proveedor, c.IdUsuario, c.Total, c.Estado, ISNULL((SELECT SUM(Cantidad) FROM DetalleCompras dc WHERE dc.IdCompra = c.Id), 0) AS CantidadTotal FROM Compras c INNER JOIN Proveedores p ON c.IdProveedor = p.ID WHERE c.Estado = 1 ORDER BY c.Fecha DESC");
                 datos.ejecutarLectura();
                 while (datos.Lector.Read())
                 {
@@ -23,7 +22,6 @@ namespace Negocio
                     aux.Fecha = (DateTime)datos.Lector["Fecha"];
                     aux.Total = (decimal)datos.Lector["Total"];
                     aux.CantidadTotal = (int)datos.Lector["CantidadTotal"];
-                    aux.CodigosProductos = (string)datos.Lector["CodigosProductos"];
                     aux.estado = (bool)datos.Lector["Estado"];
 
                     aux.Proveedor = new Proveedor();
