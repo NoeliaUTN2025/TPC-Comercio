@@ -9,23 +9,19 @@
 
 namespace AplicacionWebComercio
 {
-    public partial class ComprasFormulario
+    public partial class VentasFormulario
     {
-        protected global::System.Web.UI.WebControls.DropDownList ddlProveedor;
+        protected global::System.Web.UI.WebControls.DropDownList ddlCliente;
 
         protected global::System.Web.UI.WebControls.DropDownList ddlProducto;
 
         protected global::System.Web.UI.WebControls.TextBox txtCantidad;
 
-        protected global::System.Web.UI.WebControls.TextBox txtPrecioUnitario;
-
         protected global::System.Web.UI.WebControls.Button btnAgregarItem;
 
-        protected global::System.Web.UI.WebControls.Label lblError;
+        protected global::System.Web.UI.WebControls.Label lblMensaje;
 
         protected global::System.Web.UI.WebControls.GridView dgvItems;
-
-        protected global::System.Web.UI.WebControls.Label lblTotal;
 
         protected global::System.Web.UI.WebControls.Button btnGuardar;
 
