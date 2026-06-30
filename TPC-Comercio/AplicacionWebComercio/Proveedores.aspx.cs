@@ -9,6 +9,19 @@ namespace AplicacionWebComercio
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!Seguridad.SesionActiva((Session)["Usuario"]))
+            {
+                Response.Redirect("Login.aspx", false);
+                return;
+            }
+
+            Usuario usuario = (Usuario)Session["Usuario"];
+            if (!(Seguridad.EsAdmin(usuario) || Seguridad.EsVendedor(usuario) || Seguridad.EsProveedor(usuario)))
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('No tiene permisos para acceder a esta sección.'); window.location='Default.aspx';", true);
+                return;
+            }
+
             if (!IsPostBack)
                 CargarGrilla();
         }

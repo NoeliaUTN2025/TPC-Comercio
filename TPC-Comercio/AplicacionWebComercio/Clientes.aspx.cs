@@ -4,6 +4,7 @@ using System.Web.UI.WebControls;
 using Negocio;
 using Dominio;
 using System.Web.ModelBinding;
+using System.Collections.Generic;
 
 
 namespace AplicacionWebComercio
@@ -15,9 +16,36 @@ namespace AplicacionWebComercio
         public bool ConfirmarEliminacion { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!Seguridad.SesionActiva((Session)["Usuario"]))
+            {
+                Response.Redirect("Login.aspx", false);
+                return;
+            }
+
+            Usuario usuario = (Usuario)Session["Usuario"];
+            if (!(Seguridad.EsAdmin(usuario) || Seguridad.EsVendedor(usuario)))
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('No tiene permisos para acceder a esta sección.'); window.location='Default.aspx';", true);
+                return;
+            }
+
             ConfirmarEliminacion = false;
-            if (!IsPostBack)
-                CargarGrilla();
+            {
+                if (!IsPostBack)
+                {
+                    ClienteNegocio negocio = new ClienteNegocio();
+
+                    List<Cliente> listaClientes = negocio.Listar();
+
+
+                    Session["listaClientes"] = listaClientes;
+                    dgvClientes.DataSource = listaClientes.FindAll(x => x.Estado == true);
+
+                    dgvClientes.DataBind();
+
+                }
+            }
+
         }
 
 
@@ -83,7 +111,7 @@ namespace AplicacionWebComercio
 
             if (ddlCampo.SelectedValue == "")
                 return;
-                
+
             ddlCriterio.Items.Add(new ListItem("Seleccione un criterio", ""));
 
             if (ddlCampo.SelectedItem.Text == "Nombre" || ddlCampo.SelectedItem.Text == "Apellido")
@@ -175,12 +203,14 @@ namespace AplicacionWebComercio
             dgvClientes.DataSource = listafiltrada;
             dgvClientes.DataBind();
         }
+    }
+}
 
-        protected void btnCancelar_Click(object sender, EventArgs e)
+       /* protected void btnCancelar_Click(object sender, EventArgs e)
         {
             pnlFormulario.Visible = false;
             lblError.Visible = false;
-            CargarGrilla();
+           // CargarGrilla();
         }
 
         protected void dgvClientes_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -201,7 +231,7 @@ namespace AplicacionWebComercio
 
             lblError.Visible = false;
             pnlFormulario.Visible = true;
-            CargarGrilla();
+           // CargarGrilla();
         }
 
         protected void dgvClientes_RowDeleting(object sender, GridViewDeleteEventArgs e)
@@ -243,4 +273,4 @@ namespace AplicacionWebComercio
             txtEmail.Text     = "";
         }
     }
-}
+}*/
