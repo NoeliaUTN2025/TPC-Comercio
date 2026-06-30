@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -14,7 +15,21 @@ namespace AplicacionWebComercio
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!Seguridad.SesionActiva((Session)["Usuario"]))
+            {
+                Response.Redirect("Login.aspx", false);
+                return;
+            }
 
+            if (!Seguridad.EsAdmin((Usuario)Session["Usuario"]))
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('No tiene permisos para acceder a esta sección.'); window.location='Default.aspx';", true);
+                return;
+            }
+            /*if (!IsPostBack)
+            {
+                // Aquí puedes cargar los datos iniciales si es necesario
+            }*/
         }
 
         protected void btnGuardar_Click(object sender, EventArgs e)
@@ -39,7 +54,6 @@ namespace AplicacionWebComercio
 
             nuevo.User = txtUsuario.Text;
             nuevo.Contraseña = txtContraseña.Text;
-           // nuevo.Contraseña = txtConfirmarContraseña.Text;
             nuevo.Estado = chkEstado.Checked;
             nuevo.perfil = new Perfil();
             nuevo.perfil.Id = int.Parse(ddlIdPerfil.SelectedValue);
@@ -55,6 +69,8 @@ namespace AplicacionWebComercio
            
             negocio.AgregarUsuario(nuevo);
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Usuario agregado correctamente.');", true);
+
+            Response.Redirect("Login.aspx");
         }
 
         protected void btnCancelar_Click(object sender, EventArgs e)
