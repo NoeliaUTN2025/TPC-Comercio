@@ -191,26 +191,9 @@ BEGIN
 END 
 GO 
 
-INSERT INTO [dbo].Clientes
-(
-    DNI,
-    Nombre,
-    Apellido,
-    Direccion,
-    Telefono,
-    Email,
-    Estado
-)
-VALUES
-(
-   '12345678',
-   'Juan',
-   'Perez',
-   'Calle 123',
-   '1122334455',
-   'juan@test.com',
-   1
-)
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Clientes] WHERE DNI = '12345678')
+    INSERT INTO [dbo].[Clientes] (DNI, Nombre, Apellido, Direccion, Telefono, Email, Estado)
+    VALUES ('12345678', 'Juan', 'Perez', 'Calle 123', '1122334455', 'juan@test.com', 1)
 GO
 
 CREATE PROCEDURE [dbo].[SP_Clientes_Insertar]
@@ -648,31 +631,177 @@ END
 GO
 
 -- ============================================================
+-- STORED PROCEDURES - COMPRAS
+-- ============================================================
+
+CREATE PROCEDURE [dbo].[SP_Compras_Listar]
+AS
+BEGIN
+    SELECT
+        c.Id,
+        c.Fecha,
+        c.IdProveedor,
+        p.RazonSocial AS Proveedor,
+        c.IdUsuario,
+        c.Total,
+        c.Estado
+    FROM [dbo].[Compras] c
+    INNER JOIN [dbo].[Proveedores] p ON c.IdProveedor = p.ID
+    WHERE c.Estado = 1
+    ORDER BY c.Fecha DESC
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Compras_Insertar]
+    @IdProveedor int,
+    @IdUsuario   int,
+    @NewId       int OUTPUT
+AS
+BEGIN
+    INSERT INTO [dbo].[Compras] (IdProveedor, IdUsuario, Total)
+    VALUES (@IdProveedor, @IdUsuario, 0)
+    SET @NewId = SCOPE_IDENTITY()
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Compras_ActualizarTotal]
+    @IdCompra int
+AS
+BEGIN
+    UPDATE [dbo].[Compras]
+    SET Total = (
+        SELECT ISNULL(SUM(Subtotal), 0)
+        FROM [dbo].[DetalleCompras]
+        WHERE IdCompra = @IdCompra
+    )
+    WHERE Id = @IdCompra
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_DetalleCompras_Insertar]
+    @IdCompra       int,
+    @IdProducto     int,
+    @Cantidad       int,
+    @PrecioUnitario decimal(10,2),
+    @NewId          int OUTPUT
+AS
+BEGIN
+    INSERT INTO [dbo].[DetalleCompras] (IdCompra, IdProducto, Cantidad, PrecioUnitario)
+    VALUES (@IdCompra, @IdProducto, @Cantidad, @PrecioUnitario)
+    SET @NewId = SCOPE_IDENTITY()
+END
+GO
+
+-- ============================================================
+-- LOTES (trazabilidad de stock por lote de compra)
+-- ============================================================
+
+CREATE TABLE [dbo].[Lotes] (
+    [Id]              [int]           IDENTITY(1,1) NOT NULL,
+    [IdProducto]      [int]           NOT NULL,
+    [IdDetalleCompra] [int]           NOT NULL,
+    [CantidadTotal]   [int]           NOT NULL,
+    [CantidadDisp]    [int]           NOT NULL,
+    [PrecioCompra]    [decimal](10,2) NOT NULL,
+    [FechaIngreso]    [datetime]      NOT NULL DEFAULT (getdate()),
+    PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_Lotes_Producto]      FOREIGN KEY([IdProducto])      REFERENCES [dbo].[Productos] ([Id]),
+    CONSTRAINT [FK_Lotes_DetalleCompra] FOREIGN KEY([IdDetalleCompra]) REFERENCES [dbo].[DetalleCompras] ([Id])
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[DetalleFacturas] ADD [IdLote] [int] NULL
+GO
+
+ALTER TABLE [dbo].[DetalleFacturas] ADD CONSTRAINT [FK_DetalleFacturas_Lote]
+    FOREIGN KEY([IdLote]) REFERENCES [dbo].[Lotes] ([Id])
+GO
+
+-- ============================================================
+-- STORED PROCEDURES - LOTES
+-- ============================================================
+
+CREATE PROCEDURE [dbo].[SP_Lotes_Crear]
+    @IdProducto      int,
+    @IdDetalleCompra int,
+    @Cantidad        int,
+    @PrecioCompra    decimal(10,2),
+    @NewId           int OUTPUT
+AS
+BEGIN
+    INSERT INTO [dbo].[Lotes] (IdProducto, IdDetalleCompra, CantidadTotal, CantidadDisp, PrecioCompra)
+    VALUES (@IdProducto, @IdDetalleCompra, @Cantidad, @Cantidad, @PrecioCompra)
+    SET @NewId = SCOPE_IDENTITY()
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Lotes_ListarPorProducto]
+    @IdProducto int
+AS
+BEGIN
+    SELECT
+        l.Id,
+        l.IdProducto,
+        l.IdDetalleCompra,
+        l.CantidadTotal,
+        l.CantidadDisp,
+        l.PrecioCompra,
+        l.FechaIngreso,
+        prov.RazonSocial AS Proveedor
+    FROM [dbo].[Lotes] l
+    INNER JOIN [dbo].[DetalleCompras] dc   ON l.IdDetalleCompra = dc.Id
+    INNER JOIN [dbo].[Compras]        c    ON dc.IdCompra       = c.Id
+    INNER JOIN [dbo].[Proveedores]    prov ON c.IdProveedor     = prov.ID
+    WHERE l.IdProducto = @IdProducto AND l.CantidadDisp > 0
+    ORDER BY l.FechaIngreso ASC
+END
+GO
+
+CREATE PROCEDURE [dbo].[SP_Lotes_DescontarStock]
+    @Id       int,
+    @Cantidad int
+AS
+BEGIN
+    UPDATE [dbo].[Lotes]
+    SET CantidadDisp = CantidadDisp - @Cantidad
+    WHERE Id = @Id AND CantidadDisp >= @Cantidad
+
+    IF @@ROWCOUNT = 0
+        RAISERROR('Stock insuficiente o lote no encontrado para el Id indicado.', 16, 1)
+END
+GO
+
+-- ============================================================
 -- DATOS DE PRUEBA (seed data)
 -- ============================================================
 
-INSERT INTO [dbo].[Categorias] (Descripcion) VALUES ('Indumentaria')
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Categorias] WHERE Descripcion = 'Indumentaria')
+    INSERT INTO [dbo].[Categorias] (Descripcion) VALUES ('Indumentaria')
 GO
 
-INSERT INTO [dbo].[Marcas] (Descripcion) VALUES ('Nike')
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Marcas] WHERE Descripcion = 'Nike')
+    INSERT INTO [dbo].[Marcas] (Descripcion) VALUES ('Nike')
 GO
 
-INSERT INTO [dbo].[Productos]
-    (Codigo, NombreProducto, Descripcion, StockActual, Precio, StockMinimo, PorcentajeGanancia, IdMarca, IdCategoria)
-VALUES
-    ('P0001', 'Zapatillas Running', 'Zapatillas para running de uso diario', 50, 8500.00, 10, 35.00, 1, 1)
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Productos] WHERE Codigo = 'P0001')
+    INSERT INTO [dbo].[Productos]
+        (Codigo, NombreProducto, Descripcion, StockActual, Precio, StockMinimo, PorcentajeGanancia, IdMarca, IdCategoria)
+    VALUES
+        ('P0001', 'Zapatillas Running', 'Zapatillas para running de uso diario', 50, 8500.00, 10, 35.00, 1, 1)
 GO
 
-INSERT INTO [dbo].[Clientes]
-    (DNI, Nombre, Apellido, Direccion, Telefono, Email, Estado)
-VALUES
-    ('12345678', 'Juan', 'Perez', 'Calle 123', '1122334455', 'juan@test.com', 1)
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Clientes] WHERE DNI = '12345678')
+    INSERT INTO [dbo].[Clientes]
+        (DNI, Nombre, Apellido, Direccion, Telefono, Email, Estado)
+    VALUES
+        ('12345678', 'Juan', 'Perez', 'Calle 123', '1122334455', 'juan@test.com', 1)
 GO
 
-INSERT INTO [dbo].[Proveedores]
-    (RazonSocial, Cuit, Direccion, Telefono, Email)
-VALUES
-    ('Distribuidora Mayorista S.A.', '30-12345678-9', 'Av. Corrientes 1234', '011-4567-8901', 'ventas@distribuidora.com')
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Proveedores] WHERE Cuit = '30-12345678-9')
+    INSERT INTO [dbo].[Proveedores]
+        (RazonSocial, Cuit, Direccion, Telefono, Email)
+    VALUES
+        ('Distribuidora Mayorista S.A.', '30-12345678-9', 'Av. Corrientes 1234', '011-4567-8901', 'ventas@distribuidora.com')
 GO
 
 PRINT 'Base de datos tpc_P3 creada correctamente.'

@@ -21,8 +21,9 @@ namespace AccesoDatos
 
         public AccesoDatos()
         {
-            // Ajustá tu cadena de conexión si tu instancia de SQL no se llama SQLEXPRESS
-            conexion = new SqlConnection("server=.\\SQLEXPRESS01; database=tpc_P3; integrated security=true");
+            //conexion = new SqlConnection("server=.\\SQLEXPRESS01; database=tpc_P3; integrated security=true");
+            conexion = new SqlConnection("Data Source=DESKTOP-K605RT2;Initial Catalog=tpc_P3;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True");
+
             comando = new SqlCommand();
         }
 
@@ -41,6 +42,18 @@ namespace AccesoDatos
         public void setearParametro(string nombre, object valor)
         {
             comando.Parameters.AddWithValue(nombre, valor);
+        }
+
+        public void setearParametroSalida(string nombre, System.Data.SqlDbType tipo)
+        {
+            SqlParameter p = new SqlParameter(nombre, tipo);
+            p.Direction = System.Data.ParameterDirection.Output;
+            comando.Parameters.Add(p);
+        }
+
+        public object obtenerParametro(string nombre)
+        {
+            return comando.Parameters[nombre].Value;
         }
 
         public void ejecutarLectura()

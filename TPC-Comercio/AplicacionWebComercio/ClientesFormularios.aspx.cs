@@ -77,7 +77,6 @@ namespace AplicacionWebComercio
 
             ClienteNegocio negocio = new ClienteNegocio();
 
-            //Solo validar duplicados cuando es un alta de cliente, no cuando es una modificación
             if (Request.QueryString["id"] == null)
             {
                 bool existeDNI = negocio.Listar().Exists(x => x.DNI == txtDNI.Text);
