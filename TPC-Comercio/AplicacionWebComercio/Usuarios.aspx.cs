@@ -69,13 +69,24 @@ namespace AplicacionWebComercio
            
             negocio.AgregarUsuario(nuevo);
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Usuario agregado correctamente.');", true);
-
-            Response.Redirect("Login.aspx");
+            LimpiarFormulario();
+            
         }
 
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
+            Response.Redirect("Default.aspx");
+        }
 
+        private void LimpiarFormulario() 
+        {
+            txtUsuario.Text = "";
+            txtContraseña.Text = "";
+            txtConfirmarContraseña.Text = "";
+            chkEstado.Checked = true;
+            ddlIdPerfil.SelectedIndex = 0;
+
+            txtUsuario.Focus();
         }
     }
 }
