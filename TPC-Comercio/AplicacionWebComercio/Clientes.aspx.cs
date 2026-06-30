@@ -15,6 +15,19 @@ namespace AplicacionWebComercio
         public bool ConfirmarEliminacion { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!Seguridad.SesionActiva((Session)["Usuario"]))
+            {
+                Response.Redirect("Login.aspx", false);
+                return;
+            }
+
+            Usuario usuario = (Usuario)Session["Usuario"];
+            if (!(Seguridad.EsAdmin(usuario) || Seguridad.EsVendedor(usuario)))
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('No tiene permisos para acceder a esta sección.'); window.location='Default.aspx';", true);
+                return;
+            }
+
             ConfirmarEliminacion = false;
             {
                 if (!IsPostBack)
@@ -31,6 +44,7 @@ namespace AplicacionWebComercio
 
                 }
             }
+
         }
 
 

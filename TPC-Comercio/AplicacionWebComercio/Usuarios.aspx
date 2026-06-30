@@ -22,7 +22,7 @@
         <asp:Label ID="lblIdPerfil" runat="server" Text="Perfil" CssClass="form-label"></asp:Label>
         <asp:DropDownList ID="ddlIdPerfil" runat="server" CssClass="form-control">
         <asp:ListItem Text="Administrador" Value="1"></asp:ListItem>
-        <asp:ListItem Text="Usuario" Value="2"></asp:ListItem>
+        <asp:ListItem Text="Vendedor" Value="2"></asp:ListItem>
         <asp:ListItem Text="Cliente" Value="3"></asp:ListItem>
         <asp:ListItem Text="Proveedor" Value="4"></asp:ListItem>
             </asp:DropDownList>
