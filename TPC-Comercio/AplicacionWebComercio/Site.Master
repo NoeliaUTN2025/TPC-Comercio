@@ -48,19 +48,70 @@
                 </button>
                 <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav me-auto">
-                        <li runat="server" id="liInicio"           class="nav-item"><a class="nav-link" runat="server" href="~/Default.aspx">Inicio</a></li>
-                        <li runat="server" id="liClientes"         class="nav-item"><a class="nav-link" runat="server" href="~/Clientes.aspx">Clientes</a></li>
-                        <li runat="server" id="liProveedores"      class="nav-item"><a class="nav-link" runat="server" href="~/Proveedores.aspx">Proveedores</a></li>
-                        <li runat="server" id="liProductos"        class="nav-item"><a class="nav-link" runat="server" href="~/Productos.aspx">Productos</a></li>
-                        <li runat="server" id="liMarcas"           class="nav-item"><a class="nav-link" runat="server" href="~/Marcas.aspx">Marcas</a></li>
-                        <li runat="server" id="liCategorias"       class="nav-item"><a class="nav-link" runat="server" href="~/Categorias.aspx">Categorías</a></li>
-                        <li runat="server" id="liCompras"          class="nav-item"><a class="nav-link" runat="server" href="~/Compras.aspx">Compras</a></li>
-                        <li runat="server" id="liVentas"           class="nav-item"><a class="nav-link" runat="server" href="~/Ventas.aspx">Ventas</a></li>
-                        <li runat="server" id="liTrazabilidad"     class="nav-item"><a class="nav-link" runat="server" href="~/TrazabilidadLote.aspx">Trazabilidad</a></li>
-                        <li runat="server" id="liUsuarios"         class="nav-item"><a class="nav-link" runat="server" href="~/Usuarios.aspx">Usuarios</a></li>
-                        <li runat="server" id="liCatalogo"         class="nav-item"><a class="nav-link" runat="server" href="~/CatalogoProductos.aspx">Catálogo</a></li>
-                        <li runat="server" id="liVentasCliente"    class="nav-item"><a class="nav-link" runat="server" href="~/Ventas.aspx">Mis Compras</a></li>
-                        <li runat="server" id="liMisCompras"       class="nav-item"><a class="nav-link" runat="server" href="~/MisCompras.aspx">Mis Propuestas</a></li>
+                        <li runat="server" id="liInicio" class="nav-item">
+                            <a class="nav-link" runat="server" href="~/Default.aspx">Inicio</a>
+                        </li>
+
+                        <%-- Inventario: Productos / Marcas / Categorías (Admin + Vendedor) --%>
+                        <li runat="server" id="liGrupoInventario" class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Inventario</a>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li runat="server" id="liProductos">
+                                    <a class="dropdown-item" href="Productos.aspx">Productos</a>
+                                </li>
+                                <li runat="server" id="liMarcas">
+                                    <a class="dropdown-item" href="Marcas.aspx">Marcas</a>
+                                </li>
+                                <li runat="server" id="liCategorias">
+                                    <a class="dropdown-item" href="Categorias.aspx">Categorías</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <%-- Movimientos: Compras / Ventas / Trazabilidad (Admin + Vendedor) --%>
+                        <li runat="server" id="liGrupoMovimientos" class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Movimientos</a>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li runat="server" id="liCompras">
+                                    <a class="dropdown-item" href="Compras.aspx">Compras</a>
+                                </li>
+                                <li runat="server" id="liVentas">
+                                    <a class="dropdown-item" href="Ventas.aspx">Ventas</a>
+                                </li>
+                                <li runat="server" id="liTrazabilidad">
+                                    <a class="dropdown-item" href="TrazabilidadLote.aspx">Trazabilidad</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <%-- Personas: Clientes / Proveedores / Usuarios (Admin + Vendedor) --%>
+                        <li runat="server" id="liGrupoPersonas" class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Personas</a>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li runat="server" id="liClientes">
+                                    <a class="dropdown-item" href="Clientes.aspx">Clientes</a>
+                                </li>
+                                <li runat="server" id="liProveedores">
+                                    <a class="dropdown-item" href="Proveedores.aspx">Proveedores</a>
+                                </li>
+                                <li runat="server" id="liUsuarios">
+                                    <a class="dropdown-item" href="Usuarios.aspx">Usuarios</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <%-- Cliente --%>
+                        <li runat="server" id="liCatalogo" class="nav-item">
+                            <a class="nav-link" runat="server" href="~/CatalogoProductos.aspx">Catálogo</a>
+                        </li>
+                        <li runat="server" id="liVentasCliente" class="nav-item">
+                            <a class="nav-link" runat="server" href="~/Ventas.aspx">Mis Compras</a>
+                        </li>
+
+                        <%-- Proveedor --%>
+                        <li runat="server" id="liMisCompras" class="nav-item">
+                            <a class="nav-link" runat="server" href="~/MisCompras.aspx">Mis Propuestas</a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav ms-auto text-nowrap">
                         <li runat="server" id="liCambiarContrasena" class="nav-item"><a class="nav-link" runat="server" href="~/CambiarContrasena.aspx">Cambiar contraseña</a></li>
