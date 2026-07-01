@@ -21,6 +21,8 @@ namespace AplicacionWebComercio
 
         protected global::System.Web.UI.WebControls.Button btnAgregarItem;
 
+        protected global::System.Web.UI.WebControls.Label lblMensaje;
+
         protected global::System.Web.UI.WebControls.Label lblError;
 
         protected global::System.Web.UI.WebControls.GridView dgvItems;
@@ -30,5 +32,9 @@ namespace AplicacionWebComercio
         protected global::System.Web.UI.WebControls.Button btnGuardar;
 
         protected global::System.Web.UI.WebControls.Button btnCancelar;
+
+        protected global::System.Web.UI.WebControls.Panel pnlPropuestas;
+
+        protected global::System.Web.UI.WebControls.GridView dgvPropuestas;
     }
 }
