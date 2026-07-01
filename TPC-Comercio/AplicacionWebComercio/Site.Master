@@ -48,19 +48,22 @@
                 </button>
                 <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Default.aspx">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Clientes.aspx">Clientes</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Proveedores.aspx">Proveedores</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Productos.aspx">Productos</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Marcas.aspx">Marcas</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Categorias.aspx">Categorías</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Compras.aspx">Compras</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Ventas.aspx">Ventas</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Login.aspx">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Usuarios.aspx">Usuarios</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Logout.aspx">Logout</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/CambiarContrasena.aspx">Cambiar Contraseña</a></li>
-
+                        <li runat="server" id="liInicio"           class="nav-item"><a class="nav-link" runat="server" href="~/Default.aspx">Inicio</a></li>
+                        <li runat="server" id="liClientes"         class="nav-item"><a class="nav-link" runat="server" href="~/Clientes.aspx">Clientes</a></li>
+                        <li runat="server" id="liProveedores"      class="nav-item"><a class="nav-link" runat="server" href="~/Proveedores.aspx">Proveedores</a></li>
+                        <li runat="server" id="liProductos"        class="nav-item"><a class="nav-link" runat="server" href="~/Productos.aspx">Productos</a></li>
+                        <li runat="server" id="liMarcas"           class="nav-item"><a class="nav-link" runat="server" href="~/Marcas.aspx">Marcas</a></li>
+                        <li runat="server" id="liCategorias"       class="nav-item"><a class="nav-link" runat="server" href="~/Categorias.aspx">Categorías</a></li>
+                        <li runat="server" id="liCompras"          class="nav-item"><a class="nav-link" runat="server" href="~/Compras.aspx">Compras</a></li>
+                        <li runat="server" id="liVentas"           class="nav-item"><a class="nav-link" runat="server" href="~/Ventas.aspx">Ventas</a></li>
+                        <li runat="server" id="liUsuarios"         class="nav-item"><a class="nav-link" runat="server" href="~/Usuarios.aspx">Usuarios</a></li>
+                        <li runat="server" id="liTrazabilidad"     class="nav-item"><a class="nav-link" runat="server" href="~/TrazabilidadLote.aspx">Trazabilidad</a></li>
+                        <li runat="server" id="liCatalogo"         class="nav-item"><a class="nav-link" runat="server" href="~/CatalogoProductos.aspx">Catálogo</a></li>
+                        <li runat="server" id="liMisCompras"       class="nav-item"><a class="nav-link" runat="server" href="~/MisCompras.aspx">Mis Propuestas</a></li>
+                        <li runat="server" id="liCambiarContrasena" class="nav-item"><a class="nav-link" runat="server" href="~/CambiarContrasena.aspx">Cambiar Contraseña</a></li>
+                        <li runat="server" id="liCrearCuenta"      class="nav-item"><a class="nav-link" runat="server" href="~/SeleccionTipoRegistro.aspx">Crear Cuenta</a></li>
+                        <li runat="server" id="liLogin"            class="nav-item"><a class="nav-link" runat="server" href="~/Login.aspx">Login</a></li>
+                        <li runat="server" id="liLogout"           class="nav-item"><a class="nav-link" runat="server" href="~/Logout.aspx">Logout</a></li>
                     </ul>
                 </div>
             </div>

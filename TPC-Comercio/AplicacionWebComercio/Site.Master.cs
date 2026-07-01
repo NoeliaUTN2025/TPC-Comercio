@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Web;
+using System;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using Dominio;
 using Negocio;
 
@@ -14,16 +9,42 @@ namespace AplicacionWebComercio
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-             if (!Seguridad.SesionActiva(Session["Usuario"]))
-             {
-                if (!Request.Url.AbsolutePath.ToLower().Contains("Login"))
-                {
-                  //  Response.Redirect("Login.aspx");
-                }
-             }
+            Usuario u     = Session["Usuario"] as Usuario;
+            bool activo   = Seguridad.SesionActiva(u);
+            bool esAdmin  = activo && Seguridad.EsAdmin(u);
+            bool esVend   = activo && Seguridad.EsVendedor(u);
+            bool esCli    = activo && Seguridad.EsCliente(u);
+            bool esProv   = activo && Seguridad.EsProveedor(u);
 
+            // Siempre visible
+            liInicio.Visible = true;
+
+            // Solo anónimos
+            liLogin.Visible      = !activo;
+            liCrearCuenta.Visible = !activo;
+
+            // Solo autenticados
+            liLogout.Visible            = activo;
+            liCambiarContrasena.Visible = activo;
+
+            // Módulos Admin + Vendedor
+            liClientes.Visible   = esAdmin || esVend;
+            liProveedores.Visible = esAdmin || esVend;
+            liProductos.Visible  = esAdmin || esVend;
+            liCompras.Visible    = esAdmin || esVend;
+            liVentas.Visible     = esAdmin || esVend;
+
+            // Solo Admin
+            liMarcas.Visible       = esAdmin;
+            liCategorias.Visible   = esAdmin;
+            liUsuarios.Visible     = esAdmin;
+            liTrazabilidad.Visible = esAdmin;
+
+            // Solo Cliente
+            liCatalogo.Visible = esCli;
+
+            // Solo Proveedor
+            liMisCompras.Visible = esProv;
         }
-
-
     }
 }
