@@ -68,18 +68,18 @@ namespace AplicacionWebComercio
                 return;
             }
 
-            Producto p = new Producto();
-            p.Codigo = txtCodigo.Text.Trim();
-            p.NombreProducto = txtNombre.Text.Trim();
-            p.Descripcion = string.IsNullOrWhiteSpace(txtDescripcion.Text) ? null : txtDescripcion.Text.Trim();
-            p.Precio = precio;
-            p.StockMinimo = stockMinimo;
-            p.PorcentajeGanancia = porcentaje;
-            p.marca = new Marca { Id = int.Parse(ddlMarca.SelectedValue) };
-            p.categoria = new Categoria { Id = int.Parse(ddlCategoria.SelectedValue) };
-
             try
             {
+                Producto p = new Producto();
+                p.Codigo = txtCodigo.Text.Trim();
+                p.NombreProducto = txtNombre.Text.Trim();
+                p.Descripcion = string.IsNullOrWhiteSpace(txtDescripcion.Text) ? null : txtDescripcion.Text.Trim();
+                p.Precio = precio;
+                p.StockMinimo = stockMinimo;
+                p.PorcentajeGanancia = porcentaje;
+                p.marca = new Marca { Id = int.Parse(ddlMarca.SelectedValue) };
+                p.categoria = new Categoria { Id = int.Parse(ddlCategoria.SelectedValue) };
+
                 ProductoNegocio negocio = new ProductoNegocio();
 
                 if (hfId.Value == "0")
@@ -91,12 +91,14 @@ namespace AplicacionWebComercio
                 }
 
                 pnlFormulario.Visible = false;
-                CargarGrilla();
             }
             catch (Exception ex)
             {
-                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Error al guardar el producto: " + ex.Message.Replace("'", "") + "');", true);
+                string msg = System.Web.HttpUtility.JavaScriptStringEncode("Error al guardar el producto: " + ex.Message);
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('" + msg + "');", true);
+                return;
             }
+            CargarGrilla();
         }
 
         protected void btnCancelar_Click(object sender, EventArgs e)
@@ -135,12 +137,14 @@ namespace AplicacionWebComercio
             {
                 int id = (int)dgvProductos.DataKeys[e.RowIndex].Value;
                 new ProductoNegocio().EliminarLogico(id);
-                CargarGrilla();
             }
             catch (Exception ex)
             {
-                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Error al eliminar el producto: " + ex.Message.Replace("'", "") + "');", true);
+                string msg = System.Web.HttpUtility.JavaScriptStringEncode("Error al eliminar el producto: " + ex.Message);
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('" + msg + "');", true);
+                return;
             }
+            CargarGrilla();
         }
 
         private void LimpiarFormulario()

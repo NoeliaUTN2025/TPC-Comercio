@@ -24,7 +24,12 @@ namespace AplicacionWebComercio
                 return;
             }
 
-            Usuario usuario = (Usuario)Session["Usuario"];
+            Usuario usuario = Session["Usuario"] as Usuario;
+            if (usuario == null)
+            {
+                Response.Redirect("~/Login.aspx");
+                return;
+            }
 
             if (usuario.Contraseña != txtActual.Text)
             {
@@ -44,7 +49,8 @@ namespace AplicacionWebComercio
             }
             catch (Exception ex)
             {
-                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Error al cambiar la contraseña: " + ex.Message.Replace("'", "") + "');", true);
+                string msg = System.Web.HttpUtility.JavaScriptStringEncode("Error al cambiar la contraseña: " + ex.Message);
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('" + msg + "');", true);
             }
         }
     }
