@@ -8,12 +8,18 @@ namespace AplicacionWebComercio
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Valida si el usuario tiene sesión activa y si es administrador, vendedor o cliente
+            // Valida si el usuario tiene sesiï¿½n activa y si es administrador, vendedor o cliente
             Dominio.Usuario u = Session["Usuario"] as Dominio.Usuario;
             if (!Negocio.Seguridad.SesionActiva(u) || (!Negocio.Seguridad.EsAdmin(u) && !Negocio.Seguridad.EsVendedor(u) && !Negocio.Seguridad.EsCliente(u)))
             {
                 Response.Redirect("Default.aspx", false);
                 return;
+            }
+
+            if (Negocio.Seguridad.EsCliente(u))
+            {
+                litTitulo.Text = "Mis Compras";
+                lnkNuevaVenta.Visible = false;
             }
 
             if (!IsPostBack)

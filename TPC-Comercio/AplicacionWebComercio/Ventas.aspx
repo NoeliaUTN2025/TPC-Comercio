@@ -1,10 +1,10 @@
 <%@ Page Title="Ventas" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Ventas.aspx.cs" Inherits="AplicacionWebComercio.Ventas" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container mt-4">
-        <h2>Listado de Ventas</h2>
+        <h2><asp:Literal runat="server" ID="litTitulo" Text="Listado de Ventas" /></h2>
         <hr />
-        
-        <a href="VentasFormulario.aspx" class="btn btn-success mb-3">Nueva Venta</a>
+
+        <a runat="server" id="lnkNuevaVenta" href="VentasFormulario.aspx" class="btn btn-success mb-3">Nueva Venta</a>
 
         <asp:Label ID="lblMensaje" runat="server" Visible="false" CssClass="alert alert-danger d-block w-100 mb-3" />
 
