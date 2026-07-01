@@ -13,5 +13,7 @@ namespace AplicacionWebComercio
     {
         protected global::System.Web.UI.WebControls.Label lblMensaje;
         protected global::System.Web.UI.WebControls.GridView dgvVentas;
+        protected global::System.Web.UI.WebControls.Literal litTitulo;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor lnkNuevaVenta;
     }
 }
