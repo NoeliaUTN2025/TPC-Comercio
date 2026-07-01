@@ -54,7 +54,7 @@ namespace Negocio
             }
         }
 
-        public void Agregar(Proveedor nuevo)
+        public int Agregar(Proveedor nuevo)
         {
             AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
 
@@ -66,7 +66,9 @@ namespace Negocio
                 datos.setearParametro("@Direccion", nuevo.Direccion ?? (object)DBNull.Value);
                 datos.setearParametro("@Telefono", nuevo.Telefono ?? (object)DBNull.Value);
                 datos.setearParametro("@Email", nuevo.Email ?? (object)DBNull.Value);
+                datos.setearParametroSalida("@NewId", System.Data.SqlDbType.Int);
                 datos.ejecutarAccion();
+                return Convert.ToInt32(datos.obtenerParametro("@NewId"));
             }
             catch (Exception ex)
             {
