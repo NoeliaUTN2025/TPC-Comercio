@@ -44,6 +44,18 @@ namespace AplicacionWebComercio
 
                 if (factura != null)
                 {
+                    // Valida que el usuario logueado tenga permiso para ver solo su factura
+                    Usuario u = Session["Usuario"] as Usuario;
+
+                    if (Seguridad.EsCliente(u))
+                    {
+                        if (factura.Cliente.ID != u.IdEntidad)
+                        {
+                            Response.Redirect("Default.aspx", false);
+                            return;
+                        }
+                    }
+
                     lblNumeroFactura.InnerText = "Factura N°: " + factura.NumeroFactura;
                     lblFecha.InnerText         = "Fecha: " + factura.Fecha.ToString("dd/MM/yyyy HH:mm");
                     lblClienteNombre.InnerText = factura.Cliente.Nombre + " " + factura.Cliente.Apellido;

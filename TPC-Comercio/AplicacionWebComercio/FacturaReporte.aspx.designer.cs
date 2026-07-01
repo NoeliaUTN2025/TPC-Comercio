@@ -51,6 +51,15 @@ namespace AplicacionWebComercio
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblClienteNombre;
 
         /// <summary>
+        /// Control litDatosFactura.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litDatosFactura;
+
+        /// <summary>
         /// Control dgvDetalles.
         /// </summary>
         /// <remarks>
@@ -75,8 +84,6 @@ namespace AplicacionWebComercio
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litDatosFactura;
-
         protected global::System.Web.UI.WebControls.Label lblError;
     }
 }

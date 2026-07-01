@@ -14,7 +14,7 @@
                 <div class="row g-3 align-items-end">
                     <div class="col-md-5">
                         <label class="form-label">Producto</label>
-                        <asp:DropDownList runat="server" ID="ddlProducto" CssClass="form-select" />
+                        <asp:DropDownList runat="server" ID="ddlProducto" CssClass="form-select" AutoPostBack="true" OnSelectedIndexChanged="ddlProducto_SelectedIndexChanged" />
                     </div>
                     <div class="col-md-2">
                         <label class="form-label">Precio Unitario</label>
