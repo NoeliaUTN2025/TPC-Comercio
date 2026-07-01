@@ -30,14 +30,22 @@
                             <asp:Button runat="server" ID="btnLogin" Text="Iniciar Sesión" CssClass="btn btn-primary btn-lg" OnClick="btnLogin_Click" />
                             </div>
                         <br />
-                        <asp:Label runat="server" ID="lblError" CssClass="text-danger fx-bold">
-
+                        <asp:Label runat="server" ID="lblError" CssClass="text-danger fw-bold">
                         </asp:Label>
 
+                        <asp:Label runat="server" ID="lblExito" CssClass="text-success fw-bold" Visible="false">
+                        </asp:Label>
+
+                        <hr />
+                        <div class="text-center">
+                            <span class="text-muted">¿No tenés cuenta?</span>
+                            <a href="SeleccionTipoRegistro.aspx" class="ms-1">Crear cuenta</a>
                         </div>
-    
-            
-                    </div> 
+
+                        </div>
+
+
+                    </div>
 
                 </div>
 

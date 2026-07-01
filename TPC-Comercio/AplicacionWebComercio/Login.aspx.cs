@@ -14,7 +14,11 @@ namespace AplicacionWebComercio
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack && Request.QueryString["registro"] == "ok")
+            {
+                lblExito.Text    = "¡Cuenta creada con éxito! Ya podés iniciar sesión.";
+                lblExito.Visible = true;
+            }
         }
 
         protected void btnLogin_Click(Object sender, EventArgs e)
