@@ -17,30 +17,87 @@ namespace AplicacionWebComercio
             if (!IsPostBack)
             {
                 Usuario u = Session["Usuario"] as Usuario;
-                if (Seguridad.SesionActiva(u) && (Seguridad.EsAdmin(u) || Seguridad.EsVendedor(u)))
+                if (Seguridad.SesionActiva(u))
                 {
-                    pnlDashboard.Visible = true;
-                    pnlMensajeAnonimo.Visible = false;
-
-                    try
+                    if (Seguridad.EsAdmin(u) || Seguridad.EsVendedor(u))
                     {
-                        DashboardNegocio negocio = new DashboardNegocio();
-                        DashboardStats stats = negocio.ObtenerEstadisticas();
+                        pnlDashboard.Visible = true;
+                        pnlActividadReciente.Visible = false;
+                        pnlMensajeAnonimo.Visible = false;
 
-                        litTotalVentas.Text = "$" + stats.TotalVentasMes.ToString("0.00");
-                        litTotalCompras.Text = "$" + stats.TotalComprasMes.ToString("0.00");
-                        litBajoStock.Text = stats.ProductosBajoStock.ToString();
+                        try
+                        {
+                            DashboardNegocio negocio = new DashboardNegocio();
+                            DashboardStats stats = negocio.ObtenerEstadisticas();
+
+                            litTotalVentas.Text = "$" + stats.TotalVentasMes.ToString("0.00");
+                            litTotalCompras.Text = "$" + stats.TotalComprasMes.ToString("0.00");
+                            litBajoStock.Text = stats.ProductosBajoStock.ToString();
+                        }
+                        catch (Exception)
+                        {
+                            litTotalVentas.Text = "Error";
+                            litTotalCompras.Text = "Error";
+                            litBajoStock.Text = "Error";
+                        }
                     }
-                    catch (Exception ex)
+                    else // Es Cliente o Proveedor
                     {
-                        litTotalVentas.Text = "Error";
-                        litTotalCompras.Text = "Error";
-                        litBajoStock.Text = "Error";
+                        pnlDashboard.Visible = false;
+                        pnlActividadReciente.Visible = true;
+                        pnlMensajeAnonimo.Visible = false;
+
+                        try
+                        {
+                            DashboardNegocio negocio = new DashboardNegocio();
+                            if (Seguridad.EsCliente(u))
+                            {
+                                var compras = negocio.ObtenerUltimasComprasCliente(u.IdEntidad);
+                                if (compras != null && compras.Count > 0)
+                                {
+                                    rptActividad.DataSource = compras.Select(c => new {
+                                        NumeroFactura = c.NumeroFactura,
+                                        Fecha = c.Fecha,
+                                        Total = c.Total,
+                                        estado = c.estado
+                                    }).ToList();
+                                    rptActividad.DataBind();
+                                }
+                                else
+                                {
+                                    lblSinActividad.Visible = true;
+                                }
+                            }
+                            else // Proveedor
+                            {
+                                var ventas = negocio.ObtenerUltimasPropuestasProveedor(u.IdEntidad);
+                                if (ventas != null && ventas.Count > 0)
+                                {
+                                    rptActividad.DataSource = ventas.Select(v => new {
+                                        NumeroFactura = "C" + v.Id.ToString("D5"),
+                                        Fecha = v.Fecha,
+                                        Total = v.Total,
+                                        estado = v.estado
+                                    }).ToList();
+                                    rptActividad.DataBind();
+                                }
+                                else
+                                {
+                                    lblSinActividad.Visible = true;
+                                }
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            lblSinActividad.Text = "Hubo un error al cargar su actividad.";
+                            lblSinActividad.Visible = true;
+                        }
                     }
                 }
                 else
                 {
                     pnlDashboard.Visible = false;
+                    pnlActividadReciente.Visible = false;
                     pnlMensajeAnonimo.Visible = true;
                 }
             }
