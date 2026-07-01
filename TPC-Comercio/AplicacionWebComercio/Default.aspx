@@ -1,45 +1,59 @@
-﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="AplicacionWebComercio._Default" %>
+<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="AplicacionWebComercio._Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
     <main>
-        <section class="row" aria-labelledby="aspnetTitle">
-            <h1 id="aspnetTitle">Sistema de Gestion Comercial</h1>
-            <p class="lead">Aplicacion Web para la administracion de clientes, proveedores, productos, compras y ventas.</p>
-          
+        <section class="row text-center my-4" aria-labelledby="aspnetTitle">
+            <h1 id="aspnetTitle" class="display-4 fw-bold">Sistema de Gestión Comercial</h1>
+            <p class="lead text-muted">Panel de Control Principal</p>
         </section>
-        <%-- 
-        <div class="row">
-            <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-                <h2 id="gettingStartedTitle">Getting started</h2>
-                <p>
-                    ASP.NET Web Forms lets you build dynamic websites using a familiar drag-and-drop, event-driven model.
-                A design surface and hundreds of controls and components let you rapidly build sophisticated, powerful UI-driven sites with data access.
-                </p>
-                <p>
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301948">Learn more &raquo;</a>
-                </p>
-            </section>
-            <section class="col-md-4" aria-labelledby="librariesTitle">
-                <h2 id="librariesTitle">Get more libraries</h2>
-                <p>
-                    NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.
-                </p>
-                <p>
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301949">Learn more &raquo;</a>
-                </p>
-            </section>
-            <section class="col-md-4" aria-labelledby="hostingTitle">
-                <h2 id="hostingTitle">Web Hosting</h2>
-                <p>
-                    You can easily find a web hosting company that offers the right mix of features and price for your applications.
-                </p>
-                <p>
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301950">Learn more &raquo;</a>
-                </p>
-            </section>
-        </div>
-           --%>
+
+        <asp:Panel ID="pnlDashboard" runat="server" Visible="false">
+            <div class="row g-4 mt-4">
+
+                <!-- Tarjeta Total Ventas -->
+                <div class="col-md-4">
+                    <div class="card text-white bg-success shadow h-100">
+                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                            <h5 class="card-title text-uppercase fw-bold">Total Ventas (Mes)</h5>
+                            <h2 class="display-5 fw-bold mt-2">
+                                <asp:Literal ID="litTotalVentas" runat="server" Text="$0.00"></asp:Literal>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta Total Compras -->
+                <div class="col-md-4">
+                    <div class="card text-white bg-primary shadow h-100">
+                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                            <h5 class="card-title text-uppercase fw-bold">Total Compras (Mes)</h5>
+                            <h2 class="display-5 fw-bold mt-2">
+                                <asp:Literal ID="litTotalCompras" runat="server" Text="$0.00"></asp:Literal>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta Alerta Stock -->
+                <div class="col-md-4">
+                    <div class="card text-white bg-danger shadow h-100">
+                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                            <h5 class="card-title text-uppercase fw-bold">Alertas de Stock</h5>
+                            <h2 class="display-5 fw-bold mt-2">
+                                <asp:Literal ID="litBajoStock" runat="server" Text="0"></asp:Literal>
+                            </h2>
+                            <p class="card-text mb-0 mt-2">Productos bajo el mínimo</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </asp:Panel>
+        
+        <asp:Panel ID="pnlMensajeAnonimo" runat="server" Visible="true" CssClass="text-center mt-5">
+            <h4>Bienvenido. Por favor, inicia sesión para acceder a las opciones del sistema.</h4>
+        </asp:Panel>
+
     </main>
 
 </asp:Content> 
