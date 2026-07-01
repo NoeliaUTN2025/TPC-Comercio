@@ -105,16 +105,19 @@ namespace AplicacionWebComercio
             nuevo.Email = txtEmail.Text;
 
 
-            if (Request.QueryString["id"] != null)
+            try
             {
-                negocio.Modificar(nuevo);
-            }
-            else
-            {
-                negocio.AgregarCliente(nuevo);
-            }
+                if (Request.QueryString["id"] != null)
+                    negocio.Modificar(nuevo);
+                else
+                    negocio.AgregarCliente(nuevo);
 
-            Response.Redirect("Clientes.aspx");
+                Response.Redirect("Clientes.aspx");
+            }
+            catch (Exception ex)
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Error al guardar el cliente: " + ex.Message.Replace("'", "") + "');", true);
+            }
         }
 
          protected void btnCancelar_Click(object sender, EventArgs e)
@@ -126,14 +129,17 @@ namespace AplicacionWebComercio
 
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
-            if (chkConfirmarEliminacion.Checked)
+            if (!chkConfirmarEliminacion.Checked) return;
+
+            try
             {
-
                 int id = int.Parse(Request.QueryString["id"]);
-                ClienteNegocio negocio = new ClienteNegocio();
-                negocio.EliminarLogico(id);
-
+                new ClienteNegocio().EliminarLogico(id);
                 Response.Redirect("Clientes.aspx");
+            }
+            catch (Exception ex)
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Error al eliminar el cliente: " + ex.Message.Replace("'", "") + "');", true);
             }
         }
 

@@ -11,6 +11,7 @@ namespace AplicacionWebComercio
 {
     public partial class Ventas
     {
+        protected global::System.Web.UI.WebControls.Label lblMensaje;
         protected global::System.Web.UI.WebControls.GridView dgvVentas;
     }
 }

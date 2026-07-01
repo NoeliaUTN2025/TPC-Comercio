@@ -13,8 +13,16 @@ namespace AplicacionWebComercio
 
         private void CargarGrilla()
         {
-            dgvCompras.DataSource = new CompraNegocio().Listar();
-            dgvCompras.DataBind();
+            try
+            {
+                dgvCompras.DataSource = new CompraNegocio().Listar();
+                dgvCompras.DataBind();
+            }
+            catch (Exception ex)
+            {
+                lblMensaje.Text = "Error al cargar las compras: " + ex.Message;
+                lblMensaje.Visible = true;
+            }
         }
     }
 }

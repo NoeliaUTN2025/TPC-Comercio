@@ -16,9 +16,17 @@ namespace AplicacionWebComercio
 
         private void CargarVentas()
         {
-            FacturaNegocio negocio = new FacturaNegocio();
-            dgvVentas.DataSource = negocio.Listar();
-            dgvVentas.DataBind();
+            try
+            {
+                FacturaNegocio negocio = new FacturaNegocio();
+                dgvVentas.DataSource = negocio.Listar();
+                dgvVentas.DataBind();
+            }
+            catch (Exception ex)
+            {
+                lblMensaje.Text = "Error al cargar las ventas: " + ex.Message;
+                lblMensaje.Visible = true;
+            }
         }
     }
 }

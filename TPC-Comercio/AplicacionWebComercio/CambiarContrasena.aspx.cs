@@ -32,15 +32,20 @@ namespace AplicacionWebComercio
                 return;
             }
 
-            UsuarioNegocio negocio = new UsuarioNegocio();
+            try
+            {
+                UsuarioNegocio negocio = new UsuarioNegocio();
+                negocio.CambiarContraseña(usuario.Id, txtActual.Text, txtNueva.Text);
 
-            negocio.CambiarContraseña(usuario.Id, txtActual.Text, txtNueva.Text);
+                usuario.Contraseña = txtNueva.Text;
+                Session["Usuario"] = usuario;
 
-            // actualizar la contraseña en la sesión
-            usuario.Contraseña = txtNueva.Text;
-            Session["Usuario"] = usuario;   
-
-            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Contraseña cambiada exitosamente.'); window.location.href = 'default.aspx';", true);
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Contraseña cambiada exitosamente.'); window.location.href = 'default.aspx';", true);
+            }
+            catch (Exception ex)
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Error al cambiar la contraseña: " + ex.Message.Replace("'", "") + "');", true);
+            }
         }
     }
 }

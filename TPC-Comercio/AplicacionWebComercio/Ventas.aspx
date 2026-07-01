@@ -6,6 +6,8 @@
         
         <a href="VentasFormulario.aspx" class="btn btn-success mb-3">Nueva Venta</a>
 
+        <asp:Label ID="lblMensaje" runat="server" Visible="false" CssClass="alert alert-danger d-block w-100 mb-3" />
+
         <asp:GridView ID="dgvVentas" runat="server" AutoGenerateColumns="false" CssClass="table table-striped table-bordered">
             <Columns>
                 <asp:BoundField DataField="NumeroFactura" HeaderText="Factura N°" />
