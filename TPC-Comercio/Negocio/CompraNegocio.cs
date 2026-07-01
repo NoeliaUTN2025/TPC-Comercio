@@ -65,7 +65,31 @@ namespace Negocio
             finally { datos.cerrarConexion(); }
         }
 
-        public void RegistrarCompra(Compra compra, List<DetalleCompra> items)
+        public List<Compra> ListarPorProveedor(int idProveedor)
+        {
+            List<Compra> lista = new List<Compra>();
+            AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
+            try
+            {
+                datos.setearProcedimiento("SP_Compras_ListarPorProveedor");
+                datos.setearParametro("@IdProveedor", idProveedor);
+                datos.ejecutarLectura();
+                while (datos.Lector.Read())
+                {
+                    Compra aux = new Compra();
+                    aux.Id           = (int)datos.Lector["Id"];
+                    aux.Fecha        = (DateTime)datos.Lector["Fecha"];
+                    aux.Total        = (decimal)datos.Lector["Total"];
+                    aux.CantidadTotal = (int)datos.Lector["CantidadTotal"];
+                    lista.Add(aux);
+                }
+                return lista;
+            }
+            catch (Exception ex) { throw ex; }
+            finally { datos.cerrarConexion(); }
+        }
+
+        public int RegistrarCompra(Compra compra, List<DetalleCompra> items)
         {
             int idCompra = Crear(compra);
 
@@ -78,12 +102,40 @@ namespace Negocio
                 d.Compra = new Compra { Id = idCompra };
                 int idDetalle = detalleNegocio.Insertar(d);
                 loteNegocio.Crear(d.Producto.Id, idDetalle, d.Cantidad, d.PrecioUnitario);
-                
-                // Aumentar el stock actual global del producto
                 productoNegocio.SumarStock(d.Producto.Id, d.Cantidad);
             }
 
             ActualizarTotal(idCompra);
+            return idCompra;
+        }
+
+        public Compra ObtenerPorId(int id)
+        {
+            AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
+            try
+            {
+                datos.setearProcedimiento("SP_Compras_ObtenerPorId");
+                datos.setearParametro("@Id", id);
+                datos.ejecutarLectura();
+                if (datos.Lector.Read())
+                {
+                    Compra c = new Compra();
+                    c.Id    = (int)datos.Lector["Id"];
+                    c.Fecha = (DateTime)datos.Lector["Fecha"];
+                    c.Total = (decimal)datos.Lector["Total"];
+                    c.Proveedor = new Proveedor
+                    {
+                        ID          = (int)datos.Lector["IdProveedor"],
+                        RazonSocial = datos.Lector["RazonSocial"].ToString(),
+                        Cuit        = datos.Lector["Cuit"].ToString(),
+                        Direccion   = datos.Lector["Direccion"].ToString()
+                    };
+                    return c;
+                }
+                return null;
+            }
+            catch (Exception ex) { throw ex; }
+            finally { datos.cerrarConexion(); }
         }
     }
 }

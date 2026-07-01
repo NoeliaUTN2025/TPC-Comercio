@@ -32,6 +32,7 @@ namespace Negocio
                     usuario.User = datos.Lector["User"].ToString();
                     usuario.Contraseña = datos.Lector["Contrasena"].ToString();
                     usuario.Estado = (bool)datos.Lector["Estado"];
+                    usuario.IdEntidad = (int)datos.Lector["IdEntidad"];
 
                     usuario.perfil = new Perfil();
                     usuario.perfil.Id = (int)datos.Lector["IdPerfil"];
@@ -62,6 +63,7 @@ namespace Negocio
                 datos.setearParametro("@Contrasena", usuario.Contraseña);
                 datos.setearParametro("@IdPerfil", usuario.perfil.Id);
                 datos.setearParametro("@Estado", usuario.Estado);
+                datos.setearParametro("@IdEntidad", usuario.IdEntidad);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
