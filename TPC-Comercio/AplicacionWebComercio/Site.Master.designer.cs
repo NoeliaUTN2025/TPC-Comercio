@@ -22,6 +22,9 @@ namespace AplicacionWebComercio
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl liInicio;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liGrupoInventario;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liGrupoMovimientos;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liGrupoPersonas;
 
         /// <summary>
         /// Control liClientes.

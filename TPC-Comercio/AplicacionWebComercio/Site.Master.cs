@@ -20,28 +20,33 @@ namespace AplicacionWebComercio
             liInicio.Visible = true;
 
             // Solo anónimos
-            liLogin.Visible      = !activo;
+            liLogin.Visible       = !activo;
             liCrearCuenta.Visible = !activo;
 
             // Solo autenticados
             liLogout.Visible            = activo;
             liCambiarContrasena.Visible = activo;
 
-            // Módulos Admin + Vendedor
-            liClientes.Visible   = esAdmin || esVend;
-            liProveedores.Visible = esAdmin || esVend;
-            liProductos.Visible  = esAdmin || esVend;
-            liCompras.Visible    = esAdmin || esVend;
-            liVentas.Visible     = esAdmin || esVend;
+            // Grupo Inventario (Admin + Vendedor); Marcas y Categorías solo Admin
+            liGrupoInventario.Visible = esAdmin || esVend;
+            liProductos.Visible       = esAdmin || esVend;
+            liMarcas.Visible          = esAdmin;
+            liCategorias.Visible      = esAdmin;
 
-            // Solo Admin
-            liMarcas.Visible       = esAdmin;
-            liCategorias.Visible   = esAdmin;
-            liUsuarios.Visible     = esAdmin;
-            liTrazabilidad.Visible = esAdmin;
+            // Grupo Movimientos (Admin + Vendedor); Trazabilidad solo Admin
+            liGrupoMovimientos.Visible = esAdmin || esVend;
+            liCompras.Visible          = esAdmin || esVend;
+            liVentas.Visible           = esAdmin || esVend;
+            liTrazabilidad.Visible     = esAdmin;
+
+            // Grupo Personas (Admin + Vendedor); Usuarios solo Admin
+            liGrupoPersonas.Visible = esAdmin || esVend;
+            liClientes.Visible      = esAdmin || esVend;
+            liProveedores.Visible   = esAdmin || esVend;
+            liUsuarios.Visible      = esAdmin;
 
             // Solo Cliente
-            liCatalogo.Visible = esCli;
+            liCatalogo.Visible      = esCli;
             liVentasCliente.Visible = esCli;
 
             // Solo Proveedor
