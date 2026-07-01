@@ -111,13 +111,14 @@ namespace AplicacionWebComercio
                     negocio.Modificar(nuevo);
                 else
                     negocio.AgregarCliente(nuevo);
-
-                Response.Redirect("Clientes.aspx");
             }
             catch (Exception ex)
             {
-                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Error al guardar el cliente: " + ex.Message.Replace("'", "") + "');", true);
+                string msg = System.Web.HttpUtility.JavaScriptStringEncode("Error al guardar el cliente: " + ex.Message);
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('" + msg + "');", true);
+                return;
             }
+            Response.Redirect("Clientes.aspx");
         }
 
          protected void btnCancelar_Click(object sender, EventArgs e)
@@ -135,12 +136,14 @@ namespace AplicacionWebComercio
             {
                 int id = int.Parse(Request.QueryString["id"]);
                 new ClienteNegocio().EliminarLogico(id);
-                Response.Redirect("Clientes.aspx");
             }
             catch (Exception ex)
             {
-                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Error al eliminar el cliente: " + ex.Message.Replace("'", "") + "');", true);
+                string msg = System.Web.HttpUtility.JavaScriptStringEncode("Error al eliminar el cliente: " + ex.Message);
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('" + msg + "');", true);
+                return;
             }
+            Response.Redirect("Clientes.aspx");
         }
 
 

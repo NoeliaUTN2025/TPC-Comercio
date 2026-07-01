@@ -24,7 +24,7 @@ namespace AplicacionWebComercio
             }
             catch (Exception ex)
             {
-                lblMensaje.Text = "Error al cargar las ventas: " + ex.Message;
+                lblMensaje.Text = "Error al cargar las ventas: " + System.Web.HttpUtility.HtmlEncode(ex.Message);
                 lblMensaje.Visible = true;
             }
         }

@@ -32,7 +32,7 @@ namespace AplicacionWebComercio
             }
             catch (Exception ex)
             {
-                lblMensaje.Text = "Error al cargar los productos: " + ex.Message;
+                lblMensaje.Text = "Error al cargar los productos: " + System.Web.HttpUtility.HtmlEncode(ex.Message);
                 lblMensaje.Visible = true;
             }
         }
@@ -69,7 +69,8 @@ namespace AplicacionWebComercio
             }
             catch (Exception ex)
             {
-                lblMensaje.Text = "Error al cargar la trazabilidad: " + ex.Message;
+                pnlResultados.Visible = false;
+                lblMensaje.Text = "Error al cargar la trazabilidad: " + System.Web.HttpUtility.HtmlEncode(ex.Message);
                 lblMensaje.Visible = true;
             }
         }

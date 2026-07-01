@@ -13,17 +13,15 @@ namespace AplicacionWebComercio
         {
             if (!IsPostBack)
             {
+                Session["itemsCompra"] = new List<DetalleCompra>();
                 try
                 {
                     CargarDropdowns();
-                    Session["itemsCompra"] = new List<DetalleCompra>();
                     CargarPropuestas();
                 }
                 catch (Exception ex)
                 {
-                    lblMensaje.Text = "Error al cargar los datos: " + ex.Message;
-                    lblMensaje.CssClass = "alert alert-danger w-100 mb-3";
-                    lblMensaje.Visible = true;
+                    MostrarError("Error al cargar los datos: " + ex.Message);
                 }
             }
             ActualizarGrilla();
@@ -81,9 +79,7 @@ namespace AplicacionWebComercio
             }
             catch (Exception ex)
             {
-                lblMensaje.Text    = "Error al aprobar la propuesta: " + ex.Message;
-                lblMensaje.CssClass = "alert alert-danger w-100 mb-3";
-                lblMensaje.Visible = true;
+                MostrarError("Error al aprobar la propuesta: " + ex.Message);
             }
         }
 
@@ -102,7 +98,9 @@ namespace AplicacionWebComercio
 
         private void ActualizarGrilla()
         {
-            List<DetalleCompra> items = (List<DetalleCompra>)Session["itemsCompra"];
+            List<DetalleCompra> items = Session["itemsCompra"] as List<DetalleCompra>;
+            if (items == null) items = new List<DetalleCompra>();
+
             dgvItems.DataSource = items;
             dgvItems.DataBind();
 
@@ -110,6 +108,13 @@ namespace AplicacionWebComercio
             foreach (DetalleCompra d in items)
                 total += d.Subtotal;
             lblTotal.Text = total.ToString("C");
+        }
+
+        private void MostrarError(string msg)
+        {
+            lblMensaje.Text = msg;
+            lblMensaje.CssClass = "alert alert-danger d-block w-100 mb-3";
+            lblMensaje.Visible = true;
         }
 
         protected void btnAgregarItem_Click(object sender, EventArgs e)
