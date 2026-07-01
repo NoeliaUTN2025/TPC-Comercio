@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.UI.WebControls;
 using Negocio;
 using Dominio;
@@ -14,8 +15,67 @@ namespace AplicacionWebComercio
             {
                 CargarDropdowns();
                 Session["itemsCompra"] = new List<DetalleCompra>();
+                CargarPropuestas();
             }
             ActualizarGrilla();
+        }
+
+        private void CargarPropuestas()
+        {
+            var pendientes = new PropuestaNegocio().ListarPendientes();
+            if (pendientes.Count > 0)
+            {
+                pnlPropuestas.Visible = true;
+                dgvPropuestas.DataSource = pendientes.Select(p => new {
+                    p.Id,
+                    RazonSocial    = p.Proveedor.RazonSocial,
+                    NombreProducto = p.Producto.NombreProducto,
+                    p.Cantidad,
+                    p.PrecioUnitario,
+                    p.Fecha
+                }).ToList();
+                dgvPropuestas.DataBind();
+            }
+            else
+            {
+                pnlPropuestas.Visible = false;
+            }
+        }
+
+        protected void dgvPropuestas_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName != "Aprobar") return;
+
+            int idPropuesta = int.Parse(e.CommandArgument.ToString());
+            try
+            {
+                PropuestaNegocio propNegocio = new PropuestaNegocio();
+                PropuestaProveedor propuesta = propNegocio.ObtenerPorId(idPropuesta);
+
+                DetalleCompra detalle = new DetalleCompra
+                {
+                    Producto       = propuesta.Producto,
+                    Cantidad       = propuesta.Cantidad,
+                    PrecioUnitario = propuesta.PrecioUnitario,
+                    Subtotal       = propuesta.Cantidad * propuesta.PrecioUnitario
+                };
+
+                Compra compra = new Compra
+                {
+                    Proveedor = propuesta.Proveedor,
+                    Usuario   = new Usuario { Id = ((Usuario)Session["Usuario"]).Id }
+                };
+
+                int idCompra = new CompraNegocio().RegistrarCompra(compra, new List<DetalleCompra> { detalle });
+                propNegocio.Aprobar(idPropuesta);
+                Response.Redirect("~/CompraReporte.aspx?id=" + idCompra, false);
+            }
+            catch (Exception ex)
+            {
+                lblMensaje.Text    = "Error al aprobar la propuesta: " + ex.Message;
+                lblMensaje.CssClass = "alert alert-danger w-100 mb-3";
+                lblMensaje.Visible = true;
+            }
         }
 
         private void CargarDropdowns()
@@ -98,13 +158,13 @@ namespace AplicacionWebComercio
 
             Compra compra = new Compra();
             compra.Proveedor = new Proveedor { ID = int.Parse(ddlProveedor.SelectedValue) };
-            compra.Usuario   = new Usuario   { Id = 1 };
+            compra.Usuario   = new Usuario   { Id = ((Usuario)Session["Usuario"]).Id };
 
             try
             {
-                new CompraNegocio().RegistrarCompra(compra, items);
+                int idCompra = new CompraNegocio().RegistrarCompra(compra, items);
                 Session.Remove("itemsCompra");
-                Response.Redirect("Compras.aspx", false);
+                Response.Redirect("~/CompraReporte.aspx?id=" + idCompra, false);
             }
             catch (Exception ex)
             {
