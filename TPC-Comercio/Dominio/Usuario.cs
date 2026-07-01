@@ -13,6 +13,6 @@ namespace Dominio
         public string Contraseña { get; set; }
         public Perfil perfil { get; set; }
         public bool Estado { get; set; }
-
+        public int IdEntidad { get; set; }
     }
 }
