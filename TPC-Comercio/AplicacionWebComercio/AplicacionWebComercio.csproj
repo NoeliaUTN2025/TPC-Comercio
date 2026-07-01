@@ -106,6 +106,7 @@
     <Content Include="ClientesFormularios.aspx" />
     <Content Include="Compras.aspx" />
     <Content Include="ComprasFormulario.aspx" />
+    <Content Include="CompraReporte.aspx" />
     <Content Include="Ventas.aspx" />
     <Content Include="VentasFormulario.aspx" />
     <Content Include="Contact.aspx" />
@@ -191,6 +192,12 @@
     <Content Include="Scripts\WebForms\WebParts.js" />
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="Site.Master" />
+    <Content Include="CatalogoProductos.aspx" />
+    <Content Include="MisCompras.aspx" />
+    <Content Include="RegistroCliente.aspx" />
+    <Content Include="RegistroProveedor.aspx" />
+    <Content Include="SeleccionTipoRegistro.aspx" />
+    <Content Include="TrazabilidadLote.aspx" />
     <Content Include="Usuarios.aspx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
@@ -248,6 +255,13 @@
     </Compile>
     <Compile Include="ComprasFormulario.aspx.designer.cs">
       <DependentUpon>ComprasFormulario.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CompraReporte.aspx.cs">
+      <DependentUpon>CompraReporte.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CompraReporte.aspx.designer.cs">
+      <DependentUpon>CompraReporte.aspx</DependentUpon>
     </Compile>
     <Compile Include="Ventas.aspx.cs">
       <DependentUpon>Ventas.aspx</DependentUpon>
@@ -336,6 +350,45 @@
     </Compile>
     <Compile Include="Site.Mobile.Master.designer.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
+    </Compile>
+    <Compile Include="CatalogoProductos.aspx.cs">
+      <DependentUpon>CatalogoProductos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CatalogoProductos.aspx.designer.cs">
+      <DependentUpon>CatalogoProductos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MisCompras.aspx.cs">
+      <DependentUpon>MisCompras.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MisCompras.aspx.designer.cs">
+      <DependentUpon>MisCompras.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RegistroCliente.aspx.cs">
+      <DependentUpon>RegistroCliente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RegistroCliente.aspx.designer.cs">
+      <DependentUpon>RegistroCliente.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RegistroProveedor.aspx.cs">
+      <DependentUpon>RegistroProveedor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RegistroProveedor.aspx.designer.cs">
+      <DependentUpon>RegistroProveedor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SeleccionTipoRegistro.aspx.cs">
+      <DependentUpon>SeleccionTipoRegistro.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrazabilidadLote.aspx.cs">
+      <DependentUpon>TrazabilidadLote.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrazabilidadLote.aspx.designer.cs">
+      <DependentUpon>TrazabilidadLote.aspx</DependentUpon>
     </Compile>
     <Compile Include="Usuarios.aspx.cs">
       <DependentUpon>Usuarios.aspx</DependentUpon>
