@@ -42,6 +42,7 @@ namespace AplicacionWebComercio
 
             // Solo Cliente
             liCatalogo.Visible = esCli;
+            liVentasCliente.Visible = esCli;
 
             // Solo Proveedor
             liMisCompras.Visible = esProv;

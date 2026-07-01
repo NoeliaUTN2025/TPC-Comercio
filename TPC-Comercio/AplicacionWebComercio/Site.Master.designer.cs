@@ -114,6 +114,11 @@ namespace AplicacionWebComercio
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl liCatalogo;
 
         /// <summary>
+        /// Control liVentasCliente.
+        /// </summary>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liVentasCliente;
+
+        /// <summary>
         /// Control liMisCompras.
         /// </summary>
         /// <remarks>
