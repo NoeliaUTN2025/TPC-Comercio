@@ -17,6 +17,11 @@
                 </asp:TemplateField>
                 <asp:BoundField DataField="CantidadTotal" HeaderText="Cant. Comprada" />
                 <asp:BoundField DataField="Total" HeaderText="Total" DataFormatString="{0:C}" HtmlEncode="false" />
+                <asp:TemplateField HeaderText="" ItemStyle-Width="100">
+                    <ItemTemplate>
+                        <a href='<%# "CompraReporte.aspx?id=" + Eval("Id") %>' class="btn btn-sm btn-outline-secondary">🖨 Reimprimir</a>
+                    </ItemTemplate>
+                </asp:TemplateField>
             </Columns>
         </asp:GridView>
 
