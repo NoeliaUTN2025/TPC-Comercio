@@ -45,8 +45,12 @@ namespace AplicacionWebComercio
                 if (factura != null)
                 {
                     lblNumeroFactura.InnerText = "Factura N°: " + factura.NumeroFactura;
-                    lblFecha.InnerText = "Fecha: " + factura.Fecha.ToString("dd/MM/yyyy HH:mm");
-                    lblClienteNombre.InnerHtml = "<strong>Nombre:</strong> " + factura.Cliente.Nombre + " " + factura.Cliente.Apellido;
+                    lblFecha.InnerText         = "Fecha: " + factura.Fecha.ToString("dd/MM/yyyy HH:mm");
+                    lblClienteNombre.InnerText = factura.Cliente.Nombre + " " + factura.Cliente.Apellido;
+
+                    litDatosFactura.Text = "<p>Factura N°: <strong>" + factura.NumeroFactura + "</strong></p>";
+                    litDatosFactura.Text += "<p>Fecha: " + factura.Fecha.ToString("dd/MM/yyyy") + "</p>";
+                    litDatosFactura.Text += "<p>Total: <strong>" + factura.Total.ToString("C") + "</strong></p>";
 
                     List<DetalleFactura> detalles = detalleNegocio.ListarPorFactura(idFactura);
                     dgvDetalles.DataSource = detalles;
