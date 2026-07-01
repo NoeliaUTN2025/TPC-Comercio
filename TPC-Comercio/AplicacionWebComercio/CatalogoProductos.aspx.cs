@@ -42,14 +42,31 @@ namespace AplicacionWebComercio
 
         private void ActualizarPrecio(List<Producto> productos)
         {
-            if (ddlProducto.SelectedValue == "0") return;
+            if (ddlProducto.SelectedValue == "0")
+            {
+                lblPrecioUnitario.Text = "$0,00";
+                return;
+            }
             int id = int.Parse(ddlProducto.SelectedValue);
             Producto p = productos.Find(x => x.Id == id);
             if (p != null)
             {
-                decimal pv = p.Precio * (1 + p.PorcentajeGanancia / 100m);
-                lblPrecioUnitario.Text = pv.ToString("C");
+                List<Lote> lotes = new LoteNegocio().ListarPorProducto(p.Id);
+                if (lotes.Count > 0)
+                    lblPrecioUnitario.Text = (lotes[0].PrecioCompra * (1 + p.PorcentajeGanancia / 100m)).ToString("C");
+                else
+                    lblPrecioUnitario.Text = "$0,00";
             }
+        }
+
+        private void ActualizarPrecio()
+        {
+            ActualizarPrecio(new ProductoNegocio().Listar());
+        }
+
+        protected void ddlProducto_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ActualizarPrecio();
         }
 
         protected void btnAgregarItem_Click(object sender, EventArgs e)
@@ -74,7 +91,10 @@ namespace AplicacionWebComercio
                 return;
             }
 
-            decimal precioVenta = prod.Precio * (1 + prod.PorcentajeGanancia / 100m);
+            List<Lote> lotesProd = new LoteNegocio().ListarPorProducto(prod.Id);
+            decimal precioVenta = lotesProd.Count > 0
+                ? lotesProd[0].PrecioCompra * (1 + prod.PorcentajeGanancia / 100m)
+                : 0;
 
             var items = (List<ItemCatalogo>)Session["itemsCatalogo"];
             var existente = items.Find(i => i.IdProducto == idProducto);
