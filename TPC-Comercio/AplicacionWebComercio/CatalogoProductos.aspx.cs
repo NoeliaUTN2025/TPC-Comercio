@@ -42,14 +42,25 @@ namespace AplicacionWebComercio
 
         private void ActualizarPrecio(List<Producto> productos)
         {
-            if (ddlProducto.SelectedValue == "0") return;
+            if (ddlProducto.SelectedValue == "0")
+            {
+                lblPrecioUnitario.Text = "$0,00";
+                return;
+            }
             int id = int.Parse(ddlProducto.SelectedValue);
             Producto p = productos.Find(x => x.Id == id);
             if (p != null)
-            {
-                decimal pv = p.Precio * (1 + p.PorcentajeGanancia / 100m);
-                lblPrecioUnitario.Text = pv.ToString("C");
-            }
+                lblPrecioUnitario.Text = (p.Precio * (1 + p.PorcentajeGanancia / 100m)).ToString("C");
+        }
+
+        private void ActualizarPrecio()
+        {
+            ActualizarPrecio(new ProductoNegocio().Listar());
+        }
+
+        protected void ddlProducto_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ActualizarPrecio();
         }
 
         protected void btnAgregarItem_Click(object sender, EventArgs e)
