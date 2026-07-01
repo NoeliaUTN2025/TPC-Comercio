@@ -7,13 +7,23 @@ namespace Negocio
 {
     public class FacturaNegocio
     {
-        public List<Factura> Listar()
+        public List<Factura> Listar(int idCliente = 0)
         {
             List<Factura> lista = new List<Factura>();
             AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
             try
             {
-                datos.setearConsulta("SELECT F.Id, F.NumeroFactura, F.Fecha, F.Total, F.Estado, C.ID as IdCliente, C.Nombre, C.Apellido FROM Facturas F INNER JOIN Clientes C ON F.IdCliente = C.ID ORDER BY F.Fecha DESC");
+                string consulta = "SELECT F.Id, F.NumeroFactura, F.Fecha, F.Total, F.Estado, C.ID as IdCliente, C.Nombre, C.Apellido FROM Facturas F INNER JOIN Clientes C ON F.IdCliente = C.ID";
+
+                // Valida si es un cliente específico para filtrar la consulta
+                if (idCliente > 0)
+                {
+                    consulta += " WHERE F.IdCliente = @IdCliente";
+                    datos.setearParametro("@IdCliente", idCliente);
+                }
+                
+                consulta += " ORDER BY F.Fecha DESC";
+                datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
                 while (datos.Lector.Read())
                 {

@@ -74,7 +74,7 @@ namespace AplicacionWebComercio
                                 if (ventas != null && ventas.Count > 0)
                                 {
                                     rptActividad.DataSource = ventas.Select(v => new {
-                                        NumeroFactura = "C" + v.Id.ToString("D5"),
+                                        NumeroFactura = "L" + v.Id.ToString("D5"),
                                         Fecha = v.Fecha,
                                         Total = v.Total,
                                         estado = v.estado
