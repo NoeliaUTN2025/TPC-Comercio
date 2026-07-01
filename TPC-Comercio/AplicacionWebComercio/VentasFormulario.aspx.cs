@@ -91,7 +91,7 @@ namespace AplicacionWebComercio
 
             Factura factura = new Factura();
             factura.Cliente = new Cliente { ID = int.Parse(ddlCliente.SelectedValue) };
-            factura.Usuario = new Usuario { Id = 1 }; 
+            factura.Usuario = new Usuario { Id = ((Usuario)Session["Usuario"]).Id };
             try
             {
                 int idGenerado = new FacturaNegocio().RegistrarVenta(factura, items);
@@ -112,8 +112,10 @@ namespace AplicacionWebComercio
 
         private void MostrarMensaje(string mensaje, bool exito)
         {
-            lblMensaje.Text = mensaje;
-            lblMensaje.CssClass = exito ? "mt-2 d-block fw-bold text-success" : "mt-2 d-block fw-bold text-danger";
+            lblMensaje.Text     = mensaje;
+            lblMensaje.CssClass = exito
+                ? "alert alert-success w-100 mb-3"
+                : "alert alert-danger w-100 mb-3";
         }
     }
 }
