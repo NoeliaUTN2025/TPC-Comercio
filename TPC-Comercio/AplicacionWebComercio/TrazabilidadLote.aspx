@@ -6,6 +6,8 @@
         <h2>Trazabilidad de Lotes</h2>
         <p class="text-muted">Seguimiento completo del ciclo de vida de un producto: compra → lote → venta → stock.</p>
 
+        <asp:Label ID="lblMensaje" runat="server" Visible="false" CssClass="alert alert-danger d-block w-100 mb-3" />
+
         <div class="card mb-4">
             <div class="card-body">
                 <div class="row align-items-end g-3">

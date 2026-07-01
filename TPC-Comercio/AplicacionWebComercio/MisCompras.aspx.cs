@@ -20,8 +20,15 @@ namespace AplicacionWebComercio
 
             if (!IsPostBack)
             {
-                CargarProductos();
-                CargarGrillas();
+                try
+                {
+                    CargarProductos();
+                    CargarGrillas();
+                }
+                catch (Exception ex)
+                {
+                    MostrarError("Error al cargar los datos: " + ex.Message);
+                }
             }
         }
 

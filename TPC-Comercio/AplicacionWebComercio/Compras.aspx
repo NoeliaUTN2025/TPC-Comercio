@@ -6,6 +6,8 @@
 
         <a href="ComprasFormulario.aspx" class="btn btn-success mb-3">Nueva Compra</a>
 
+        <asp:Label ID="lblMensaje" runat="server" Visible="false" CssClass="alert alert-danger d-block w-100 mb-3" />
+
         <asp:GridView ID="dgvCompras" runat="server" AutoGenerateColumns="false" CssClass="table table-striped">
             <Columns>
                 <asp:BoundField DataField="Fecha" HeaderText="Fecha" DataFormatString="{0:dd/MM/yyyy}"

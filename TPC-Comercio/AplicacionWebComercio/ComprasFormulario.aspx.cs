@@ -13,9 +13,18 @@ namespace AplicacionWebComercio
         {
             if (!IsPostBack)
             {
-                CargarDropdowns();
-                Session["itemsCompra"] = new List<DetalleCompra>();
-                CargarPropuestas();
+                try
+                {
+                    CargarDropdowns();
+                    Session["itemsCompra"] = new List<DetalleCompra>();
+                    CargarPropuestas();
+                }
+                catch (Exception ex)
+                {
+                    lblMensaje.Text = "Error al cargar los datos: " + ex.Message;
+                    lblMensaje.CssClass = "alert alert-danger w-100 mb-3";
+                    lblMensaje.Visible = true;
+                }
             }
             ActualizarGrilla();
         }

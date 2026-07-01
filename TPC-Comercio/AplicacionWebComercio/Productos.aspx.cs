@@ -52,30 +52,51 @@ namespace AplicacionWebComercio
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
-            Producto p = new Producto
+            if (!decimal.TryParse(txtPrecio.Text, out decimal precio) || precio < 0)
             {
-                Codigo = txtCodigo.Text.Trim(),
-                NombreProducto = txtNombre.Text.Trim(),
-                Descripcion = string.IsNullOrWhiteSpace(txtDescripcion.Text) ? null : txtDescripcion.Text.Trim(),
-                Precio = decimal.Parse(txtPrecio.Text),
-                StockMinimo = int.Parse(txtStockMinimo.Text),
-                PorcentajeGanancia = decimal.Parse(txtPorcentajeGanancia.Text),
-                marca = new Marca { Id = int.Parse(ddlMarca.SelectedValue) },
-                categoria = new Categoria { Id = int.Parse(ddlCategoria.SelectedValue) }
-            };
-
-            ProductoNegocio negocio = new ProductoNegocio();
-
-            if (hfId.Value == "0")
-                negocio.Agregar(p);
-            else
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('El precio ingresado no es válido.');", true);
+                return;
+            }
+            if (!int.TryParse(txtStockMinimo.Text, out int stockMinimo) || stockMinimo < 0)
             {
-                p.Id = int.Parse(hfId.Value);
-                negocio.Modificar(p);
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('El stock mínimo ingresado no es válido.');", true);
+                return;
+            }
+            if (!decimal.TryParse(txtPorcentajeGanancia.Text, out decimal porcentaje) || porcentaje < 0)
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('El porcentaje de ganancia ingresado no es válido.');", true);
+                return;
             }
 
-            pnlFormulario.Visible = false;
-            CargarGrilla();
+            Producto p = new Producto();
+            p.Codigo = txtCodigo.Text.Trim();
+            p.NombreProducto = txtNombre.Text.Trim();
+            p.Descripcion = string.IsNullOrWhiteSpace(txtDescripcion.Text) ? null : txtDescripcion.Text.Trim();
+            p.Precio = precio;
+            p.StockMinimo = stockMinimo;
+            p.PorcentajeGanancia = porcentaje;
+            p.marca = new Marca { Id = int.Parse(ddlMarca.SelectedValue) };
+            p.categoria = new Categoria { Id = int.Parse(ddlCategoria.SelectedValue) };
+
+            try
+            {
+                ProductoNegocio negocio = new ProductoNegocio();
+
+                if (hfId.Value == "0")
+                    negocio.Agregar(p);
+                else
+                {
+                    p.Id = int.Parse(hfId.Value);
+                    negocio.Modificar(p);
+                }
+
+                pnlFormulario.Visible = false;
+                CargarGrilla();
+            }
+            catch (Exception ex)
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Error al guardar el producto: " + ex.Message.Replace("'", "") + "');", true);
+            }
         }
 
         protected void btnCancelar_Click(object sender, EventArgs e)
@@ -110,9 +131,16 @@ namespace AplicacionWebComercio
 
         protected void dgvProductos_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-            int id = (int)dgvProductos.DataKeys[e.RowIndex].Value;
-            new ProductoNegocio().EliminarLogico(id);
-            CargarGrilla();
+            try
+            {
+                int id = (int)dgvProductos.DataKeys[e.RowIndex].Value;
+                new ProductoNegocio().EliminarLogico(id);
+                CargarGrilla();
+            }
+            catch (Exception ex)
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Error al eliminar el producto: " + ex.Message.Replace("'", "") + "');", true);
+            }
         }
 
         private void LimpiarFormulario()

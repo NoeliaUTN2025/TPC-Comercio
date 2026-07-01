@@ -21,12 +21,20 @@ namespace AplicacionWebComercio
 
         private void CargarProductos()
         {
-            var productos = new ProductoNegocio().Listar();
-            ddlProducto.DataSource     = productos;
-            ddlProducto.DataTextField  = "NombreProducto";
-            ddlProducto.DataValueField = "Id";
-            ddlProducto.DataBind();
-            ddlProducto.Items.Insert(0, new System.Web.UI.WebControls.ListItem("-- Seleccionar producto --", "0"));
+            try
+            {
+                var productos = new ProductoNegocio().Listar();
+                ddlProducto.DataSource     = productos;
+                ddlProducto.DataTextField  = "NombreProducto";
+                ddlProducto.DataValueField = "Id";
+                ddlProducto.DataBind();
+                ddlProducto.Items.Insert(0, new System.Web.UI.WebControls.ListItem("-- Seleccionar producto --", "0"));
+            }
+            catch (Exception ex)
+            {
+                lblMensaje.Text = "Error al cargar los productos: " + ex.Message;
+                lblMensaje.Visible = true;
+            }
         }
 
         protected void ddlProducto_SelectedIndexChanged(object sender, EventArgs e)
@@ -41,21 +49,29 @@ namespace AplicacionWebComercio
 
         private void CargarTrazabilidad(int idProducto)
         {
-            Producto producto = new ProductoNegocio().Listar().Find(p => p.Id == idProducto);
-            decimal ganancia  = producto != null ? producto.PorcentajeGanancia : 0;
+            try
+            {
+                Producto producto = new ProductoNegocio().Listar().Find(p => p.Id == idProducto);
+                decimal ganancia  = producto != null ? producto.PorcentajeGanancia : 0;
 
-            var negocio = new TrazabilidadNegocio();
+                TrazabilidadNegocio negocio = new TrazabilidadNegocio();
 
-            var lotes = negocio.ObtenerLotes(idProducto, ganancia);
-            dgvLotes.DataSource = lotes;
-            dgvLotes.DataBind();
-            litStockActual.Text = lotes.Sum(l => l.CantidadDisp).ToString();
+                var lotes = negocio.ObtenerLotes(idProducto, ganancia);
+                dgvLotes.DataSource = lotes;
+                dgvLotes.DataBind();
+                litStockActual.Text = lotes.Sum(l => l.CantidadDisp).ToString();
 
-            var ventas = negocio.ObtenerVentas(idProducto);
-            dgvVentas.DataSource = ventas;
-            dgvVentas.DataBind();
+                var ventas = negocio.ObtenerVentas(idProducto);
+                dgvVentas.DataSource = ventas;
+                dgvVentas.DataBind();
 
-            pnlResultados.Visible = true;
+                pnlResultados.Visible = true;
+            }
+            catch (Exception ex)
+            {
+                lblMensaje.Text = "Error al cargar la trazabilidad: " + ex.Message;
+                lblMensaje.Visible = true;
+            }
         }
     }
 }
