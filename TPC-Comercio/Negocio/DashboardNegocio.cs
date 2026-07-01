@@ -61,5 +61,66 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public List<Dominio.Factura> ObtenerUltimasComprasCliente(int idCliente)
+        {
+            List<Dominio.Factura> lista = new List<Dominio.Factura>();
+            AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
+            try
+            {
+                datos.setearConsulta("SELECT TOP 3 Id, NumeroFactura, Fecha, Total, Estado FROM Facturas WHERE IdCliente = @IdCliente ORDER BY Fecha DESC");
+                datos.setearParametro("@IdCliente", idCliente);
+                datos.ejecutarLectura();
+                while (datos.Lector.Read())
+                {
+                    Dominio.Factura aux = new Dominio.Factura();
+                    aux.Id = (int)datos.Lector["Id"];
+                    aux.NumeroFactura = (string)datos.Lector["NumeroFactura"];
+                    aux.Fecha = (DateTime)datos.Lector["Fecha"];
+                    aux.Total = (decimal)datos.Lector["Total"];
+                    aux.estado = (bool)datos.Lector["Estado"];
+                    lista.Add(aux);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public List<Dominio.Compra> ObtenerUltimasPropuestasProveedor(int idProveedor)
+        {
+            List<Dominio.Compra> lista = new List<Dominio.Compra>();
+            AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
+            try
+            {
+                datos.setearConsulta("SELECT TOP 3 Id, Fecha, Total, Estado FROM Compras WHERE IdProveedor = @IdProveedor ORDER BY Fecha DESC");
+                datos.setearParametro("@IdProveedor", idProveedor);
+                datos.ejecutarLectura();
+                while (datos.Lector.Read())
+                {
+                    Dominio.Compra aux = new Dominio.Compra();
+                    aux.Id = (int)datos.Lector["Id"];
+                    aux.Fecha = (DateTime)datos.Lector["Fecha"];
+                    aux.Total = (decimal)datos.Lector["Total"];
+                    aux.estado = (bool)datos.Lector["Estado"];
+                    lista.Add(aux);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

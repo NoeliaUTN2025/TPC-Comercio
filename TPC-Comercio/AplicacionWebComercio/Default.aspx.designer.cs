@@ -51,6 +51,33 @@ namespace AplicacionWebComercio
         protected global::System.Web.UI.WebControls.Literal litBajoStock;
 
         /// <summary>
+        /// Control pnlActividadReciente.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlActividadReciente;
+
+        /// <summary>
+        /// Control rptActividad.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptActividad;
+
+        /// <summary>
+        /// Control lblSinActividad.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSinActividad;
+
+        /// <summary>
         /// Control pnlMensajeAnonimo.
         /// </summary>
         /// <remarks>
