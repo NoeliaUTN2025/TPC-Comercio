@@ -8,7 +8,7 @@ namespace AplicacionWebComercio
 {
     public partial class BarraFiltros : System.Web.UI.UserControl
     {
-        public event EventHandler OnFiltrar;
+        public event EventHandler Filtrar;
 
         public bool MostrarCategoria
         {
@@ -57,7 +57,7 @@ namespace AplicacionWebComercio
 
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
-            OnFiltrar?.Invoke(this, EventArgs.Empty);
+            Filtrar?.Invoke(this, EventArgs.Empty);
         }
 
         protected void btnLimpiar_Click(object sender, EventArgs e)
@@ -70,7 +70,7 @@ namespace AplicacionWebComercio
                 txtFechaDesde.Text = "";
                 txtFechaHasta.Text = "";
             }
-            OnFiltrar?.Invoke(this, EventArgs.Empty);
+            Filtrar?.Invoke(this, EventArgs.Empty);
         }
 
         public FiltrosBusqueda ObtenerFiltros()
