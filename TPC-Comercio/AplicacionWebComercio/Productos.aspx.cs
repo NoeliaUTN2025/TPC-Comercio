@@ -30,8 +30,25 @@ namespace AplicacionWebComercio
 
         private void CargarGrilla()
         {
-            dgvProductos.DataSource = new ProductoNegocio().Listar();
+            var lista = new ProductoNegocio().Listar();
+            Dominio.FiltrosBusqueda filtros = ctrlFiltros.ObtenerFiltros();
+            
+            if (!string.IsNullOrEmpty(filtros.Texto))
+                lista = lista.FindAll(x => x.NombreProducto.ToLower().Contains(filtros.Texto.ToLower()) || x.Codigo.ToLower().Contains(filtros.Texto.ToLower()));
+            
+            if (filtros.IdCategoria.HasValue && filtros.IdCategoria.Value > 0)
+                lista = lista.FindAll(x => x.categoria.Id == filtros.IdCategoria.Value);
+                
+            if (filtros.IdMarca.HasValue && filtros.IdMarca.Value > 0)
+                lista = lista.FindAll(x => x.marca.Id == filtros.IdMarca.Value);
+
+            dgvProductos.DataSource = lista;
             dgvProductos.DataBind();
+        }
+
+        protected void ctrlFiltros_Filtrar(object sender, EventArgs e)
+        {
+            CargarGrilla();
         }
 
         private void CargarDropDowns()

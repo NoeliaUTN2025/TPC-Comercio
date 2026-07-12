@@ -12,6 +12,7 @@ namespace AplicacionWebComercio
     public partial class Compras
     {
         protected global::System.Web.UI.WebControls.Label lblMensaje;
+        protected global::AplicacionWebComercio.BarraFiltros ctrlFiltros;
         protected global::System.Web.UI.WebControls.GridView dgvCompras;
     }
 }

@@ -35,14 +35,25 @@ namespace AplicacionWebComercio
                 FacturaNegocio negocio = new FacturaNegocio();
                 Dominio.Usuario u = Session["Usuario"] as Dominio.Usuario;
 
-                if (Negocio.Seguridad.EsCliente(u))
+                var lista = Negocio.Seguridad.EsCliente(u) ? negocio.Listar(u.IdEntidad) : negocio.Listar();
+                
+                Dominio.FiltrosBusqueda filtros = ctrlFiltros.ObtenerFiltros();
+
+                if (!string.IsNullOrEmpty(filtros.Texto))
                 {
-                    dgvVentas.DataSource = negocio.Listar(u.IdEntidad);
+                    string txt = filtros.Texto.ToLower();
+                    lista = lista.FindAll(x => 
+                        (x.Cliente != null && (x.Cliente.Nombre.ToLower().Contains(txt) || x.Cliente.Apellido.ToLower().Contains(txt))) || 
+                        x.NumeroFactura.ToString().Contains(txt));
                 }
-                else
-                {
-                    dgvVentas.DataSource = negocio.Listar();
-                }
+
+                if (filtros.FechaDesde.HasValue)
+                    lista = lista.FindAll(x => x.Fecha.Date >= filtros.FechaDesde.Value.Date);
+
+                if (filtros.FechaHasta.HasValue)
+                    lista = lista.FindAll(x => x.Fecha.Date <= filtros.FechaHasta.Value.Date);
+
+                dgvVentas.DataSource = lista;
                 dgvVentas.DataBind();
             }
             catch (Exception ex)
@@ -50,6 +61,11 @@ namespace AplicacionWebComercio
                 lblMensaje.Text = "Error al cargar las ventas: " + System.Web.HttpUtility.HtmlEncode(ex.Message);
                 lblMensaje.Visible = true;
             }
+        }
+
+        protected void ctrlFiltros_Filtrar(object sender, EventArgs e)
+        {
+            CargarVentas();
         }
     }
 }
