@@ -1,0 +1,42 @@
+//------------------------------------------------------------------------------
+// <generado automáticamente>
+//     Este código fue generado por una herramienta.
+//
+//     Los cambios en este archivo podrían causar un comportamiento incorrecto y se perderán si
+//     se vuelve a generar el código. 
+// </generado automáticamente>
+//------------------------------------------------------------------------------
+
+namespace AplicacionWebComercio {
+    public partial class BarraFiltros {
+        protected global::System.Web.UI.WebControls.Label lblTexto;
+
+        protected global::System.Web.UI.WebControls.TextBox txtTexto;
+
+        protected global::System.Web.UI.WebControls.Panel pnlCategoria;
+
+        protected global::System.Web.UI.WebControls.Label lblCategoria;
+
+        protected global::System.Web.UI.WebControls.DropDownList ddlCategoria;
+
+        protected global::System.Web.UI.WebControls.Panel pnlMarca;
+
+        protected global::System.Web.UI.WebControls.Label lblMarca;
+
+        protected global::System.Web.UI.WebControls.DropDownList ddlMarca;
+
+        protected global::System.Web.UI.WebControls.Panel pnlFechas;
+
+        protected global::System.Web.UI.WebControls.Label lblFechaDesde;
+
+        protected global::System.Web.UI.WebControls.TextBox txtFechaDesde;
+
+        protected global::System.Web.UI.WebControls.Label lblFechaHasta;
+
+        protected global::System.Web.UI.WebControls.TextBox txtFechaHasta;
+
+        protected global::System.Web.UI.WebControls.Button btnLimpiar;
+        
+        protected global::System.Web.UI.WebControls.Button btnBuscar;
+    }
+}
