@@ -34,24 +34,10 @@ namespace AplicacionWebComercio
             {
                 FacturaNegocio negocio = new FacturaNegocio();
                 Dominio.Usuario u = Session["Usuario"] as Dominio.Usuario;
-
-                var lista = Negocio.Seguridad.EsCliente(u) ? negocio.Listar(u.IdEntidad) : negocio.Listar();
+                int idCliente = Negocio.Seguridad.EsCliente(u) ? u.IdEntidad : 0;
                 
                 Dominio.FiltrosBusqueda filtros = ctrlFiltros.ObtenerFiltros();
-
-                if (!string.IsNullOrEmpty(filtros.Texto))
-                {
-                    string txt = filtros.Texto.ToLower();
-                    lista = lista.FindAll(x => 
-                        (x.Cliente != null && (x.Cliente.Nombre.ToLower().Contains(txt) || x.Cliente.Apellido.ToLower().Contains(txt))) || 
-                        x.NumeroFactura.ToString().Contains(txt));
-                }
-
-                if (filtros.FechaDesde.HasValue)
-                    lista = lista.FindAll(x => x.Fecha.Date >= filtros.FechaDesde.Value.Date);
-
-                if (filtros.FechaHasta.HasValue)
-                    lista = lista.FindAll(x => x.Fecha.Date <= filtros.FechaHasta.Value.Date);
+                var lista = negocio.Listar(filtros, idCliente);
 
                 dgvVentas.DataSource = lista;
                 dgvVentas.DataBind();

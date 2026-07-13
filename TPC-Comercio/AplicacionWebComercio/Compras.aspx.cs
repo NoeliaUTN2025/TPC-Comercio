@@ -15,17 +15,8 @@ namespace AplicacionWebComercio
         {
             try
             {
-                var lista = new CompraNegocio().Listar();
                 Dominio.FiltrosBusqueda filtros = ctrlFiltros.ObtenerFiltros();
-
-                if (!string.IsNullOrEmpty(filtros.Texto))
-                    lista = lista.FindAll(x => x.Proveedor.RazonSocial.ToLower().Contains(filtros.Texto.ToLower()));
-
-                if (filtros.FechaDesde.HasValue)
-                    lista = lista.FindAll(x => x.Fecha.Date >= filtros.FechaDesde.Value.Date);
-
-                if (filtros.FechaHasta.HasValue)
-                    lista = lista.FindAll(x => x.Fecha.Date <= filtros.FechaHasta.Value.Date);
+                var lista = new CompraNegocio().Listar(filtros);
 
                 dgvCompras.DataSource = lista;
                 dgvCompras.DataBind();
