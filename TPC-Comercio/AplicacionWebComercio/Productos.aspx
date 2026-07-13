@@ -79,4 +79,10 @@
         </Columns>
     </asp:GridView>
 
+    <div class="d-flex justify-content-between align-items-center mt-3"> 
+        <asp:Button ID="btnAnterior" runat="server" Text="Anterior" OnClick="btnAnterior_Click" CssClass="btn btn-secondary" />
+        <asp:Label ID="lblPagina" runat="server" Text="Página 1 de 1" CssClass="fw-bold text-center" />
+        <asp:Button ID="btnSiguiente" runat="server" Text="Siguiente" OnClick="btnSiguiente_Click" CssClass="btn btn-secondary" />
+    </div>
+
 </asp:Content>
