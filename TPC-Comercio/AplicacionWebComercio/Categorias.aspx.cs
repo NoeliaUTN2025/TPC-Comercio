@@ -7,6 +7,21 @@ namespace AplicacionWebComercio
 {
     public partial class Categorias : System.Web.UI.Page
     {
+        private const int PageSize = 5; // Tamaño de página para la paginación
+
+        private int PageNumber
+        {
+            get
+            {
+                return ViewState["PageNumber"] == null ? 1 : (int)ViewState["PageNumber"];
+            }
+            set
+            {
+                ViewState["PageNumber"] = value;
+            }
+        }
+
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Seguridad.SesionActiva((Session)["Usuario"]))
@@ -28,8 +43,33 @@ namespace AplicacionWebComercio
 
         private void CargarGrilla()
         {
-            dgvCategorias.DataSource = new CategoriaNegocio().Listar();
+            int totalRegistros;
+
+            CategoriaNegocio negocio = new CategoriaNegocio();
+
+            dgvCategorias.DataSource = negocio.ListarPaginado(PageNumber, PageSize, out totalRegistros);
+            //dgvCategorias.DataSource = new CategoriaNegocio().Listar();
             dgvCategorias.DataBind();
+
+            int totalPaginas = (int)Math.Ceiling((double)totalRegistros / PageSize);
+            lblPagina.Text = $"Página {PageNumber} de {totalPaginas}";
+
+            btnAnterior.Enabled = PageNumber > 1;
+            btnSiguiente.Enabled = PageNumber < totalPaginas;
+        }
+
+        protected void btnAnterior_Click(object sender, EventArgs e)
+        {
+            if (PageNumber > 1)
+                PageNumber--;
+
+            CargarGrilla();
+        }
+
+        protected void btnSiguiente_Click(object sender, EventArgs e)
+        {
+            PageNumber++;
+            CargarGrilla();
         }
 
         protected void btnNuevo_Click(object sender, EventArgs e)
