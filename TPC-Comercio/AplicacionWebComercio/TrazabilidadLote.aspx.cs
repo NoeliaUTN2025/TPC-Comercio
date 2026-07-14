@@ -52,7 +52,19 @@ namespace AplicacionWebComercio
             try
             {
                 Producto producto = new ProductoNegocio().Listar().Find(p => p.Id == idProducto);
-                decimal ganancia  = producto != null ? producto.PorcentajeGanancia : 0;
+                decimal ganancia = producto != null ? producto.PorcentajeGanancia : 0;
+
+                if (producto != null)
+                { 
+                    litCodigo.Text      = producto.Codigo;
+                    litProducto.Text   = producto.NombreProducto;
+                    litDescripcion.Text = producto.Descripcion;
+                    litMarca.Text      = producto.marca.Descripcion;
+                    litCategoria.Text  = producto.categoria.Descripcion;
+                    litGanancia.Text   = ganancia.ToString("N2") +"%";  
+
+                }
+               
 
                 TrazabilidadNegocio negocio = new TrazabilidadNegocio();
 

@@ -14,7 +14,9 @@ namespace Negocio
         public int CantidadVendida { get; set; }
         public decimal PrecioCompra { get; set; }
         public decimal PrecioVenta { get; set; }
+        public decimal PrecioTotal { get; set; }
         public decimal GananciaRealizada { get; set; }
+        
     }
 
     public class VentaTrazaRow
@@ -55,6 +57,7 @@ namespace Negocio
                     fila.CantidadDisp = disp;
                     fila.CantidadVendida = vendido;
                     fila.PrecioCompra = pc;
+                    fila.PrecioTotal = (decimal)datos.Lector["PrecioTotal"];
                     fila.PrecioVenta = pv;
                     fila.GananciaRealizada = (pv - pc) * vendido;
                     lista.Add(fila);
