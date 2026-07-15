@@ -12,6 +12,10 @@ namespace AplicacionWebComercio {
     
     public partial class ReportesDinamicos {
         
+        protected global::System.Web.UI.WebControls.DropDownList ddlPlantillas;
+        protected global::System.Web.UI.WebControls.Button btnCargarPlantilla;
+        protected global::System.Web.UI.WebControls.TextBox txtNombrePlantilla;
+        protected global::System.Web.UI.WebControls.Button btnGuardarPlantilla;
         protected global::System.Web.UI.WebControls.DropDownList ddlTipoReporte;
         protected global::System.Web.UI.WebControls.TextBox txtFechaDesde;
         protected global::System.Web.UI.WebControls.TextBox txtFechaHasta;

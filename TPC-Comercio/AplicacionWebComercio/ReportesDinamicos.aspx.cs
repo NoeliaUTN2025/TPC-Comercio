@@ -19,6 +19,93 @@ namespace AplicacionWebComercio
                     ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Solo los administradores pueden acceder a Reportes.'); window.location='Default.aspx';", true);
                     return;
                 }
+                
+                CargarPlantillas();
+
+                if (Request.QueryString["msg"] == "ok")
+                {
+                    lblMensaje.Text = "Plantilla guardada exitosamente.";
+                    lblMensaje.CssClass = "text-success d-block mb-3";
+                }
+            }
+        }
+
+        private void CargarPlantillas()
+        {
+            try
+            {
+                PlantillaNegocio negocio = new PlantillaNegocio();
+                ddlPlantillas.DataSource = negocio.Listar();
+                ddlPlantillas.DataBind();
+                ddlPlantillas.Items.Insert(0, new System.Web.UI.WebControls.ListItem("Seleccione...", ""));
+            }
+            catch (Exception ex)
+            {
+                lblMensaje.Text = "Error al cargar plantillas: " + ex.Message;
+            }
+        }
+
+        protected void btnCargarPlantilla_Click(object sender, EventArgs e)
+        {
+            lblMensaje.Text = "";
+            try
+            {
+                if (string.IsNullOrEmpty(ddlPlantillas.SelectedValue)) return;
+                
+                int id = int.Parse(ddlPlantillas.SelectedValue);
+                PlantillaNegocio negocio = new PlantillaNegocio();
+                var lista = negocio.Listar();
+                var plantilla = lista.Find(x => x.Id == id);
+
+                if (plantilla != null)
+                {
+                    ddlTipoReporte.SelectedValue = plantilla.Entidad;
+                    txtFechaDesde.Text = plantilla.FechaDesde.HasValue ? plantilla.FechaDesde.Value.ToString("yyyy-MM-dd") : "";
+                    txtFechaHasta.Text = plantilla.FechaHasta.HasValue ? plantilla.FechaHasta.Value.ToString("yyyy-MM-dd") : "";
+                    
+                    CargarReporte();
+                }
+            }
+            catch (Exception ex)
+            {
+                lblMensaje.Text = "Error al cargar la plantilla: " + ex.Message;
+            }
+        }
+
+        protected void btnGuardarPlantilla_Click(object sender, EventArgs e)
+        {
+            lblMensaje.Text = "";
+            try
+            {
+                if (string.IsNullOrEmpty(txtNombrePlantilla.Text))
+                {
+                    lblMensaje.Text = "Por favor, ingrese un nombre para la plantilla.";
+                    return;
+                }
+                if (string.IsNullOrEmpty(ddlTipoReporte.SelectedValue))
+                {
+                    lblMensaje.Text = "Por favor, seleccione un tipo de reporte para guardar.";
+                    return;
+                }
+
+                Dominio.ReportePlantilla plantilla = new Dominio.ReportePlantilla();
+                plantilla.Nombre = txtNombrePlantilla.Text;
+                plantilla.Entidad = ddlTipoReporte.SelectedValue;
+
+                if (DateTime.TryParse(txtFechaDesde.Text, out DateTime fd))
+                    plantilla.FechaDesde = fd;
+                if (DateTime.TryParse(txtFechaHasta.Text, out DateTime fh))
+                    plantilla.FechaHasta = fh;
+
+                PlantillaNegocio negocio = new PlantillaNegocio();
+                negocio.Guardar(plantilla);
+
+                Response.Redirect("ReportesDinamicos.aspx?msg=ok", false);
+            }
+            catch (Exception ex)
+            {
+                lblMensaje.Text = "Error al guardar plantilla: " + ex.Message;
+                lblMensaje.CssClass = "text-danger d-block mb-3";
             }
         }
 

@@ -6,6 +6,34 @@
         <hr />
 
         <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Plantillas Guardadas</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Cargar Plantilla Favorita</label>
+                        <div class="input-group">
+                            <asp:DropDownList ID="ddlPlantillas" runat="server" CssClass="form-select" DataTextField="DescripcionCombo" DataValueField="Id">
+                            </asp:DropDownList>
+                            <asp:Button ID="btnCargarPlantilla" runat="server" Text="Cargar" CssClass="btn btn-secondary" OnClick="btnCargarPlantilla_Click" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Guardar Filtros Actuales</label>
+                        <div class="input-group">
+                            <asp:TextBox ID="txtNombrePlantilla" runat="server" CssClass="form-control" placeholder="Nombre de la nueva plantilla..."></asp:TextBox>
+                            <asp:Button ID="btnGuardarPlantilla" runat="server" Text="Guardar Plantilla" CssClass="btn btn-outline-primary" OnClick="btnGuardarPlantilla_Click" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">Configuración del Reporte</h5>
+            </div>
             <div class="card-body">
                 <div class="row g-3 align-items-end">
                     <div class="col-md-3">
