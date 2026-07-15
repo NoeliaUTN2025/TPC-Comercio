@@ -60,6 +60,7 @@
     <Compile Include="FacturaNegocio.cs" />
     <Compile Include="LoteNegocio.cs" />
     <Compile Include="MarcaNegocio.cs" />
+    <Compile Include="PlantillaNegocio.cs" />
     <Compile Include="ProductoNegocio.cs" />
     <Compile Include="ReportesNegocio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
