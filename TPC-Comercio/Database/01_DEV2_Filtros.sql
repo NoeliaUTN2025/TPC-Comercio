@@ -38,7 +38,7 @@ CREATE PROCEDURE [dbo].[SP_Proveedores_Filtrar]
     @Texto VARCHAR(100) = NULL
 AS
 BEGIN
-    SELECT ID, RazonSocial, Cuit, Direccion, Telefono, Email
+    SELECT ID, RazonSocial, Cuit, Direccion, Telefono, Email, Estado
     FROM Proveedores
     WHERE Estado = 1
         AND (@Texto IS NULL OR RazonSocial LIKE '%' + @Texto + '%' OR Cuit LIKE '%' + @Texto + '%' OR Email LIKE '%' + @Texto + '%')
