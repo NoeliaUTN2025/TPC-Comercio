@@ -99,6 +99,11 @@ namespace AplicacionWebComercio
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl liTrazabilidad;
 
         /// <summary>
+        /// Control liReportes.
+        /// </summary>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liReportes;
+
+        /// <summary>
         /// Control liUsuarios.
         /// </summary>
         /// <remarks>

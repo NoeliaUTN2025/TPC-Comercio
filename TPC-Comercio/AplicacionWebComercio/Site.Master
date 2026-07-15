@@ -81,6 +81,9 @@
                                 <li runat="server" id="liTrazabilidad">
                                     <a class="dropdown-item" href="TrazabilidadLote.aspx">Trazabilidad</a>
                                 </li>
+                                <li runat="server" id="liReportes">
+                                    <a class="dropdown-item" href="ReportesDinamicos.aspx">Reportes</a>
+                                </li>
                             </ul>
                         </li>
 
