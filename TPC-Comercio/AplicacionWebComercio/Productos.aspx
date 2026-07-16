@@ -22,6 +22,16 @@
             <asp:TextBox ID="txtDescripcion" runat="server" CssClass="form-control" />
         </div>
         <div class="mb-2">
+            <label class="form-label">Imagen</label>
+            <input type="file" ID="txtImagen" runat="server" CssClass="form-control" />
+        </div>
+        <div class="mb-2">
+            <asp:Image ID="imgProducto" runat="server" CssClass="img-thumbnail" Width="150px" Height="180px" ImageUrl="~/Images/sin-image.png" />
+            
+        </div>
+
+
+        <div class="mb-2">
             <label>Precio de Costo</label>
             <asp:TextBox ID="txtPrecio" runat="server" CssClass="form-control" />
         </div>

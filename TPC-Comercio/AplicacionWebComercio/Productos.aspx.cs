@@ -2,6 +2,7 @@ using System;
 using System.Web.UI.WebControls;
 using Negocio;
 using Dominio;
+using System.IO;
 
 namespace AplicacionWebComercio
 {
@@ -112,6 +113,8 @@ namespace AplicacionWebComercio
 
             try
             {
+             
+
                 Producto p = new Producto();
                 p.Codigo = txtCodigo.Text.Trim();
                 p.NombreProducto = txtNombre.Text.Trim();
@@ -121,6 +124,20 @@ namespace AplicacionWebComercio
                 p.PorcentajeGanancia = porcentaje;
                 p.marca = new Marca { Id = int.Parse(ddlMarca.SelectedValue) };
                 p.categoria = new Categoria { Id = int.Parse(ddlCategoria.SelectedValue) };
+
+                if (txtImagen.PostedFile !=null && txtImagen.PostedFile.ContentLength > 0)
+                {
+                    string nombreArchivo = Path.GetFileName(txtImagen.PostedFile.FileName);
+                    string carpeta = Server.MapPath("~/Images/Productos/");
+
+                    if (!Directory.Exists(carpeta))
+                    {
+                        Directory.CreateDirectory(carpeta);
+                    }
+                    string rutaServidor = Path.Combine(carpeta, nombreArchivo);
+                    txtImagen.PostedFile.SaveAs(rutaServidor);
+                    p.UrlImagen = "~/Images/Productos/" + nombreArchivo;
+                }
 
                 ProductoNegocio negocio = new ProductoNegocio();
 
@@ -161,6 +178,7 @@ namespace AplicacionWebComercio
             txtCodigo.Text = p.Codigo;
             txtNombre.Text = p.NombreProducto;
             txtDescripcion.Text = p.Descripcion;
+            imgProducto.ImageUrl = p.UrlImagen;
             txtPrecio.Text = p.Precio.ToString();
             txtStockMinimo.Text = p.StockMinimo.ToString();
             txtPorcentajeGanancia.Text = p.PorcentajeGanancia.ToString();
@@ -195,6 +213,7 @@ namespace AplicacionWebComercio
             txtCodigo.Text = "";
             txtNombre.Text = "";
             txtDescripcion.Text = "";
+            imgProducto.ImageUrl = "~/Image/sin-image.png";
             txtPrecio.Text = "";
             txtStockMinimo.Text = "";
             txtPorcentajeGanancia.Text = "";
