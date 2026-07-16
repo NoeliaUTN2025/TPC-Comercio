@@ -15,6 +15,15 @@ namespace AplicacionWebComercio
     {
 
         /// <summary>
+        /// Control form1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+
+        /// <summary>
         /// Control liInicio.
         /// </summary>
         /// <remarks>
@@ -22,27 +31,15 @@ namespace AplicacionWebComercio
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl liInicio;
+
+        /// <summary>
+        /// Control liGrupoInventario.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl liGrupoInventario;
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liGrupoMovimientos;
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liGrupoPersonas;
-
-        /// <summary>
-        /// Control liClientes.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liClientes;
-
-        /// <summary>
-        /// Control liProveedores.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liProveedores;
 
         /// <summary>
         /// Control liProductos.
@@ -72,6 +69,15 @@ namespace AplicacionWebComercio
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl liCategorias;
 
         /// <summary>
+        /// Control liGrupoMovimientos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liGrupoMovimientos;
+
+        /// <summary>
         /// Control liCompras.
         /// </summary>
         /// <remarks>
@@ -99,6 +105,33 @@ namespace AplicacionWebComercio
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl liTrazabilidad;
 
         /// <summary>
+        /// Control liGrupoPersonas.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liGrupoPersonas;
+
+        /// <summary>
+        /// Control liClientes.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liClientes;
+
+        /// <summary>
+        /// Control liProveedores.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liProveedores;
+
+        /// <summary>
         /// Control liUsuarios.
         /// </summary>
         /// <remarks>
@@ -119,6 +152,10 @@ namespace AplicacionWebComercio
         /// <summary>
         /// Control liVentasCliente.
         /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl liVentasCliente;
 
         /// <summary>

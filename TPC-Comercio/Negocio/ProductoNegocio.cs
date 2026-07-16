@@ -30,6 +30,9 @@ namespace Negocio
                     if (!(datos.Lector["Descripcion"] is DBNull))
                         aux.Descripcion = (string)datos.Lector["Descripcion"];
 
+                    if (!(datos.Lector["UrlImagen"] is DBNull))
+                        aux.UrlImagen = (string)datos.Lector["UrlImagen"];
+
                     aux.StockActual = (int)datos.Lector["StockActual"];
                     aux.StockMinimo = (int)datos.Lector["StockMinimo"];
                     aux.Precio = (decimal)datos.Lector["Precio"];
@@ -88,6 +91,9 @@ namespace Negocio
                     if (!(datos.Lector["Descripcion"] is DBNull))
                         aux.Descripcion = (string)datos.Lector["Descripcion"];
 
+                    if (!(datos.Lector["UrlImagen"] is DBNull))
+                        aux.UrlImagen = (string)datos.Lector["UrlImagen"];
+
                     aux.StockActual = (int)datos.Lector["StockActual"];
                     aux.StockMinimo = (int)datos.Lector["StockMinimo"];
                     aux.Precio = (decimal)datos.Lector["Precio"];
@@ -129,6 +135,7 @@ namespace Negocio
                 datos.setearParametro("@Codigo", nuevo.Codigo);
                 datos.setearParametro("@NombreProducto", nuevo.NombreProducto);
                 datos.setearParametro("@Descripcion", nuevo.Descripcion ?? (object)DBNull.Value);
+                datos.setearParametro("@UrlImagen", nuevo.UrlImagen ?? (object)DBNull.Value);
                 datos.setearParametro("@Precio", nuevo.Precio);
                 datos.setearParametro("@StockMinimo", nuevo.StockMinimo);
                 datos.setearParametro("@PorcentajeGanancia", nuevo.PorcentajeGanancia);
@@ -158,6 +165,7 @@ namespace Negocio
                 datos.setearParametro("@Codigo", modificar.Codigo);
                 datos.setearParametro("@NombreProducto", modificar.NombreProducto);
                 datos.setearParametro("@Descripcion", modificar.Descripcion ?? (object)DBNull.Value);
+                datos.setearParametro("@UrlImagen", modificar.UrlImagen ?? (object)DBNull.Value);
                 datos.setearParametro("@Precio", modificar.Precio);
                 datos.setearParametro("@StockMinimo", modificar.StockMinimo);
                 datos.setearParametro("@PorcentajeGanancia", modificar.PorcentajeGanancia);

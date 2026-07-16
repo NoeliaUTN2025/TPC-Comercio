@@ -43,6 +43,9 @@
                               </span>
                           </p>
                         </div>
+                          <div class="col-md-4 text-center justify-content-center">
+                              <asp:Image ID="imgProducto" runat="server" CssClass="img-thumbnail" Width="220px" ImageUrl="~/Images/sin-image.png" Style="margin-top:-50px;" />
+                          </div>
                       </div>
                     <hr />
                     <p>

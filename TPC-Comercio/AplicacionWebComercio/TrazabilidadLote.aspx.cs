@@ -63,6 +63,13 @@ namespace AplicacionWebComercio
                     litCategoria.Text  = producto.categoria.Descripcion;
                     litGanancia.Text   = ganancia.ToString("N2") +"%";  
 
+                    if (!string.IsNullOrEmpty(producto.UrlImagen)) {
+                        imgProducto.ImageUrl = producto.UrlImagen;
+                    }
+                    else
+                    {
+                        imgProducto.ImageUrl = "~/Images/sin-image.png";
+                    }
                 }
                
 
