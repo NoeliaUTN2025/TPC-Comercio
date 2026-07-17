@@ -28,8 +28,16 @@ namespace AplicacionWebComercio
 
         private void CargarGrilla()
         {
-            dgvProveedores.DataSource = new ProveedorNegocio().Listar();
+            Dominio.FiltrosBusqueda filtros = ctrlFiltros.ObtenerFiltros();
+            var lista = new ProveedorNegocio().Listar(filtros);
+
+            dgvProveedores.DataSource = lista;
             dgvProveedores.DataBind();
+        }
+
+        protected void ctrlFiltros_Filtrar(object sender, EventArgs e)
+        {
+            CargarGrilla();
         }
 
         protected void btnNuevo_Click(object sender, EventArgs e)

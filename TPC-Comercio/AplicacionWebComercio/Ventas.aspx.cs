@@ -34,15 +34,12 @@ namespace AplicacionWebComercio
             {
                 FacturaNegocio negocio = new FacturaNegocio();
                 Dominio.Usuario u = Session["Usuario"] as Dominio.Usuario;
+                int idCliente = Negocio.Seguridad.EsCliente(u) ? u.IdEntidad : 0;
+                
+                Dominio.FiltrosBusqueda filtros = ctrlFiltros.ObtenerFiltros();
+                var lista = negocio.Listar(filtros, idCliente);
 
-                if (Negocio.Seguridad.EsCliente(u))
-                {
-                    dgvVentas.DataSource = negocio.Listar(u.IdEntidad);
-                }
-                else
-                {
-                    dgvVentas.DataSource = negocio.Listar();
-                }
+                dgvVentas.DataSource = lista;
                 dgvVentas.DataBind();
             }
             catch (Exception ex)
@@ -50,6 +47,11 @@ namespace AplicacionWebComercio
                 lblMensaje.Text = "Error al cargar las ventas: " + System.Web.HttpUtility.HtmlEncode(ex.Message);
                 lblMensaje.Visible = true;
             }
+        }
+
+        protected void ctrlFiltros_Filtrar(object sender, EventArgs e)
+        {
+            CargarVentas();
         }
     }
 }

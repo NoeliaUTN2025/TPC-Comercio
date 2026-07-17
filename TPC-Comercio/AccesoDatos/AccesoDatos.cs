@@ -21,7 +21,8 @@ namespace AccesoDatos
 
         public AccesoDatos()
         {
-            conexion = new SqlConnection("server=.\\SQLEXPRESS01; database=tpc_P3; integrated security=true");
+            conexion = new SqlConnection("Data Source=.\\SQLEXPRESS;Initial Catalog=tpc_P3;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True");
+
             comando = new SqlCommand();
         }
 
