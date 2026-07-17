@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.UI.WebControls;
 using Negocio;
 using Dominio;
@@ -95,8 +96,15 @@ namespace AplicacionWebComercio
             try
             {
                 int idGenerado = new FacturaNegocio().RegistrarVenta(factura, items);
+
+                Factura facturaCreada = new FacturaNegocio().Listar().FirstOrDefault(f => f.Id == idGenerado);
+                string formaPago = ddlFormaPago.SelectedValue;
+                int cantidadCuotas = (formaPago == "Credito") ? int.Parse(ddlCantidadCuotas.SelectedValue) : 0;
+
+                new PagoNegocio().RegistrarPago(idGenerado, facturaCreada.Total, formaPago, cantidadCuotas);
+
                 Session.Remove("itemsVenta");
-                Response.Redirect("FacturaReporte.aspx?id=" + idGenerado, false);
+                Response.Redirect("ConfirmacionVenta.aspx?id=" + idGenerado, false);
             }
             catch (Exception ex)
             {
