@@ -22,6 +22,39 @@
                 </div>
             </div>
 
+            <%-- Forma de pago --%>
+            <div class="mb-3 row align-items-center">
+                <label class="col-sm-2 col-form-label fw-semibold">Forma de pago</label>
+                <div class="col-sm-3">
+                    <asp:DropDownList ID="ddlFormaPago" runat="server" CssClass="form-select">
+                        <asp:ListItem Text="Efectivo" Value="Efectivo" Selected="True" />
+                        <asp:ListItem Text="Débito" Value="Debito" />
+                        <asp:ListItem Text="Crédito" Value="Credito" />
+                    </asp:DropDownList>
+                </div>
+                <div class="col-sm-3" id="divCantidadCuotas" style="display:none;">
+                    <asp:DropDownList ID="ddlCantidadCuotas" runat="server" CssClass="form-select">
+                        <asp:ListItem Text="3 cuotas" Value="3" />
+                        <asp:ListItem Text="6 cuotas" Value="6" />
+                        <asp:ListItem Text="12 cuotas" Value="12" />
+                    </asp:DropDownList>
+                </div>
+            </div>
+
+            <script type="text/javascript">
+                document.addEventListener("DOMContentLoaded", function () {
+                    var ddlFormaPago = document.getElementById("<%= ddlFormaPago.ClientID %>");
+                    var divCuotas = document.getElementById("divCantidadCuotas");
+
+                    function actualizarVisibilidadCuotas() {
+                        divCuotas.style.display = (ddlFormaPago.value === "Credito") ? "" : "none";
+                    }
+
+                    ddlFormaPago.addEventListener("change", actualizarVisibilidadCuotas);
+                    actualizarVisibilidadCuotas();
+                });
+            </script>
+
             <hr />
 
             <%-- Agregar ítem --%>

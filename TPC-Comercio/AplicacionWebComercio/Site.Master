@@ -78,6 +78,9 @@
                                 <li runat="server" id="liVentas">
                                     <a class="dropdown-item" href="Ventas.aspx">Ventas</a>
                                 </li>
+                                <li runat="server" id="liCaja">
+                                    <a class="dropdown-item" href="Caja.aspx">Caja</a>
+                                </li>
                                 <li runat="server" id="liTrazabilidad">
                                     <a class="dropdown-item" href="TrazabilidadLote.aspx">Trazabilidad</a>
                                 </li>
@@ -136,6 +139,7 @@
     </form>
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/Scripts/bootstrap.bundle.js") %>
+        <%: Scripts.Render("~/Scripts/site-ui.js") %>
     </asp:PlaceHolder>
 </body>
 </html>

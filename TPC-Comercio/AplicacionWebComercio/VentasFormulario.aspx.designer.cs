@@ -13,6 +13,10 @@ namespace AplicacionWebComercio
     {
         protected global::System.Web.UI.WebControls.DropDownList ddlCliente;
 
+        protected global::System.Web.UI.WebControls.DropDownList ddlFormaPago;
+
+        protected global::System.Web.UI.WebControls.DropDownList ddlCantidadCuotas;
+
         protected global::System.Web.UI.WebControls.DropDownList ddlProducto;
 
         protected global::System.Web.UI.WebControls.TextBox txtCantidad;

@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -51,6 +52,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CajaNegocio.cs" />
     <Compile Include="CategoriaNegocio.cs" />
     <Compile Include="ClienteNegocio.cs" />
     <Compile Include="CompraNegocio.cs" />
@@ -60,6 +62,7 @@
     <Compile Include="FacturaNegocio.cs" />
     <Compile Include="LoteNegocio.cs" />
     <Compile Include="MarcaNegocio.cs" />
+    <Compile Include="PagoNegocio.cs" />
     <Compile Include="PlantillaNegocio.cs" />
     <Compile Include="ProductoNegocio.cs" />
     <Compile Include="ReportesNegocio.cs" />
