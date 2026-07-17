@@ -37,6 +37,47 @@ namespace Negocio
             }
         }
 
+        public List<Categoria> ListarPaginado(int pageNumber, int pageSize, out int totalRegistros, string busqueda = null)
+        {
+            List<Categoria> lista = new List<Categoria>();
+            AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
+
+            totalRegistros = 0;
+
+            try
+            {
+                datos.setearProcedimiento("SP_Categorias_ListarPaginado");
+                datos.setearParametro("@PageNumber", pageNumber);
+                datos.setearParametro("@PageSize", pageSize);
+
+                if (string.IsNullOrWhiteSpace(busqueda))
+                    datos.setearParametro("@Busqueda", DBNull.Value);
+                else
+                    datos.setearParametro("@Busqueda", busqueda);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Categoria aux = new Categoria();
+                    aux.Id = (int)datos.Lector["Id"];
+                    aux.Descripcion = (string)datos.Lector["Descripcion"];
+
+                    totalRegistros = (int)datos.Lector["TotalRegistros"];
+                    lista.Add(aux);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
         public void Agregar(Categoria nueva)
         {
             AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();

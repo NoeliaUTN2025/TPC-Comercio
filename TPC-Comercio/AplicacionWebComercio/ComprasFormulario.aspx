@@ -21,13 +21,22 @@
                         <asp:BoundField DataField="Cantidad"        HeaderText="Cant."    ItemStyle-Width="60" />
                         <asp:BoundField DataField="PrecioUnitario"  HeaderText="P. Unit."  DataFormatString="{0:C}" HtmlEncode="false" />
                         <asp:BoundField DataField="Fecha"           HeaderText="Fecha"    DataFormatString="{0:dd/MM/yyyy}" HtmlEncode="false" ItemStyle-Width="90" />
-                        <asp:TemplateField HeaderText="" ItemStyle-Width="100">
+                        <asp:TemplateField HeaderText="Acciones" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" HeaderStyle-CssClass="text-center" ItemStyle-Width="190">
                             <ItemTemplate>
+                                <div style="display:flex;gap:5px; justify-content:center; align-items:center";>
                                 <asp:LinkButton runat="server" CommandName="Aprobar" CommandArgument='<%# Eval("Id") %>'
-                                    CssClass="btn btn-sm btn-success"
+                                    CssClass="btn btn-sm btn-success btn-sm"
+                                    Style="width: 90px;"
                                     OnClientClick="return confirm('¿Aprobar esta propuesta y generar la orden de compra?');">✔ Aprobar</asp:LinkButton>
+                           
+                                <asp:LinkButton runat="server" CommandName="Rechazar" CommandArgument='<%# Eval("Id") %>'
+                                    CssClass="btn btn-sm btn-danger btn-sm"
+                                    Style="width: 90px;"
+                                    OnClientClick="return confirm('¿Desea Rechazar la propuesta?');">✖ Rechazar</asp:LinkButton>
+                                     </div>
                             </ItemTemplate>
                         </asp:TemplateField>
+
                     </Columns>
                 </asp:GridView>
             </div>

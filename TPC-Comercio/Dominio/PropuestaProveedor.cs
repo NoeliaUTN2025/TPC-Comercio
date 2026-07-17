@@ -11,5 +11,6 @@ namespace Dominio
         public decimal PrecioUnitario { get; set; }
         public string Estado { get; set; }
         public DateTime Fecha { get; set; }
+        public DateTime? FechaRespuesta { get; set; }
     }
 }
