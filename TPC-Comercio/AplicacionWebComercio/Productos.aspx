@@ -1,9 +1,13 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Productos.aspx.cs" Inherits="AplicacionWebComercio.Productos" %>
+<%@ Register Src="~/BarraFiltros.ascx" TagPrefix="uc1" TagName="BarraFiltros" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <h2>Gestión de Productos</h2>
 
     <asp:Button ID="btnNuevo" runat="server" Text="Nuevo Producto" OnClick="btnNuevo_Click" CssClass="btn btn-success mb-3" />
+    
+    <uc1:BarraFiltros runat="server" ID="ctrlFiltros" OnFiltrar="ctrlFiltros_Filtrar" MostrarCategoria="true" MostrarMarca="true" MostrarFechas="false" />
 
     <asp:Panel ID="pnlFormulario" runat="server" Visible="false" CssClass="card p-3 mb-3">
         <h4>Datos del Producto</h4>
@@ -21,6 +25,16 @@
             <label>Descripción</label>
             <asp:TextBox ID="txtDescripcion" runat="server" CssClass="form-control" />
         </div>
+        <div class="mb-2">
+            <label class="form-label">Imagen</label>
+            <input type="file" ID="txtImagen" runat="server" CssClass="form-control" />
+        </div>
+        <div class="mb-2">
+            <asp:Image ID="imgProducto" runat="server" CssClass="img-thumbnail" Width="150px" Height="180px" ImageUrl="~/Images/sin-image.png" />
+            
+        </div>
+
+
         <div class="mb-2">
             <label>Precio de Costo</label>
             <asp:TextBox ID="txtPrecio" runat="server" CssClass="form-control" />
@@ -78,5 +92,11 @@
             </asp:TemplateField>
         </Columns>
     </asp:GridView>
+
+    <div class="d-flex justify-content-between align-items-center mt-3"> 
+        <asp:Button ID="btnAnterior" runat="server" Text="Anterior" OnClick="btnAnterior_Click" CssClass="btn btn-secondary" />
+        <asp:Label ID="lblPagina" runat="server" Text="Página 1 de 1" CssClass="fw-bold text-center" />
+        <asp:Button ID="btnSiguiente" runat="server" Text="Siguiente" OnClick="btnSiguiente_Click" CssClass="btn btn-secondary" />
+    </div>
 
 </asp:Content>

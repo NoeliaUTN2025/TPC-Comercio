@@ -51,35 +51,47 @@ namespace AplicacionWebComercio
 
         protected void dgvPropuestas_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            if (e.CommandName != "Aprobar") return;
 
             int idPropuesta = int.Parse(e.CommandArgument.ToString());
             try
             {
                 PropuestaNegocio propNegocio = new PropuestaNegocio();
-                PropuestaProveedor propuesta = propNegocio.ObtenerPorId(idPropuesta);
 
-                DetalleCompra detalle = new DetalleCompra
+                if (e.CommandName == "Rechazar")
                 {
-                    Producto       = propuesta.Producto,
-                    Cantidad       = propuesta.Cantidad,
-                    PrecioUnitario = propuesta.PrecioUnitario,
-                    Subtotal       = propuesta.Cantidad * propuesta.PrecioUnitario
-                };
+                    propNegocio.Rechazar(idPropuesta);
+                    Response.Redirect(Request.RawUrl, false);
+                    return; 
+                }
 
-                Compra compra = new Compra
+                if (e.CommandName == "Aprobar")
                 {
-                    Proveedor = propuesta.Proveedor,
-                    Usuario   = new Usuario { Id = ((Usuario)Session["Usuario"]).Id }
-                };
+                    PropuestaProveedor propuesta = propNegocio.ObtenerPorId(idPropuesta);
 
-                int idCompra = new CompraNegocio().RegistrarCompra(compra, new List<DetalleCompra> { detalle });
-                propNegocio.Aprobar(idPropuesta);
-                Response.Redirect("~/CompraReporte.aspx?id=" + idCompra, false);
+                    DetalleCompra detalle = new DetalleCompra
+                    {
+                        Producto = propuesta.Producto,
+                        Cantidad = propuesta.Cantidad,
+                        PrecioUnitario = propuesta.PrecioUnitario,
+                        Subtotal = propuesta.Cantidad * propuesta.PrecioUnitario
+                    };
+
+                    Compra compra = new Compra
+                    {
+                        Proveedor = propuesta.Proveedor,
+                        Usuario = new Usuario { Id = ((Usuario)Session["Usuario"]).Id }
+                    };
+
+                    int idCompra = new CompraNegocio().RegistrarCompra(compra, new List<DetalleCompra> { detalle });
+                    propNegocio.Aprobar(idPropuesta);
+                    Response.Redirect("~/CompraReporte.aspx?id=" + idCompra, false);
+                }
+                
+               
             }
             catch (Exception ex)
             {
-                MostrarError("Error al aprobar la propuesta: " + ex.Message);
+                MostrarError("Error al procesar la propuesta: " + ex.Message);
             }
         }
 

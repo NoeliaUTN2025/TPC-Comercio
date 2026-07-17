@@ -1,4 +1,4 @@
-<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="AplicacionWebComercio.SiteMaster" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="AplicacionWebComercio.SiteMaster" %>
 
 <!DOCTYPE html>
 
@@ -18,7 +18,7 @@
 
 </head>
 <body>
-    <form runat="server">
+    <form id="form1"  runat="server" enctype="multipart/form-data">
         <asp:ScriptManager runat="server">
             <Scripts>
                 <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
@@ -83,6 +83,9 @@
                                 </li>
                                 <li runat="server" id="liTrazabilidad">
                                     <a class="dropdown-item" href="TrazabilidadLote.aspx">Trazabilidad</a>
+                                </li>
+                                <li runat="server" id="liReportes">
+                                    <a class="dropdown-item" href="ReportesDinamicos.aspx">Reportes</a>
                                 </li>
                             </ul>
                         </li>

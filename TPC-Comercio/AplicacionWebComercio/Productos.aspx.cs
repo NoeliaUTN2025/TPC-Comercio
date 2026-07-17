@@ -2,11 +2,26 @@ using System;
 using System.Web.UI.WebControls;
 using Negocio;
 using Dominio;
+using System.IO;
 
 namespace AplicacionWebComercio
 {
     public partial class Productos : System.Web.UI.Page
     {
+        private const int PageSize = 5; // Tamaño de página para la paginación
+
+         private int PageNumber
+         {
+             get
+             {
+                 return (ViewState["PageNumber"] == null? 1 : (int)ViewState["PageNumber"]);
+             }
+             set
+             {
+                 ViewState["PageNumber"] = value;
+             }
+         }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Seguridad.SesionActiva((Session)["Usuario"]))
@@ -30,8 +45,45 @@ namespace AplicacionWebComercio
 
         private void CargarGrilla()
         {
-            dgvProductos.DataSource = new ProductoNegocio().Listar();
+            int totalRegistros;
+
+            ProductoNegocio negocio = new ProductoNegocio();
+            dgvProductos.DataSource = negocio.ListarPaginado(PageNumber, PageSize, out totalRegistros);
+            //dgvProductos.DataSource = new ProductoNegocio().Listar(); 
+            Dominio.FiltrosBusqueda filtros = ctrlFiltros.ObtenerFiltros();
+            var lista = new ProductoNegocio().Listar(filtros);
+
+            dgvProductos.DataSource = lista;
             dgvProductos.DataBind();
+
+            int totalPaginas = (int)Math.Ceiling((double)totalRegistros / PageSize);
+
+            lblPagina.Text = "Página " + PageNumber + " de "  + totalPaginas;
+
+            btnAnterior.Enabled = PageNumber > 1;
+            btnSiguiente.Enabled = PageNumber < totalPaginas; 
+        }
+
+        protected void btnAnterior_Click(Object sender, EventArgs e)
+        {
+            if (PageNumber > 1)
+                PageNumber--;
+
+            CargarGrilla(); 
+        }
+
+        protected void btnSiguiente_Click(Object sendender, EventArgs e)
+        {
+            PageNumber++; 
+         
+
+            CargarGrilla();
+        }
+
+
+        protected void ctrlFiltros_Filtrar(object sender, EventArgs e)
+        {
+            CargarGrilla();
         }
 
         private void CargarDropDowns()
@@ -70,6 +122,8 @@ namespace AplicacionWebComercio
 
             try
             {
+             
+
                 Producto p = new Producto();
                 p.Codigo = txtCodigo.Text.Trim();
                 p.NombreProducto = txtNombre.Text.Trim();
@@ -79,6 +133,20 @@ namespace AplicacionWebComercio
                 p.PorcentajeGanancia = porcentaje;
                 p.marca = new Marca { Id = int.Parse(ddlMarca.SelectedValue) };
                 p.categoria = new Categoria { Id = int.Parse(ddlCategoria.SelectedValue) };
+
+                if (txtImagen.PostedFile !=null && txtImagen.PostedFile.ContentLength > 0)
+                {
+                    string nombreArchivo = Path.GetFileName(txtImagen.PostedFile.FileName);
+                    string carpeta = Server.MapPath("~/Images/Productos/");
+
+                    if (!Directory.Exists(carpeta))
+                    {
+                        Directory.CreateDirectory(carpeta);
+                    }
+                    string rutaServidor = Path.Combine(carpeta, nombreArchivo);
+                    txtImagen.PostedFile.SaveAs(rutaServidor);
+                    p.UrlImagen = "~/Images/Productos/" + nombreArchivo;
+                }
 
                 ProductoNegocio negocio = new ProductoNegocio();
 
@@ -119,6 +187,7 @@ namespace AplicacionWebComercio
             txtCodigo.Text = p.Codigo;
             txtNombre.Text = p.NombreProducto;
             txtDescripcion.Text = p.Descripcion;
+            imgProducto.ImageUrl = p.UrlImagen;
             txtPrecio.Text = p.Precio.ToString();
             txtStockMinimo.Text = p.StockMinimo.ToString();
             txtPorcentajeGanancia.Text = p.PorcentajeGanancia.ToString();
@@ -153,6 +222,7 @@ namespace AplicacionWebComercio
             txtCodigo.Text = "";
             txtNombre.Text = "";
             txtDescripcion.Text = "";
+            imgProducto.ImageUrl = "~/Image/sin-image.png";
             txtPrecio.Text = "";
             txtStockMinimo.Text = "";
             txtPorcentajeGanancia.Text = "";
