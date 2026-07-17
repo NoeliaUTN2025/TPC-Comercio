@@ -1,10 +1,14 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Compras.aspx.cs"
     Inherits="AplicacionWebComercio.Compras" %>
+<%@ Register Src="~/BarraFiltros.ascx" TagPrefix="uc1" TagName="BarraFiltros" %>
+
     <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
         <h2>Compras</h2>
 
         <a href="ComprasFormulario.aspx" class="btn btn-success mb-3">Nueva Compra</a>
+
+        <uc1:BarraFiltros runat="server" ID="ctrlFiltros" OnFiltrar="ctrlFiltros_Filtrar" MostrarCategoria="false" MostrarMarca="false" MostrarFechas="true" />
 
         <asp:Label ID="lblMensaje" runat="server" Visible="false" CssClass="alert alert-danger d-block w-100 mb-3" />
 

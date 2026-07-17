@@ -130,6 +130,9 @@ namespace AplicacionWebComercio
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl liProveedores;
+        /// Control liReportes.
+        /// </summary>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liReportes;
 
         /// <summary>
         /// Control liUsuarios.

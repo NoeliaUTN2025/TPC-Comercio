@@ -50,6 +50,10 @@ namespace AplicacionWebComercio
             ProductoNegocio negocio = new ProductoNegocio();
             dgvProductos.DataSource = negocio.ListarPaginado(PageNumber, PageSize, out totalRegistros);
             //dgvProductos.DataSource = new ProductoNegocio().Listar(); 
+            Dominio.FiltrosBusqueda filtros = ctrlFiltros.ObtenerFiltros();
+            var lista = new ProductoNegocio().Listar(filtros);
+
+            dgvProductos.DataSource = lista;
             dgvProductos.DataBind();
 
             int totalPaginas = (int)Math.Ceiling((double)totalRegistros / PageSize);
@@ -76,6 +80,11 @@ namespace AplicacionWebComercio
             CargarGrilla();
         }
 
+
+        protected void ctrlFiltros_Filtrar(object sender, EventArgs e)
+        {
+            CargarGrilla();
+        }
 
         private void CargarDropDowns()
         {

@@ -1,9 +1,13 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Productos.aspx.cs" Inherits="AplicacionWebComercio.Productos" %>
+<%@ Register Src="~/BarraFiltros.ascx" TagPrefix="uc1" TagName="BarraFiltros" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <h2>Gestión de Productos</h2>
 
     <asp:Button ID="btnNuevo" runat="server" Text="Nuevo Producto" OnClick="btnNuevo_Click" CssClass="btn btn-success mb-3" />
+    
+    <uc1:BarraFiltros runat="server" ID="ctrlFiltros" OnFiltrar="ctrlFiltros_Filtrar" MostrarCategoria="true" MostrarMarca="true" MostrarFechas="false" />
 
     <asp:Panel ID="pnlFormulario" runat="server" Visible="false" CssClass="card p-3 mb-3">
         <h4>Datos del Producto</h4>
