@@ -37,6 +37,46 @@ namespace Negocio
             }
         }
 
+        public List<Marca> ListarPaginado(int pageNumber, int pageSize, out int totalRegistros, string busqueda = null)
+        {
+            List<Marca> lista = new List<Marca>();
+            AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
+
+            totalRegistros =0;
+
+            try
+            {
+                datos.setearProcedimiento("SP_Marcas_ListarPaginado");
+                datos.setearParametro("@PageNumber", pageNumber);
+                datos.setearParametro("@PageSize", pageSize);
+
+                if (string.IsNullOrWhiteSpace(busqueda))
+                    datos.setearParametro("@Busqueda", DBNull.Value);
+                else
+                    datos.setearParametro("@Busqueda", busqueda);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Marca aux = new Marca();
+                    aux.Id = (int)datos.Lector["Id"];
+                    aux.Descripcion = (string)datos.Lector["Descripcion"];
+
+                    totalRegistros = (int)datos.Lector["TotalRegistros"];
+                    lista.Add(aux);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         public void Agregar(Marca nueva)
         {
             AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();

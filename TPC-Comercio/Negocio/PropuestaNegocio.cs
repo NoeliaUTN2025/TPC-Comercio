@@ -40,6 +40,8 @@ namespace Negocio
                     p.PrecioUnitario = (decimal)datos.Lector["PrecioUnitario"];
                     p.Estado         = datos.Lector["Estado"].ToString();
                     p.Fecha          = (DateTime)datos.Lector["Fecha"];
+                    if (datos.Lector["FechaRespuesta"] != DBNull.Value)
+                        p.FechaRespuesta = (DateTime)datos.Lector["FechaRespuesta"];
                     p.Producto       = new Producto { NombreProducto = datos.Lector["NombreProducto"].ToString() };
                     lista.Add(p);
                 }
@@ -91,6 +93,8 @@ namespace Negocio
                     p.PrecioUnitario = (decimal)datos.Lector["PrecioUnitario"];
                     p.Estado         = datos.Lector["Estado"].ToString();
                     p.Fecha          = (DateTime)datos.Lector["Fecha"];
+                    if (datos.Lector["FechaRespuesta"] != DBNull.Value)
+                        p.FechaRespuesta = (DateTime)datos.Lector["FechaRespuesta"];
                     p.Producto       = new Producto { Id = (int)datos.Lector["IdProducto"], NombreProducto = datos.Lector["NombreProducto"].ToString() };
                     p.Proveedor      = new Proveedor { ID = (int)datos.Lector["IdProveedor"], RazonSocial = datos.Lector["RazonSocial"].ToString() };
                     return p;
@@ -112,6 +116,26 @@ namespace Negocio
             }
             catch (Exception ex) { throw ex; }
             finally { datos.cerrarConexion(); }
+        }
+
+        public void Rechazar (int id)
+        {
+            AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
+            try
+            {
+                datos.setearProcedimiento("SP_Propuestas_Rechazar");
+                datos.setearParametro("@Id", id);
+                datos.ejecutarAccion(); 
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion(); 
+            }
         }
     }
 }

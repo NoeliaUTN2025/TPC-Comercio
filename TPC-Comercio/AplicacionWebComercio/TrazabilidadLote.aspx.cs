@@ -52,7 +52,26 @@ namespace AplicacionWebComercio
             try
             {
                 Producto producto = new ProductoNegocio().Listar().Find(p => p.Id == idProducto);
-                decimal ganancia  = producto != null ? producto.PorcentajeGanancia : 0;
+                decimal ganancia = producto != null ? producto.PorcentajeGanancia : 0;
+
+                if (producto != null)
+                { 
+                    litCodigo.Text      = producto.Codigo;
+                    litProducto.Text   = producto.NombreProducto;
+                    litDescripcion.Text = producto.Descripcion;
+                    litMarca.Text      = producto.marca.Descripcion;
+                    litCategoria.Text  = producto.categoria.Descripcion;
+                    litGanancia.Text   = ganancia.ToString("N2") +"%";  
+
+                    if (!string.IsNullOrEmpty(producto.UrlImagen)) {
+                        imgProducto.ImageUrl = producto.UrlImagen;
+                    }
+                    else
+                    {
+                        imgProducto.ImageUrl = "~/Images/sin-image.png";
+                    }
+                }
+               
 
                 TrazabilidadNegocio negocio = new TrazabilidadNegocio();
 
