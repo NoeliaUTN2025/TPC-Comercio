@@ -15,7 +15,10 @@ namespace AplicacionWebComercio
         {
             try
             {
-                dgvCompras.DataSource = new CompraNegocio().Listar();
+                Dominio.FiltrosBusqueda filtros = ctrlFiltros.ObtenerFiltros();
+                var lista = new CompraNegocio().Listar(filtros);
+
+                dgvCompras.DataSource = lista;
                 dgvCompras.DataBind();
             }
             catch (Exception ex)
@@ -23,6 +26,11 @@ namespace AplicacionWebComercio
                 lblMensaje.Text = "Error al cargar las compras: " + System.Web.HttpUtility.HtmlEncode(ex.Message);
                 lblMensaje.Visible = true;
             }
+        }
+
+        protected void ctrlFiltros_Filtrar(object sender, EventArgs e)
+        {
+            CargarGrilla();
         }
     }
 }

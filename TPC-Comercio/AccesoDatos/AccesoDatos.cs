@@ -21,7 +21,7 @@ namespace AccesoDatos
 
         public AccesoDatos()
         {
-            conexion = new SqlConnection("Data Source=DESKTOP-K605RT2;Initial Catalog=tpc_P3;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True");
+            conexion = new SqlConnection("Data Source=.\\SQLEXPRESS;Initial Catalog=tpc_P3;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True");
 
             comando = new SqlCommand();
         }

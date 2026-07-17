@@ -37,6 +37,8 @@ namespace AplicacionWebComercio
 
         protected global::System.Web.UI.WebControls.Button btnCancelar;
 
+        protected global::AplicacionWebComercio.BarraFiltros ctrlFiltros;
+        
         protected global::System.Web.UI.WebControls.GridView dgvProductos;
     }
 }
