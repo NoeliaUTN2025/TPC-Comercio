@@ -19,3 +19,130 @@ textarea {
         padding: 0;
     }
 }
+
+/* Comprobantes de impresion (Factura/Compra) - FacturaReporte.aspx y CompraReporte.aspx */
+.comprobante-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+.comprobante-container .header {
+    text-align: center;
+    border-bottom: 2px solid #333;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.comprobante-container .header h1 {
+    margin: 0;
+    font-size: 28px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.comprobante-container .header .subtitulo {
+    margin: 4px 0;
+    color: #777;
+}
+
+.comprobante-container .header .numero {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+.comprobante-container .info-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.comprobante-container .info-box {
+    width: 48%;
+}
+
+.comprobante-container .info-box h4 {
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.comprobante-container .info-box p {
+    margin: 4px 0;
+    font-size: 14px;
+}
+
+.comprobante-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+
+.comprobante-container th,
+.comprobante-container td {
+    border: 1px solid #ddd;
+    padding: 10px 12px;
+    text-align: left;
+}
+
+.comprobante-container th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+.comprobante-container td.num {
+    text-align: right;
+}
+
+.comprobante-container .totales {
+    text-align: right;
+    font-size: 18px;
+    border-top: 2px solid #333;
+    padding-top: 10px;
+}
+
+.comprobante-container .totales strong {
+    font-size: 24px;
+}
+
+.comprobante-container .no-print {
+    text-align: center;
+    margin-top: 24px;
+}
+
+.comprobante-container .btn-comprobante {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.comprobante-container .btn-comprobante:hover {
+    background-color: #0056b3;
+}
+
+.comprobante-container .btn-comprobante-secondary {
+    background-color: #6c757d;
+    margin-left: 10px;
+}
+
+@media print {
+    .comprobante-container .no-print {
+        display: none;
+    }
+    .comprobante-container {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+    }
+}
