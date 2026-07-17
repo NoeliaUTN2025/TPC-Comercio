@@ -20,5 +20,7 @@ namespace Dominio
 
         public Marca marca { get; set; }
         public Categoria categoria { get; set; }    
+        public String UrlImagen { get; set; }
+
     }
 }

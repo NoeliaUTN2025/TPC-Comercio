@@ -39,6 +39,7 @@ namespace AplicacionWebComercio
             liVentas.Visible           = esAdmin || esVend;
             liCaja.Visible             = esAdmin || esVend;
             liTrazabilidad.Visible     = esAdmin;
+            liReportes.Visible         = esAdmin;
 
             // Grupo Personas (Admin + Vendedor); Usuarios solo Admin
             liGrupoPersonas.Visible = esAdmin || esVend;

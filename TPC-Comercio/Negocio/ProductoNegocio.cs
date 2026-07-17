@@ -30,6 +30,136 @@ namespace Negocio
                     if (!(datos.Lector["Descripcion"] is DBNull))
                         aux.Descripcion = (string)datos.Lector["Descripcion"];
 
+                    if (!(datos.Lector["UrlImagen"] is DBNull))
+                        aux.UrlImagen = (string)datos.Lector["UrlImagen"];
+
+                    aux.StockActual = (int)datos.Lector["StockActual"];
+                    aux.StockMinimo = (int)datos.Lector["StockMinimo"];
+                    aux.Precio = (decimal)datos.Lector["Precio"];
+                    aux.PorcentajeGanancia = (decimal)datos.Lector["PorcentajeGanancia"];
+
+                    aux.marca = new Marca();
+                    aux.marca.Id = (int)datos.Lector["IdMarca"];
+                    aux.marca.Descripcion = (string)datos.Lector["Marca"];
+
+                    aux.categoria = new Categoria();
+                    aux.categoria.Id = (int)datos.Lector["IdCategoria"];
+                    aux.categoria.Descripcion = (string)datos.Lector["Categoria"];
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        ///Listar Paginado 
+        public List<Producto> ListarPaginado(int pageNumber, int pageSize, out int totalRegistros, string busqueda = null)
+        {
+            List<Producto> lista = new List<Producto>();
+            AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
+            totalRegistros = 0;
+
+            try
+            {
+                datos.setearProcedimiento("SP_Productos_ListarPaginado");
+                datos.setearParametro("@PageNumber", pageNumber);
+                datos.setearParametro("@PageSize", pageSize);
+
+                if (string.IsNullOrWhiteSpace(busqueda))
+                    datos.setearParametro("@Busqueda", DBNull.Value);
+                else
+                    datos.setearParametro("@Busqueda", busqueda);
+
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Producto aux = new Producto();
+                    aux.Id = (int)datos.Lector["Id"];
+                    aux.Codigo = (string)datos.Lector["Codigo"];
+                    aux.NombreProducto = (string)datos.Lector["NombreProducto"];
+
+                    if (!(datos.Lector["Descripcion"] is DBNull))
+                        aux.Descripcion = (string)datos.Lector["Descripcion"];
+
+                    if (!(datos.Lector["UrlImagen"] is DBNull))
+                        aux.UrlImagen = (string)datos.Lector["UrlImagen"];
+
+                    aux.StockActual = (int)datos.Lector["StockActual"];
+                    aux.StockMinimo = (int)datos.Lector["StockMinimo"];
+                    aux.Precio = (decimal)datos.Lector["Precio"];
+                    aux.PorcentajeGanancia = (decimal)datos.Lector["PorcentajeGanancia"];
+
+                    aux.marca = new Marca();
+                    aux.marca.Id = (int)datos.Lector["IdMarca"];
+                    aux.marca.Descripcion = (string)datos.Lector["Marca"];
+
+                    aux.categoria = new Categoria();
+                    aux.categoria.Id = (int)datos.Lector["IdCategoria"];
+                    aux.categoria.Descripcion = (string)datos.Lector["Categoria"];
+
+                    totalRegistros = (int)datos.Lector["TotalRegistros"];
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public List<Producto> Listar(FiltrosBusqueda filtros)
+        {
+            List<Producto> lista = new List<Producto>();
+            AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_Productos_Filtrar");
+                
+                if (string.IsNullOrEmpty(filtros.Texto))
+                    datos.setearParametro("@Texto", DBNull.Value);
+                else
+                    datos.setearParametro("@Texto", filtros.Texto);
+
+                if (!filtros.IdCategoria.HasValue || filtros.IdCategoria.Value == 0)
+                    datos.setearParametro("@IdCategoria", DBNull.Value);
+                else
+                    datos.setearParametro("@IdCategoria", filtros.IdCategoria.Value);
+
+                if (!filtros.IdMarca.HasValue || filtros.IdMarca.Value == 0)
+                    datos.setearParametro("@IdMarca", DBNull.Value);
+                else
+                    datos.setearParametro("@IdMarca", filtros.IdMarca.Value);
+
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Producto aux = new Producto();
+                    aux.Id = (int)datos.Lector["Id"];
+                    aux.Codigo = (string)datos.Lector["Codigo"];
+                    aux.NombreProducto = (string)datos.Lector["NombreProducto"];
+
+                    if (!(datos.Lector["Descripcion"] is DBNull))
+                        aux.Descripcion = (string)datos.Lector["Descripcion"];
+
                     aux.StockActual = (int)datos.Lector["StockActual"];
                     aux.StockMinimo = (int)datos.Lector["StockMinimo"];
                     aux.Precio = (decimal)datos.Lector["Precio"];
@@ -68,6 +198,7 @@ namespace Negocio
                 datos.setearParametro("@Codigo", nuevo.Codigo);
                 datos.setearParametro("@NombreProducto", nuevo.NombreProducto);
                 datos.setearParametro("@Descripcion", nuevo.Descripcion ?? (object)DBNull.Value);
+                datos.setearParametro("@UrlImagen", nuevo.UrlImagen ?? (object)DBNull.Value);
                 datos.setearParametro("@Precio", nuevo.Precio);
                 datos.setearParametro("@StockMinimo", nuevo.StockMinimo);
                 datos.setearParametro("@PorcentajeGanancia", nuevo.PorcentajeGanancia);
@@ -97,6 +228,7 @@ namespace Negocio
                 datos.setearParametro("@Codigo", modificar.Codigo);
                 datos.setearParametro("@NombreProducto", modificar.NombreProducto);
                 datos.setearParametro("@Descripcion", modificar.Descripcion ?? (object)DBNull.Value);
+                datos.setearParametro("@UrlImagen", modificar.UrlImagen ?? (object)DBNull.Value);
                 datos.setearParametro("@Precio", modificar.Precio);
                 datos.setearParametro("@StockMinimo", modificar.StockMinimo);
                 datos.setearParametro("@PorcentajeGanancia", modificar.PorcentajeGanancia);

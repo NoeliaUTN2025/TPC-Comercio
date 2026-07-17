@@ -36,6 +36,51 @@ namespace Negocio
             finally { datos.cerrarConexion(); }
         }
 
+        public List<Compra> Listar(FiltrosBusqueda filtros)
+        {
+            List<Compra> lista = new List<Compra>();
+            AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
+            try
+            {
+                datos.setearProcedimiento("SP_Compras_Filtrar");
+
+                if (string.IsNullOrEmpty(filtros.Texto))
+                    datos.setearParametro("@Texto", DBNull.Value);
+                else
+                    datos.setearParametro("@Texto", filtros.Texto);
+
+                if (!filtros.FechaDesde.HasValue)
+                    datos.setearParametro("@FechaDesde", DBNull.Value);
+                else
+                    datos.setearParametro("@FechaDesde", filtros.FechaDesde.Value);
+
+                if (!filtros.FechaHasta.HasValue)
+                    datos.setearParametro("@FechaHasta", DBNull.Value);
+                else
+                    datos.setearParametro("@FechaHasta", filtros.FechaHasta.Value);
+
+                datos.ejecutarLectura();
+                while (datos.Lector.Read())
+                {
+                    Compra aux = new Compra();
+                    aux.Id    = (int)datos.Lector["Id"];
+                    aux.Fecha = (DateTime)datos.Lector["Fecha"];
+                    aux.Total = (decimal)datos.Lector["Total"];
+                    aux.CantidadTotal = (int)datos.Lector["CantidadTotal"];
+                    aux.estado = (bool)datos.Lector["Estado"];
+
+                    aux.Proveedor = new Proveedor();
+                    aux.Proveedor.ID          = (int)datos.Lector["IdProveedor"];
+                    aux.Proveedor.RazonSocial = (string)datos.Lector["Proveedor"];
+
+                    lista.Add(aux);
+                }
+                return lista;
+            }
+            catch (Exception ex) { throw ex; }
+            finally { datos.cerrarConexion(); }
+        }
+
         public int Crear(Compra compra)
         {
             AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
