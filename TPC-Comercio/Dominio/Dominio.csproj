@@ -47,6 +47,7 @@
     <Compile Include="DetalleCompra.cs" />
     <Compile Include="DetalleFactura.cs" />
     <Compile Include="Factura.cs" />
+    <Compile Include="FiltrosBusqueda.cs" />
     <Compile Include="Lote.cs" />
     <Compile Include="Marca.cs" />
     <Compile Include="Perfil.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropuestaProveedor.cs" />
     <Compile Include="Proveedor.cs" />
+    <Compile Include="ReportePlantilla.cs" />
     <Compile Include="Usuario.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -54,6 +54,59 @@ namespace Negocio
             }
         }
 
+        public List<Proveedor> Listar(FiltrosBusqueda filtros)
+        {
+            List<Proveedor> lista = new List<Proveedor>();
+            AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
+
+            try
+            {
+                datos.setearProcedimiento("SP_Proveedores_Filtrar");
+
+                if (string.IsNullOrEmpty(filtros.Texto))
+                    datos.setearParametro("@Texto", DBNull.Value);
+                else
+                    datos.setearParametro("@Texto", filtros.Texto);
+
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Proveedor aux = new Proveedor();
+                    aux.ID = (int)datos.Lector["ID"];
+                    
+                    if (!(datos.Lector["RazonSocial"] is DBNull))
+                        aux.RazonSocial = (string)datos.Lector["RazonSocial"];
+                        
+                    if (!(datos.Lector["Cuit"] is DBNull))
+                        aux.Cuit = (string)datos.Lector["Cuit"];
+
+                    if (!(datos.Lector["Direccion"] is DBNull))
+                        aux.Direccion = (string)datos.Lector["Direccion"];
+
+                    if (!(datos.Lector["Telefono"] is DBNull))
+                        aux.Telefono = (string)datos.Lector["Telefono"];
+
+                    if (!(datos.Lector["Email"] is DBNull))
+                        aux.Email = (string)datos.Lector["Email"];
+
+                    aux.Estado = (bool)datos.Lector["Estado"];
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         public int Agregar(Proveedor nuevo)
         {
             AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();

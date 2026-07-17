@@ -53,6 +53,63 @@ namespace Negocio
             }
         }
 
+        public List<Factura> Listar(FiltrosBusqueda filtros, int idCliente = 0)
+        {
+            List<Factura> lista = new List<Factura>();
+            AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
+            try
+            {
+                datos.setearProcedimiento("SP_Ventas_Filtrar");
+                
+                if (idCliente > 0)
+                    datos.setearParametro("@IdCliente", idCliente);
+                else
+                    datos.setearParametro("@IdCliente", DBNull.Value);
+
+                if (string.IsNullOrEmpty(filtros.Texto))
+                    datos.setearParametro("@Texto", DBNull.Value);
+                else
+                    datos.setearParametro("@Texto", filtros.Texto);
+
+                if (!filtros.FechaDesde.HasValue)
+                    datos.setearParametro("@FechaDesde", DBNull.Value);
+                else
+                    datos.setearParametro("@FechaDesde", filtros.FechaDesde.Value);
+
+                if (!filtros.FechaHasta.HasValue)
+                    datos.setearParametro("@FechaHasta", DBNull.Value);
+                else
+                    datos.setearParametro("@FechaHasta", filtros.FechaHasta.Value);
+
+                datos.ejecutarLectura();
+                while (datos.Lector.Read())
+                {
+                    Factura aux = new Factura();
+                    aux.Id = (int)datos.Lector["Id"];
+                    aux.NumeroFactura = (string)datos.Lector["NumeroFactura"];
+                    aux.Fecha = (DateTime)datos.Lector["Fecha"];
+                    aux.Total = (decimal)datos.Lector["Total"];
+                    aux.estado = (bool)datos.Lector["Estado"];
+                    
+                    aux.Cliente = new Cliente();
+                    aux.Cliente.ID = (int)datos.Lector["IdCliente"];
+                    aux.Cliente.Nombre = (string)datos.Lector["Nombre"];
+                    aux.Cliente.Apellido = (string)datos.Lector["Apellido"];
+                    
+                    lista.Add(aux);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         public int Crear(Factura factura)
         {
             AccesoDatos.AccesoDatos datos = new AccesoDatos.AccesoDatos();
